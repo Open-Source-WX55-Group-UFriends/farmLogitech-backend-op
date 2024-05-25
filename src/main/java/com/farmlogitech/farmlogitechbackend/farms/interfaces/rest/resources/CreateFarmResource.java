@@ -1,15 +1,14 @@
-package com.farmlogitech.farmlogitechbackend.farms.domain.model.commands;
+package com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.resources;
 
-import jakarta.persistence.Column;
-
-public record CreateFarmCommand(String farmName,
+public record CreateFarmResource(String farmName,
                                  String location,
                                  String type,
                                  String infrastructure,
                                  String services,
                                  String status,
                                  String certificates) {
-    public CreateFarmCommand {
+    public CreateFarmResource {
+
         if (farmName == null || farmName.isBlank()) {
             throw new IllegalArgumentException("Farm name cannot be null or empty");
         }
@@ -33,8 +32,7 @@ public record CreateFarmCommand(String farmName,
         if (certificates == null || certificates.isBlank()) {
             throw new IllegalArgumentException("certificates cannot be null or empty");
         }
-
-
     }
-}
 
+
+}

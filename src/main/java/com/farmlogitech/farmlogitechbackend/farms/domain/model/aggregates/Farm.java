@@ -9,38 +9,44 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.util.Date;
 
-
-//no se si ta bien esto
-
-
-
+@Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Farm extends AbstractAggregateRoot<Farm> {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    private String farm_name;
-
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     @Column(nullable = false)
-    @Getter
+    private String farmName;
+    @Column(nullable = false)
     private String location;
-
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDate created_at;
-
-    @LastModifiedDate
     @Column(nullable = false)
-    private LocalDate updated_at;
+    private String type;
+    @Column(nullable = false)
+    private String infrastructure;
+    @Column(nullable = false)
+    private String services;
+    @Column(nullable = false)
+    private String status;
+    @Column(nullable = false)
+    private String certificates;
 
     protected Farm() {
-    }
 
-    public Farm(CreateFarmCommand command) {
-        this.farm_name = command.farmName();
-        this.location = command.location();
     }
+public Farm(CreateFarmCommand command) {
+    this.farmName= command.farmName();
+    this.location= command.location();
+    this.type=command.type();
+    this.infrastructure=command.infrastructure();
+    this.services=command.services();
+    this.status= command.status();
+    this.certificates=command.certificates();
+
+}
+
+
 
 }
