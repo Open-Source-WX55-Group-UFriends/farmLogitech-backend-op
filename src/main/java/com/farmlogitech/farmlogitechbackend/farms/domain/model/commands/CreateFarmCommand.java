@@ -2,7 +2,7 @@ package com.farmlogitech.farmlogitechbackend.farms.domain.model.commands;
 
 import jakarta.persistence.Column;
 
-public record CreateFarmCommand(String farmName,
+public record CreateFarmCommand(int id,String farmName,
                                  String location,
                                  String type,
                                  String infrastructure,

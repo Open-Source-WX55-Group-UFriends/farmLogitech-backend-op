@@ -1,6 +1,6 @@
 package com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.resources;
 
-public record CreateFarmResource(String farmName,
+public record CreateFarmResource(int id, String farmName,
                                  String location,
                                  String type,
                                  String infrastructure,
