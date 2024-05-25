@@ -44,9 +44,8 @@ public class FarmController {
         return farm.map(resp->ResponseEntity.ok(FarmResourceFromEntityAssembler.toResourceFromEntity(resp)))
                 .orElseGet(()->ResponseEntity.notFound().build());
     }
-    @GetMapping("/farm/{location}")
-
-    private ResponseEntity<List<FarmResource>> getAllByLocation(String location) {
+    @GetMapping("/location/{location}")
+    private ResponseEntity<List<FarmResource>> getAllByLocation(@PathVariable String location) {
         var getAllFarmByLocation= new GetAllFarmByLocationQuery(location);
         var farms = farmQueryService.handle(getAllFarmByLocation);
         if(farms.isEmpty()){
