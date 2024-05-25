@@ -6,7 +6,7 @@ public record CreateFarmResource(int id, String farmName,
                                  String infrastructure,
                                  String services,
                                  String status,
-                                 String certificates) {
+                                 String certificates, String image) {
     public CreateFarmResource {
 
         if (farmName == null || farmName.isBlank()) {
@@ -31,6 +31,9 @@ public record CreateFarmResource(int id, String farmName,
 
         if (certificates == null || certificates.isBlank()) {
             throw new IllegalArgumentException("certificates cannot be null or empty");
+        }
+        if (image == null || image.isBlank()) {
+            throw new IllegalArgumentException("image cannot be null or empty");
         }
     }
 

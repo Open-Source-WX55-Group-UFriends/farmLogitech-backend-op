@@ -1,12 +1,12 @@
 package com.farmlogitech.farmlogitechbackend.farms.domain.model.commands;
 
-public record UpdateFarmCommand (int id,String farmName,
-                                String location,
-                                String type,
-                                String infrastructure,
-                                String services,
-                                String status,
-                                String certificates) {
+public record UpdateFarmCommand (int id, String farmName,
+                                 String location,
+                                 String type,
+                                 String infrastructure,
+                                 String services,
+                                 String status,
+                                 String certificates, String image) {
     public UpdateFarmCommand {
         if (farmName == null || farmName.isBlank()) {
             throw new IllegalArgumentException("Farm name cannot be null or empty");

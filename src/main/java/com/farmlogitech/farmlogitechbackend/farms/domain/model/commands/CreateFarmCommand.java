@@ -7,7 +7,7 @@ public record CreateFarmCommand(int id,String farmName,
                                  String infrastructure,
                                  String services,
                                  String status,
-                                 String certificates) {
+                                 String certificates, String image) {
     public CreateFarmCommand {
         if (farmName == null || farmName.isBlank()) {
             throw new IllegalArgumentException("Farm name cannot be null or empty");
@@ -31,6 +31,9 @@ public record CreateFarmCommand(int id,String farmName,
 
         if (certificates == null || certificates.isBlank()) {
             throw new IllegalArgumentException("certificates cannot be null or empty");
+        }
+        if (image == null || image.isBlank()) {
+            throw new IllegalArgumentException("images cannot be null or empty");
         }
 
 

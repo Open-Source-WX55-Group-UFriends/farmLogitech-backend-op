@@ -33,6 +33,8 @@ public class Farm extends AbstractAggregateRoot<Farm> {
     private String status;
     @Column(nullable = false)
     private String certificates;
+    @Column(nullable = false)
+    private String image;
 
     protected Farm() {
 
@@ -45,6 +47,8 @@ public Farm(CreateFarmCommand command) {
     this.services=command.services();
     this.status= command.status();
     this.certificates=command.certificates();
+    this.image=command.image();
+
 
 }
     public Farm(UpdateFarmCommand command) {
@@ -55,6 +59,8 @@ public Farm(CreateFarmCommand command) {
         this.services=command.services();
         this.status= command.status();
         this.certificates=command.certificates();
+        this.image=command.image();
+
 
     }
 
@@ -89,5 +95,8 @@ public Farm(CreateFarmCommand command) {
 
     public void setCertificates(String certificates) {
         this.certificates = certificates;
+    }
+    public void setImage(String image) {
+        this.image = image;
     }
 }

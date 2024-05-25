@@ -81,5 +81,4 @@ public class FarmController {
                 .map(updatedFarm -> ResponseEntity.ok(FarmResourceFromEntityAssembler.toResourceFromEntity(updatedFarm)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
 }

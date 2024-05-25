@@ -45,6 +45,7 @@ public class FarmCommandServiceImpl implements FarmCommandService {
         existingFarm.setServices(command.services());
         existingFarm.setStatus(command.status());
         existingFarm.setCertificates(command.certificates());
+        existingFarm.setImage(command.image());
 
         Farm savedFarm = farmRepository.save(existingFarm);
         return Optional.of(savedFarm);
