@@ -1,14 +1,14 @@
-package com.farmlogitech.farmlogitechbackend.farms.domain.model.commands;
+package com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.resources;
 
+public record UpdateFarmResource (int id, String farmName,
+                                  String location,
+                                  String type,
+                                  String infrastructure,
+                                  String services,
+                                  String status,
+                                  String certificates) {
+    public UpdateFarmResource {
 
-public record CreateFarmCommand(int id,String farmName,
-                                 String location,
-                                 String type,
-                                 String infrastructure,
-                                 String services,
-                                 String status,
-                                 String certificates) {
-    public CreateFarmCommand {
         if (farmName == null || farmName.isBlank()) {
             throw new IllegalArgumentException("Farm name cannot be null or empty");
         }
@@ -32,8 +32,5 @@ public record CreateFarmCommand(int id,String farmName,
         if (certificates == null || certificates.isBlank()) {
             throw new IllegalArgumentException("certificates cannot be null or empty");
         }
-
-
     }
 }
-

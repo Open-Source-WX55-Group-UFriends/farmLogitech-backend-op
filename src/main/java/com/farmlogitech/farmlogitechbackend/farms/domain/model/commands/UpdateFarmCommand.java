@@ -1,14 +1,13 @@
 package com.farmlogitech.farmlogitechbackend.farms.domain.model.commands;
 
-
-public record CreateFarmCommand(int id,String farmName,
-                                 String location,
-                                 String type,
-                                 String infrastructure,
-                                 String services,
-                                 String status,
-                                 String certificates) {
-    public CreateFarmCommand {
+public record UpdateFarmCommand (int id,String farmName,
+                                String location,
+                                String type,
+                                String infrastructure,
+                                String services,
+                                String status,
+                                String certificates) {
+    public UpdateFarmCommand {
         if (farmName == null || farmName.isBlank()) {
             throw new IllegalArgumentException("Farm name cannot be null or empty");
         }
@@ -33,7 +32,5 @@ public record CreateFarmCommand(int id,String farmName,
             throw new IllegalArgumentException("certificates cannot be null or empty");
         }
 
-
     }
 }
-

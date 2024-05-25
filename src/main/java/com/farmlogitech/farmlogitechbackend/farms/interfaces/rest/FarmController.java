@@ -1,15 +1,19 @@
 package com.farmlogitech.farmlogitechbackend.farms.interfaces.rest;
 
 import com.farmlogitech.farmlogitechbackend.farms.domain.model.aggregates.Farm;
+import com.farmlogitech.farmlogitechbackend.farms.domain.model.commands.UpdateFarmCommand;
 import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.GetAllFarmByLocationQuery;
 import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.GetAllFarmsQuery;
 import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.GetFarmByIdQuery;
+import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.PutFarmById;
 import com.farmlogitech.farmlogitechbackend.farms.domain.services.FarmCommandService;
 import com.farmlogitech.farmlogitechbackend.farms.domain.services.FarmQueryService;
 import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.resources.CreateFarmResource;
 import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.resources.FarmResource;
+import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.resources.UpdateFarmResource;
 import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.transform.CreateFarmCommandFromResourceAssembler;
 import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.transform.FarmResourceFromEntityAssembler;
+import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.transform.UpdateFarmCommandFromResourceAssembler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,6 +68,18 @@ public class FarmController {
         var farmResources = farms.stream().map(FarmResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(farmResources);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<FarmResource> updateFarm(@PathVariable int id, @RequestBody UpdateFarmResource resource) {
+        if (id != resource.id()) {
+            throw new IllegalArgumentException("ID in path and ID in request body must be the same");
+        }
 
+        UpdateFarmCommand command = UpdateFarmCommandFromResourceAssembler.toCommandFromResource(resource);
+        Optional<Farm> updatedFarmOptional = farmCommandService.handle(command);
+
+        return updatedFarmOptional
+                .map(updatedFarm -> ResponseEntity.ok(FarmResourceFromEntityAssembler.toResourceFromEntity(updatedFarm)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
 }

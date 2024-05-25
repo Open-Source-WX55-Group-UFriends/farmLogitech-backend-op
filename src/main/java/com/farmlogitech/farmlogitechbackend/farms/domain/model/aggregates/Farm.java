@@ -1,6 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.farms.domain.model.aggregates;
 
 import com.farmlogitech.farmlogitechbackend.farms.domain.model.commands.CreateFarmCommand;
+import com.farmlogitech.farmlogitechbackend.farms.domain.model.commands.UpdateFarmCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,7 +17,7 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public class Farm extends AbstractAggregateRoot<Farm> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(nullable = false)
     private String farmName;
@@ -46,7 +47,47 @@ public Farm(CreateFarmCommand command) {
     this.certificates=command.certificates();
 
 }
+    public Farm(UpdateFarmCommand command) {
+        this.farmName= command.farmName();
+        this.location= command.location();
+        this.type=command.type();
+        this.infrastructure=command.infrastructure();
+        this.services=command.services();
+        this.status= command.status();
+        this.certificates=command.certificates();
+
+    }
 
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public void setFarmName(String farmName) {
+        this.farmName = farmName;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setInfrastructure(String infrastructure) {
+        this.infrastructure = infrastructure;
+    }
+
+    public void setServices(String services) {
+        this.services = services;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setCertificates(String certificates) {
+        this.certificates = certificates;
+    }
 }
