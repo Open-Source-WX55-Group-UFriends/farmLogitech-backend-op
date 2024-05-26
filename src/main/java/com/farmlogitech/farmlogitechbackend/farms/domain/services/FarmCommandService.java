@@ -7,7 +7,7 @@ import com.farmlogitech.farmlogitechbackend.farms.domain.model.commands.UpdateFa
 import java.util.Optional;
 
 public interface FarmCommandService {
-    Optional<Farm> handle(CreateFarmCommand command);
+        Optional<Farm> handle(CreateFarmCommand command);
     Optional<Farm> handle(UpdateFarmCommand command);
 
 }
