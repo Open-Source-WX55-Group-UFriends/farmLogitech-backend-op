@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class SubscriptionCommandServiceImpl implements SubscriptionCommandService {
 
-    private SubscriptionRepository subscriptionRepository;
+    private final SubscriptionRepository subscriptionRepository;
 
     public SubscriptionCommandServiceImpl(SubscriptionRepository subscriptionRepository)
     {

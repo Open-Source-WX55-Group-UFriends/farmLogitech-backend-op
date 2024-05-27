@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, Integer> {
 
+    @Query("SELECT s FROM Subscription s")
     List<Subscription> findAllSubscription();
 }
