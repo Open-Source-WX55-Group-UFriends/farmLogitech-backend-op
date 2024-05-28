@@ -1,4 +1,5 @@
 - Para probar en postman
+feature/profiles-managment
 -  [Get]http://localhost:8080/api/v1/farm/location/nice : para buscar por location
 - [Get] http://localhost:8080/api/v1/farm/1 : para buscar por id
 - [POST] http://localhost:8080/api/v1/farm Para enviar un json
@@ -78,3 +79,8 @@ VALUES ('Lima', 'nice', 'Pollo', 'Avicola', 'ningunoc', 'Pollo', 'Tsuneo', 'asd'
 }
 ]
 ```
+
+-  [Get]http://localhost:8080/api/v1/subscription/all : para buscar todos
+-  [Get]http://localhost:8080/api/v1/subscription/1 : para buscar por id
+
+
