@@ -20,7 +20,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 
 @RestController
-@RequestMapping("/api/v1/social")
+@RequestMapping("/api/v1/socials")
 public class SocialController {
     private final SocialQueryService socialQueryService;
     private final SocialCommandService socialCommandService;

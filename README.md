@@ -80,7 +80,10 @@ VALUES ('Lima', 'nice', 'Pollo', 'Avicola', 'ningunoc', 'Pollo', 'Tsuneo', 'asd'
 ]
 ```
 
+### Tabla Subscription
 -  [Get]http://localhost:8080/api/v1/subscription/all : para buscar todos
 -  [Get]http://localhost:8080/api/v1/subscription/1 : para buscar por id
 
-
+### Tabla Socials
+-  [Get]http://localhost:8080/api/v1/socials/all : para buscar todos
+-  [Get]http://localhost:8080/api/v1/socials/1 : para buscar por id
