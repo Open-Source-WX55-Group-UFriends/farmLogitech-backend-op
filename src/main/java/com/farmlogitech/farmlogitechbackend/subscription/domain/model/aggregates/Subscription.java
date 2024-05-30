@@ -2,6 +2,7 @@ package com.farmlogitech.farmlogitechbackend.subscription.domain.model.aggregate
 
 import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.commands.CreateSubscriptionCommand;
+import com.farmlogitech.farmlogitechbackend.subscription.domain.model.commands.UpdateSubscriptionCommand;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.valueobjects.ProfileId;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -38,6 +39,18 @@ public class Subscription extends AuditableAbstractAggregateRoot<Subscription> {
         this.description = description;
         this.paid = paid;
     }
+
+
+    public Subscription updateInformation(UpdateSubscriptionCommand command)
+    {
+        this.profileId = command.profileId();
+        this.price = command.price();
+        this.description = command.description();
+        this.paid = command.paid();
+        return this;
+    }
+
+
     public Long getProfileId() {
         return this.profileId.profileId();
     }

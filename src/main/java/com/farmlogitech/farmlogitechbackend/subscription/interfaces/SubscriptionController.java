@@ -4,15 +4,19 @@ package com.farmlogitech.farmlogitechbackend.subscription.interfaces;
 import com.farmlogitech.farmlogitechbackend.farms.domain.model.aggregates.Farm;
 import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.resources.FarmResource;
 import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.transform.FarmResourceFromEntityAssembler;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.resources.UpdateProfileResource;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.aggregates.Subscription;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.queries.GetAllSubscriptionQuery;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.queries.GetSubscriptionByIdQuery;
+import com.farmlogitech.farmlogitechbackend.subscription.domain.model.valueobjects.ProfileId;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.services.SubscriptionCommandService;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.services.SubscriptionQueryService;
 import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.resources.CreateSubscriptionResource;
 import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.resources.SubscriptionResource;
+import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.resources.UpdateSubscriptionResource;
 import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.transform.CreateSubscriptionCommandFromResourceAssembler;
 import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.transform.SubscriptionResourceFromEntityAssembler;
+import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.transform.UpdateSubscriptionCommandFromResourceAssembler;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,4 +64,18 @@ public class SubscriptionController {
         return subscription.map(resp->ResponseEntity.ok(SubscriptionResourceFromEntityAssembler.toResourceFromEntity(resp)))
                 .orElseGet(()->ResponseEntity.notFound().build());
     }
+
+    @PutMapping("/{profileId}")
+    public ResponseEntity<SubscriptionResource> updateSubscription(@PathVariable ProfileId profileId, @RequestBody UpdateSubscriptionResource resource)
+    {
+        var updateSubscriptionCommand = UpdateSubscriptionCommandFromResourceAssembler.toCommandFromResource(profileId, resource);
+        var updateSubscription = subscriptionCommandService.handle(updateSubscriptionCommand);
+        if (updateSubscription.isEmpty())
+        {
+            return ResponseEntity.badRequest().build();
+        }
+        var subscriptionResource = SubscriptionResourceFromEntityAssembler.toResourceFromEntity(updateSubscription.get());
+        return ResponseEntity.ok(subscriptionResource);
+    }
+
 }

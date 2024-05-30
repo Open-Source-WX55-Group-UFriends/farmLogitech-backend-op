@@ -4,6 +4,8 @@ package com.farmlogitech.farmlogitechbackend.subscription.application.internal.s
 import com.farmlogitech.farmlogitechbackend.subscription.application.internal.outboundservices.acl.ExternalProfileService;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.aggregates.Subscription;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.commands.CreateSubscriptionCommand;
+import com.farmlogitech.farmlogitechbackend.subscription.domain.model.commands.UpdateSubscriptionCommand;
+import com.farmlogitech.farmlogitechbackend.subscription.domain.model.valueobjects.ProfileId;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.services.SubscriptionCommandService;
 import com.farmlogitech.farmlogitechbackend.subscription.infrastructure.persistence.jpa.SubscriptionRepository;
 import org.springframework.stereotype.Service;
@@ -30,5 +32,18 @@ public class SubscriptionCommandServiceImpl implements SubscriptionCommandServic
         var newSubscription = new Subscription(profileId.get(),command.price(), command.description(), command.paid());
         var createdSubscription = subscriptionRepository.save(newSubscription);
         return Optional.of(createdSubscription);
+    }
+
+    @Override
+    public Optional<Subscription> handle(UpdateSubscriptionCommand command)
+    {
+        if (subscriptionRepository.existsById(command.profileId().profileId().intValue()))
+        {
+            var subscription = subscriptionRepository.findById(command.profileId().profileId().intValue()).get();
+            subscription.updateInformation(command);
+            var updateSubscription = subscriptionRepository.save(subscription);
+            return Optional.of(updateSubscription);
+        }
+        throw new IllegalArgumentException("Subscription doesn't alredy exists");
     }
 }
