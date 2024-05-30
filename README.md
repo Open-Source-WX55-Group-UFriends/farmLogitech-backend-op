@@ -44,37 +44,32 @@ VALUES ('Lima', 'nice', 'Pollo', 'Avicola', 'ningunoc', 'Pollo', 'Tsuneo', 'asd'
   - CREAR PROFILE 
 ```
 {
-    "id": 1,
-    "firstName": "John",
-    "lastName": "Doe",
-    "direction": "123 Main St",
-    "phone": "+1234567890",
-    "gender": "Male",
-    "birthDate": "1990-01-01",
-    "documentNumber": "A12345678",
-    "documentType": "Passport",
-    "role": "Admin"
-}
+        "id": 2,
+        "firstName": "R Doe",
+        "lastName":"xd",
+        "direction": "123 Calle Principal",
+        "phone": "1234567890",
+        "gender": "Male",
+        "birthDate": "1990-01-01",
+        "documentNumber": "123456789",
+        "documentType": "DNI",
+        "role": "Admin"
+    }
 ```
 -Response of All
+- Se esconde el firstName y lastName por el FullName eso es porque se creo el value Object xD :c
 ```
-
 [
-{
-"id": 1,
-"email": "Tsuneo",
-"password": "Lima",
-"profile": {
-"id": 1,
-"firstName": "John",
-"lastName": "Doe",
-"direction": "123 Main St",
-"phone": "+1234567890",
-"gender": "Male",
-"birthDate": "1990-01-01",
-"documentNumber": "A12345678",
-"documentType": "Passport",
-"role": "Admin"
+{ 
+    "id": 1,
+    "fullName": "John Doe",
+    "direction": "123 Calle Principal",
+    "phone": "1234567890",
+    "gender": "Male",
+    "birthDate": "1990-01-01",
+    "documentNumber": "123456789",
+    "documentType": "DNI",
+    "role": "Admin"
 }
 }
 ]

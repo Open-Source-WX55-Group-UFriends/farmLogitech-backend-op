@@ -5,9 +5,8 @@ import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.interf
 
 public class ProfileResourceFromEntityAssembler {
     public static ProfileResource toResourceFromEntity(Profile entity) {
-        return new ProfileResource(entity.getId(), entity.getFirstName(), entity.getLastName(),
-                entity.getDirection(), entity.getPhone(), entity.getGender(), entity.getBirthDate(),
-                entity.getDocumentNumber(), entity.getDocumentType(), entity.getRole());
+        return new ProfileResource(entity.getId(), entity.getFullName(),
+                entity.getDirection(), entity.getPhone(), entity.getGender(), entity.getBirthDate(), entity.getDocumentNumber(), entity.getDocumentType(), entity.getRole());
 
     }
 

@@ -5,7 +5,7 @@ import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.interf
 
 public class CreateProfileCommandFromResourceAssembler {
     public static CreateProfileCommnad toCommandFromResource(CreateProfileResource resource) {
-        return new CreateProfileCommnad(resource.id(), resource.firstName(), resource.lastName(),
+        return new CreateProfileCommnad(resource.firstName(), resource.lastName(),
                 resource.direction(), resource.phone(), resource.gender(), resource.birthDate(),
                 resource.documentNumber(), resource.documentType(), resource.role());
     }

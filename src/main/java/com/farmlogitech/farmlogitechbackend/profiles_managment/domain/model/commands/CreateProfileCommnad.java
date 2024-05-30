@@ -1,7 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.commands;
 
 public record CreateProfileCommnad(
-        int id, String firstName, String lastName, String direction, String phone, String gender, String birthDate, String documentNumber, String documentType, String role) {
+        String firstName, String lastName, String direction, String phone, String gender, String birthDate, String documentNumber, String documentType, String role) {
 
     public CreateProfileCommnad {
         if (firstName == null || firstName.isBlank()) {

@@ -26,6 +26,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
+    /*
     private final ProfileManagmentQueryService userQueryService;
     private final ProfileManagementCommandService userCommandService;
 
@@ -52,4 +53,5 @@ public class UserController {
         return ResponseEntity.ok(userResources);
     }
 
+  */
 }
