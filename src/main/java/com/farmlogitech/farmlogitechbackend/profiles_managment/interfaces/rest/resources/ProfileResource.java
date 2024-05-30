@@ -1,4 +1,4 @@
-package com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.interfaces.resources;
+package com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.resources;
 
 public record ProfileResource
         (long id,

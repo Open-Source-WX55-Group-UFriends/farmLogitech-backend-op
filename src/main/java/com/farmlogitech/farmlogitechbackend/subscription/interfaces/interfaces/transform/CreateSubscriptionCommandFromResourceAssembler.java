@@ -5,7 +5,10 @@ import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.r
 
 public class CreateSubscriptionCommandFromResourceAssembler {
     public static CreateSubscriptionCommand toCommandFromResource (CreateSubscriptionResource resource) {
-        return new CreateSubscriptionCommand (resource.id(), resource.price(), resource.description(),
+
+        return new CreateSubscriptionCommand (resource.firstName(),
+                resource.lastName(), resource.direction(), resource.phone(), resource.gender(), resource.birthDate(), resource.documentNumber(), resource.documentType(), resource.role(), resource.price(),
+                resource.description(),
                 resource.paid());
     }
 

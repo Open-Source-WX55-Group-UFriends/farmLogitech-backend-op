@@ -73,7 +73,29 @@ VALUES ('Lima', 'nice', 'Pollo', 'Avicola', 'ningunoc', 'Pollo', 'Tsuneo', 'asd'
 }
 }
 ]
+
 ```
+crear subscription
+````
+{
+"firstName": "rODRI",
+"lastName": "string",
+"direction": "string",
+"phone": "string",
+"gender": "string",
+"birthDate": "string",
+"documentNumber": "string",
+"documentType": "string",
+"role": "string",
+"price": 0,
+"description": "string",
+"paid": true
+}
+```` 
+
+
+LINK PARA VER JSONS
+http://localhost:8080/swagger-ui/index.html#/
 
 ### Tabla Subscription
 -  [Get]http://localhost:8080/api/v1/subscription/all : para buscar todos

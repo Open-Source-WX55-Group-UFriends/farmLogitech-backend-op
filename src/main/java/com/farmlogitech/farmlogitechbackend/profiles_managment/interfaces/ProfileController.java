@@ -1,19 +1,14 @@
 package com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces;
 
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.aggregates.Profile;
-import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.aggregates.User;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.queries.GetAllProfilesQuery;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.queries.GetProfileById;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.services.ProfileManagementCommandService;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.services.ProfileManagmentQueryService;
-import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.interfaces.resources.CreateProfileResource;
-import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.interfaces.resources.CreateUserResource;
-import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.interfaces.resources.ProfileResource;
-import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.interfaces.resources.UserResource;
-import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.interfaces.transform.CreateProfileCommandFromResourceAssembler;
-import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.interfaces.transform.CreateUserCommandFromResourceAssembler;
-import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.interfaces.transform.ProfileResourceFromEntityAssembler;
-import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.interfaces.transform.UserResourceFromEntityAssembler;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.resources.CreateProfileResource;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.resources.ProfileResource;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.transform.CreateProfileCommandFromResourceAssembler;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.transform.ProfileResourceFromEntityAssembler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
