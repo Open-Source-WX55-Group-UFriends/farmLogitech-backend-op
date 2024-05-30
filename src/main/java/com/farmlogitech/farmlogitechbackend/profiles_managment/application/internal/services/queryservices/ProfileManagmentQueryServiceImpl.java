@@ -1,8 +1,11 @@
 package com.farmlogitech.farmlogitechbackend.profiles_managment.application.internal.services.queryservices;
 
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.aggregates.Profile;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.aggregates.User;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.queries.GetAllProfilesQuery;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.queries.GetAllUsersQuery;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.queries.GetProfileById;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.queries.GetUserByIdQuery;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.services.ProfileManagmentQueryService;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.infrastructure.persistence.jpa.ProfileRepository;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.infrastructure.persistence.jpa.UserRepository;
@@ -23,12 +26,24 @@ public class ProfileManagmentQueryServiceImpl  implements ProfileManagmentQueryS
 
     @Override
     public List<Profile> handle(GetAllProfilesQuery query) {
+
         return profileRepository.findAll();
     }
 
     @Override
     public Optional<Profile> handle(GetProfileById query) {
+
         return profileRepository.findById(query.id());
+    }
+
+    @Override
+    public Optional<User> handle(GetUserByIdQuery query) {
+        return userRepository.findById(query.Id().intValue());
+    }
+
+    @Override
+    public List<User> handle(GetAllUsersQuery query) {
+        return userRepository.findAll();
     }
 
 

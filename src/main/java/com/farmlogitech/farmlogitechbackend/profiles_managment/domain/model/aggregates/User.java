@@ -1,42 +1,59 @@
 package com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.aggregates;
-import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.commands.CreateUserCommand;
+import com.farmlogitech.farmlogitechbackend.subscription.domain.model.valueobjects.ProfileId;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.domain.AbstractAggregateRoot;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Getter
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 public class User extends AbstractAggregateRoot<User>  {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-        private int id;
-    @Setter
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "profile_id", referencedColumnName = "id")
-    private Profile profile;
+    @Embedded
+    private ProfileId profileId;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     protected User() {
 
     }
-
-
-
-
-  public User(CreateUserCommand command) {
-        this.email = command.email();
-        this.password = command.password();
-        this.profile=command.profile();
+    public Long getProfileId() {
+        return this.profileId.profileId();
     }
-    public void setId(int id) {
+    public User(ProfileId profileId, String email, String password) {
+        this.profileId = profileId;
+        this.password = password;
+        this.email=email;
+
+    }
+
+
+
+
+
+
+    public ProfileId profileId() {
+        return this.profileId;
+    }
+
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
 

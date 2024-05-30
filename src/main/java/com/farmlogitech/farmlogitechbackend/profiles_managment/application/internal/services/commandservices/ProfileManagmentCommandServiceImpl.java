@@ -1,6 +1,5 @@
 package com.farmlogitech.farmlogitechbackend.profiles_managment.application.internal.services.commandservices;
-
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.aggregates.Farm;
+import org.springframework.context.annotation.Lazy;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.aggregates.Profile;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.aggregates.User;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.commands.CreateProfileCommnad;
@@ -9,6 +8,7 @@ import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.comm
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.services.ProfileManagementCommandService;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.infrastructure.persistence.jpa.ProfileRepository;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.infrastructure.persistence.jpa.UserRepository;
+import com.farmlogitech.farmlogitechbackend.subscription.application.internal.outboundservices.acl.ExternalProfileService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,10 +18,16 @@ public class ProfileManagmentCommandServiceImpl implements ProfileManagementComm
 
     private final UserRepository userRepository;
     private final ProfileRepository profileRepository;
+    private final ExternalProfileService externalProfileService;
 
-    public ProfileManagmentCommandServiceImpl(UserRepository userRepository, ProfileRepository profileRepository) {
+    public ProfileManagmentCommandServiceImpl(
+            UserRepository userRepository,
+            ProfileRepository profileRepository,
+            @Lazy ExternalProfileService externalProfileService // La anotación @Lazy retrasa la inicialización de esta dependencia hasta que se necesite.
+    ) {
         this.userRepository = userRepository;
         this.profileRepository = profileRepository;
+        this.externalProfileService = externalProfileService;
     }
 
 
@@ -43,10 +49,17 @@ public class ProfileManagmentCommandServiceImpl implements ProfileManagementComm
         throw new IllegalArgumentException("Profile doesn't already exists");
     }
 
+
     @Override
     public Optional<User> handle(CreateUserCommand command) {
-        //valid with email
-        //boolean
-        return Optional.empty();
+         if(userRepository.findByEmail(command.email()).isPresent()){
+            throw new IllegalArgumentException("User already exists");
+        }
+
+        var profileId = externalProfileService.createProfile(command.firstName(),command.lastName(),command.direction(),command.phone(),command.gender(),command.birthDate(),command.documentNumber(),command.documentType(),command.role());
+        var createdUser = new User(profileId.get(),command.email(),command.password());
+        var newUser = userRepository.save(createdUser);
+        return  Optional.of(newUser);
+
     }
 }
