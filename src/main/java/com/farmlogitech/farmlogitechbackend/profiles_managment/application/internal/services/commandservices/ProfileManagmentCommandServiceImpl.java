@@ -5,6 +5,7 @@ import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.aggr
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.aggregates.User;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.commands.CreateProfileCommnad;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.commands.CreateUserCommand;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.commands.UpdateProfileCommand;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.services.ProfileManagementCommandService;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.infrastructure.persistence.jpa.ProfileRepository;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.infrastructure.persistence.jpa.UserRepository;
@@ -29,6 +30,17 @@ public class ProfileManagmentCommandServiceImpl implements ProfileManagementComm
     var profile= new Profile(command);
     profileRepository.save(profile);
     return Optional.of(profile);
+    }
+
+    @Override
+    public Optional<Profile> handle(UpdateProfileCommand command) {
+        if (profileRepository.existsById(command.id())){
+            var profile = profileRepository.findById(command.id()).get();
+            profile.updateInformation(command);
+            var updatedProfile = profileRepository.save(profile);
+            return Optional.of(updatedProfile);
+        }
+        throw new IllegalArgumentException("Profile doesn't already exists");
     }
 
     @Override

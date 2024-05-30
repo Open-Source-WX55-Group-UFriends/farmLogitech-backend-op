@@ -7,8 +7,10 @@ import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.services.P
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.services.ProfileManagmentQueryService;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.resources.CreateProfileResource;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.resources.ProfileResource;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.resources.UpdateProfileResource;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.transform.CreateProfileCommandFromResourceAssembler;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.transform.ProfileResourceFromEntityAssembler;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.transform.UpdateProfileCommandFromResourceAssembler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping(value = "/api/v1/profile")
@@ -43,7 +46,7 @@ public class ProfileController {
      var profile= profileQueryService.handle(getProfileByIdQuery);
      if(profile.isEmpty()) return ResponseEntity.notFound().build();
      var profileResource = ProfileResourceFromEntityAssembler.toResourceFromEntity(profile.get());
-     return ResponseEntity.ok(profileResource);
+     return ok(profileResource);
     }
 
     @GetMapping("/all")
@@ -53,7 +56,17 @@ public class ProfileController {
         var profileResources = profiles.stream()
                 .map(ProfileResourceFromEntityAssembler::toResourceFromEntity)
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(profileResources);
+        return ok(profileResources);
+    }
+    @PutMapping("/{profileId}")
+    public ResponseEntity<ProfileResource> updateProfile(@PathVariable Long profileId, @RequestBody UpdateProfileResource resource){
+        var updateProfileCommand = UpdateProfileCommandFromResourceAssembler.toCommandFromResource(profileId, resource);
+        var updateProfile = profileCommandService.handle(updateProfileCommand);
+        if (updateProfile.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        var profileResource = ProfileResourceFromEntityAssembler.toResourceFromEntity(updateProfile.get());
+    return ResponseEntity.ok(profileResource);
     }
 
 

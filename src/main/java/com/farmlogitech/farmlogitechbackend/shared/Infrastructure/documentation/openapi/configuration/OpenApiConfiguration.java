@@ -14,7 +14,7 @@ public class OpenApiConfiguration {
         // General configuration
         var openApi = new OpenAPI();
         openApi.info(new Info()
-                .title("FARM LOGITEC API")
+                .title("FARM LOGITECH API")
                 .version("v1.0.0")
                 .license(new License().name("Apache 2.0")
                         .url("https://springdoc.org")))

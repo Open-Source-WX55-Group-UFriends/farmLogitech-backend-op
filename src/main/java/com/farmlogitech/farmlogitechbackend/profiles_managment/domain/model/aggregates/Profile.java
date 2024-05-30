@@ -1,6 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.aggregates;
 
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.commands.CreateProfileCommnad;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.commands.UpdateProfileCommand;
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.valueobjects.PersonName;
 import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
@@ -61,6 +62,18 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
         this.documentNumber = command.documentNumber();
         this.documentType = command.documentType();
         this.role = command.role();
+
+    }
+    public Profile updateInformation(UpdateProfileCommand command){
+        this.name = new PersonName(command.firstName(), command.lastName());
+        this.direction = command.direction();
+        this.phone = command.phone();
+        this.gender = command.gender();
+        this.birthDate = command.birthDate();
+        this.documentNumber = command.documentNumber();
+        this.documentType = command.documentType();
+        this.role = command.role();
+        return this;
 
     }
 
