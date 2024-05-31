@@ -1,4 +1,4 @@
-package com.farmlogitech.farmlogitechbackend.tasks.domain.valueobjects;
+package com.farmlogitech.farmlogitechbackend.tasks.domain.model.valueobjects.valueobjects;
 
 import jakarta.persistence.Embeddable;
 
