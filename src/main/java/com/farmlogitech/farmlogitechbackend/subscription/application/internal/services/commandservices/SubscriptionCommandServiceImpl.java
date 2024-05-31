@@ -1,6 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.subscription.application.internal.services.commandservices;
 
 
+import com.farmlogitech.farmlogitechbackend.subscription.application.internal.outboundservices.acl.ExternalProfileService;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.aggregates.Subscription;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.commands.CreateSubscriptionCommand;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.services.SubscriptionCommandService;
@@ -13,17 +14,20 @@ import java.util.Optional;
 public class SubscriptionCommandServiceImpl implements SubscriptionCommandService {
 
     private final SubscriptionRepository subscriptionRepository;
+    private final ExternalProfileService externalProfileService;
 
-    public SubscriptionCommandServiceImpl(SubscriptionRepository subscriptionRepository)
+    public SubscriptionCommandServiceImpl(SubscriptionRepository subscriptionRepository, ExternalProfileService externalProfileService)
     {
         this.subscriptionRepository = subscriptionRepository;
+        this.externalProfileService = externalProfileService;
     }
 
     @Override
     public Optional<Subscription> handle(CreateSubscriptionCommand command){
-        if(subscriptionRepository.existsById(command.id()))
-            throw new IllegalArgumentException("Subscription alredy exists");
-        var newSubscription = new Subscription(command);
+
+        var profileId = externalProfileService.createProfile(command.firstName(),command.lastName(),command.direction(),command.phone(),command.gender(),command.birthDate(),command.documentNumber(),command.documentType(),command.role());
+
+        var newSubscription = new Subscription(profileId.get(),command.price(), command.description(), command.paid());
         var createdSubscription = subscriptionRepository.save(newSubscription);
         return Optional.of(createdSubscription);
     }

@@ -1,23 +1,20 @@
 package com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.aggregates;
 
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.commands.CreateProfileCommnad;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.commands.UpdateProfileCommand;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.valueobjects.PersonName;
+import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-
-@Getter
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-public class Profile extends AbstractAggregateRoot<Profile> {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(nullable = false)
-    private String firstName;
-    @Column(nullable = false)
-    private String lastName;
+public class Profile extends AuditableAbstractAggregateRoot<Profile> {
+
+    @Embedded
+    private PersonName name;
+
     @Column(nullable = false)
     private String direction;
     @Column(nullable = false)
@@ -33,59 +30,80 @@ public class Profile extends AbstractAggregateRoot<Profile> {
     @Column(nullable = false)
     private String role;
 
-    public Profile(CreateProfileCommnad command) {
-        this.firstName = command.firstName();
-        this.lastName = command.lastName();
+
+
+    public Profile() {
+
+    }
+
+    public Profile(String firstName, String lastName, String direction, String phone, String gender, String birthDate, String documentNumber, String documentType, String role) {
+        this.name = new PersonName(firstName, lastName);
+        this.direction = direction;
+        this.phone = phone;
+        this.gender = gender;
+        this.birthDate = birthDate;
+        this.documentNumber = documentNumber;
+        this.documentType = documentType;
+        this.role = role;
+    }
+    public void updateName(String firstName, String lastName) {
+        this.name = new PersonName(firstName, lastName);
+    }
+
+    public String getFullName() {
+        return name.getFullName();
+    }
+    public Profile(CreateProfileCommnad command){
+        this.name = new PersonName(command.firstName(), command.lastName());
         this.direction = command.direction();
         this.phone = command.phone();
         this.gender = command.gender();
         this.birthDate = command.birthDate();
         this.documentNumber = command.documentNumber();
         this.documentType = command.documentType();
-        this.role= command.role();
-    }
-
-    public Profile() {
+        this.role = command.role();
 
     }
+    public Profile updateInformation(UpdateProfileCommand command){
+        this.name = new PersonName(command.firstName(), command.lastName());
+        this.direction = command.direction();
+        this.phone = command.phone();
+        this.gender = command.gender();
+        this.birthDate = command.birthDate();
+        this.documentNumber = command.documentNumber();
+        this.documentType = command.documentType();
+        this.role = command.role();
+        return this;
 
-    public void setId(int id) {
-        this.id = id;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+
+
+    public String getDirection() {
+        return direction;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setDirection(String direction) {
-        this.direction = direction;
+    public String getGender() {
+        return gender;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public String getBirthDate() {
+        return birthDate;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
+    public String getDocumentType() {
+        return documentType;
     }
 
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
-    }
-
-    public void setDocumentType(String documentType) {
-        this.documentType = documentType;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    public String getRole() {
+        return role;
     }
 }

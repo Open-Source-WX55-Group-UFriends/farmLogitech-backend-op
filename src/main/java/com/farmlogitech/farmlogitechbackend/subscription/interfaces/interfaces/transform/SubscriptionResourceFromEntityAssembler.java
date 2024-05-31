@@ -5,6 +5,6 @@ import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.r
 
 public class SubscriptionResourceFromEntityAssembler {
     public static SubscriptionResource toResourceFromEntity(Subscription entity) {
-        return new SubscriptionResource(entity.getId(), entity.getPrice(), entity.getDescription(), entity.getPaid());
+        return new SubscriptionResource(entity.getProfileId(),entity.getPrice(), entity.getDescription(), entity.getPaid());
     }
 }

@@ -1,6 +1,8 @@
 package com.farmlogitech.farmlogitechbackend.subscription.domain.model.aggregates;
 
+import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.commands.CreateSubscriptionCommand;
+import com.farmlogitech.farmlogitechbackend.subscription.domain.model.valueobjects.ProfileId;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -11,14 +13,11 @@ import lombok.Getter;
 import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Getter
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-public class Subscription extends AbstractAggregateRoot <Subscription> {
+public class Subscription extends AuditableAbstractAggregateRoot<Subscription> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Embedded
+    private ProfileId profileId;
     @Column(nullable = false)
     private Integer price;
     @Column(nullable = false)
@@ -27,31 +26,31 @@ public class Subscription extends AbstractAggregateRoot <Subscription> {
     private Boolean paid;
 
 
-    public Subscription(CreateSubscriptionCommand command) {
-        this.price = command.price();
-        this.description = command.description();
-        this.paid = command.paid();
-    }
+
 
     public Subscription() {
 
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setPrice(Integer price) {
+    public Subscription(ProfileId profileId, Integer price, String description, Boolean paid) {
+        this.profileId = profileId;
         this.price = price;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setPaid(Boolean paid) {
         this.paid = paid;
     }
+    public Long getProfileId() {
+        return this.profileId.profileId();
+    }
 
+    public Integer getPrice() {
+        return price;
+    }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public Boolean getPaid() {
+        return paid;
+    }
 }

@@ -13,6 +13,7 @@ import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.r
 import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.resources.SubscriptionResource;
 import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.transform.CreateSubscriptionCommandFromResourceAssembler;
 import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.transform.SubscriptionResourceFromEntityAssembler;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,8 @@ import java.util.Optional;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
-@RequestMapping("/api/v1/subscription")
+@RequestMapping(value="/api/v1/subscription", produces = MediaType.APPLICATION_JSON_VALUE)
+
 public class SubscriptionController {
     private final SubscriptionQueryService subscriptionQueryService;
     private final SubscriptionCommandService subscriptionCommandService;

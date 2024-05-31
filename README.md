@@ -44,43 +44,63 @@ VALUES ('Lima', 'nice', 'Pollo', 'Avicola', 'ningunoc', 'Pollo', 'Tsuneo', 'asd'
   - CREAR PROFILE 
 ```
 {
-    "id": 1,
-    "firstName": "John",
-    "lastName": "Doe",
-    "direction": "123 Main St",
-    "phone": "+1234567890",
-    "gender": "Male",
-    "birthDate": "1990-01-01",
-    "documentNumber": "A12345678",
-    "documentType": "Passport",
-    "role": "Admin"
-}
+        "id": 2,
+        "firstName": "R Doe",
+        "lastName":"xd",
+        "direction": "123 Calle Principal",
+        "phone": "1234567890",
+        "gender": "Male",
+        "birthDate": "1990-01-01",
+        "documentNumber": "123456789",
+        "documentType": "DNI",
+        "role": "Admin"
+    }
 ```
 -Response of All
+- Se esconde el firstName y lastName por el FullName eso es porque se creo el value Object xD :c
 ```
-
 [
-{
-"id": 1,
-"email": "Tsuneo",
-"password": "Lima",
-"profile": {
-"id": 1,
-"firstName": "John",
-"lastName": "Doe",
-"direction": "123 Main St",
-"phone": "+1234567890",
-"gender": "Male",
-"birthDate": "1990-01-01",
-"documentNumber": "A12345678",
-"documentType": "Passport",
-"role": "Admin"
+{ 
+    "id": 1,
+    "fullName": "John Doe",
+    "direction": "123 Calle Principal",
+    "phone": "1234567890",
+    "gender": "Male",
+    "birthDate": "1990-01-01",
+    "documentNumber": "123456789",
+    "documentType": "DNI",
+    "role": "Admin"
 }
 }
 ]
-```
 
+```
+crear subscription
+````
+{
+"firstName": "rODRI",
+"lastName": "string",
+"direction": "string",
+"phone": "string",
+"gender": "string",
+"birthDate": "string",
+"documentNumber": "string",
+"documentType": "string",
+"role": "string",
+"price": 0,
+"description": "string",
+"paid": true
+}
+```` 
+
+
+LINK PARA VER JSONS
+http://localhost:8080/swagger-ui/index.html#/
+
+### Tabla Subscription
 -  [Get]http://localhost:8080/api/v1/subscription/all : para buscar todos
 -  [Get]http://localhost:8080/api/v1/subscription/1 : para buscar por id
 
-
+### Tabla Socials
+-  [Get]http://localhost:8080/api/v1/socials/all : para buscar todos
+-  [Get]http://localhost:8080/api/v1/socials/1 : para buscar por id

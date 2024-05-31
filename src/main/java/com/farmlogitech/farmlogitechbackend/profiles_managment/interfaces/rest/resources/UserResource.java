@@ -1,4 +1,4 @@
-package com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.interfaces.resources;
+package com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.resources;
 
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.aggregates.Profile;
 
