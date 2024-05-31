@@ -1,5 +1,6 @@
 package com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.aggregates;
-import com.farmlogitech.farmlogitechbackend.subscription.domain.model.valueobjects.ProfileId;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.valueobjects.ProfileId;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.valueobjects.SubscriptionId;
 import jakarta.persistence.*;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
@@ -13,6 +14,8 @@ public class User extends AbstractAggregateRoot<User>  {
 
     @Embedded
     private ProfileId profileId;
+    @Embedded
+    private SubscriptionId subscriptionId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +24,13 @@ public class User extends AbstractAggregateRoot<User>  {
     protected User() {
 
     }
-    public Long getProfileId() {
-        return this.profileId.profileId();
+
+    public Long getSubscriptionId() {
+        return this.subscriptionId.subscriptionId();
     }
-    public User(ProfileId profileId, String email, String password) {
+    public User(ProfileId profileId, SubscriptionId subscriptionId, String email, String password) {
         this.profileId = profileId;
+        this.subscriptionId= subscriptionId;
         this.password = password;
         this.email=email;
 
@@ -39,6 +44,9 @@ public class User extends AbstractAggregateRoot<User>  {
     public ProfileId profileId() {
         return this.profileId;
     }
+    public SubscriptionId subscriptionId() {
+        return this.subscriptionId;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -47,6 +55,7 @@ public class User extends AbstractAggregateRoot<User>  {
     public Long getId() {
         return id;
     }
+
 
     public String getEmail() {
         return email;
@@ -57,4 +66,7 @@ public class User extends AbstractAggregateRoot<User>  {
     }
 
 
+    public Long getProfileId() {
+        return this.profileId.profileId();
+    }
 }

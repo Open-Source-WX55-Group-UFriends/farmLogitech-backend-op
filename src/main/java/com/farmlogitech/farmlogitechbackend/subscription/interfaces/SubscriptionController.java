@@ -1,18 +1,15 @@
 package com.farmlogitech.farmlogitechbackend.subscription.interfaces;
 
 
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.aggregates.Farm;
-import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.resources.FarmResource;
-import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.transform.FarmResourceFromEntityAssembler;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.aggregates.Subscription;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.queries.GetAllSubscriptionQuery;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.queries.GetSubscriptionByIdQuery;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.services.SubscriptionCommandService;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.services.SubscriptionQueryService;
-import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.resources.CreateSubscriptionResource;
-import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.resources.SubscriptionResource;
-import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.transform.CreateSubscriptionCommandFromResourceAssembler;
-import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.transform.SubscriptionResourceFromEntityAssembler;
+import com.farmlogitech.farmlogitechbackend.subscription.interfaces.rest.resources.CreateSubscriptionResource;
+import com.farmlogitech.farmlogitechbackend.subscription.interfaces.rest.resources.SubscriptionResource;
+import com.farmlogitech.farmlogitechbackend.subscription.interfaces.rest.transform.CreateSubscriptionCommandFromResourceAssembler;
+import com.farmlogitech.farmlogitechbackend.subscription.interfaces.rest.transform.SubscriptionResourceFromEntityAssembler;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

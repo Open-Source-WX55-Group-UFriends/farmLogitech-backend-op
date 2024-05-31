@@ -2,5 +2,5 @@ package com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.
 
 import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.aggregates.Profile;
 
-public record UserResource ( String email, String password, Long profile){
+public record UserResource ( String email, String password, Long profileId, Long SubscriptionId){
 }

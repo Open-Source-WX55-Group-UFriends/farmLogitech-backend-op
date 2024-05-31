@@ -6,5 +6,5 @@ import com.farmlogitech.farmlogitechbackend.subscription.domain.model.commands.C
 import java.util.Optional;
 
 public interface SubscriptionCommandService {
-    Optional<Subscription> handle(CreateSubscriptionCommand command);
+  Optional<Subscription> handle(CreateSubscriptionCommand command);
 }

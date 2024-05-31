@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 public class Profile extends AuditableAbstractAggregateRoot<Profile> {
 
+
     @Embedded
     private PersonName name;
 
@@ -29,6 +30,7 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
     private String documentType;
     @Column(nullable = false)
     private String role;
+
 
 
 

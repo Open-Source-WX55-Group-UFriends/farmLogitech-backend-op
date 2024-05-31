@@ -1,29 +1,21 @@
 package com.farmlogitech.farmlogitechbackend.subscription.domain.model.aggregates;
 
 import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
-import com.farmlogitech.farmlogitechbackend.subscription.domain.model.commands.CreateSubscriptionCommand;
-import com.farmlogitech.farmlogitechbackend.subscription.domain.model.valueobjects.ProfileId;
 import jakarta.persistence.*;
-import lombok.Getter;
-import org.springframework.data.domain.AbstractAggregateRoot;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import lombok.Getter;
-import org.springframework.data.domain.AbstractAggregateRoot;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 public class Subscription extends AuditableAbstractAggregateRoot<Subscription> {
 
-    @Embedded
-    private ProfileId profileId;
+
     @Column(nullable = false)
     private Integer price;
     @Column(nullable = false)
     private String description;
     @Column(nullable = false)
     private Boolean paid;
+    @Column(nullable = false)
+    private Long profileId;
 
 
 
@@ -32,15 +24,13 @@ public class Subscription extends AuditableAbstractAggregateRoot<Subscription> {
 
     }
 
-    public Subscription(ProfileId profileId, Integer price, String description, Boolean paid) {
-        this.profileId = profileId;
+    public Subscription(Integer price, String description, Boolean paid,Long profileId) {
         this.price = price;
         this.description = description;
         this.paid = paid;
+        this.profileId=profileId;
     }
-    public Long getProfileId() {
-        return this.profileId.profileId();
-    }
+
 
     public Integer getPrice() {
         return price;
@@ -52,5 +42,9 @@ public class Subscription extends AuditableAbstractAggregateRoot<Subscription> {
 
     public Boolean getPaid() {
         return paid;
+    }
+
+    public Long getProfileId() {
+        return profileId;
     }
 }

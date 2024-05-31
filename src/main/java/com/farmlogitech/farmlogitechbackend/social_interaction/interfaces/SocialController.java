@@ -9,7 +9,6 @@ import com.farmlogitech.farmlogitechbackend.social_interaction.interfaces.interf
 import com.farmlogitech.farmlogitechbackend.social_interaction.interfaces.interfaces.resources.SocialResource;
 import com.farmlogitech.farmlogitechbackend.social_interaction.interfaces.interfaces.transform.CreateSocialCommandFromResourceAssembler;
 import com.farmlogitech.farmlogitechbackend.social_interaction.interfaces.interfaces.transform.SocialResourceFromEntityAssembler;
-import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.transform.SubscriptionResourceFromEntityAssembler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
