@@ -1,6 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.tasks.domain.model.aggregates;
 
 import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
+import com.farmlogitech.farmlogitechbackend.tasks.domain.model.commands.commands.CreateTaskCommand;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.valueobjects.valueobjects.Description;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.valueobjects.valueobjects.Status;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.valueobjects.valueobjects.TimeTask;
@@ -30,6 +31,12 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
         this.timeTask = new TimeTask(time, endDate);
 
 
+    }
+
+    public Task(CreateTaskCommand command){
+        this.description= new Description(command.description());
+        this.status = new Status(command.status());
+        this.timeTask = new TimeTask(command.time(), command.endDate());
     }
 
     public Task(){
