@@ -1,4 +1,4 @@
-package com.farmlogitech.farmlogitechbackend.monitoring.domain.model.services;
+package com.farmlogitech.farmlogitechbackend.monitoring.domain.services;
 
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.aggregates.Shed;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetAllShedQuery;
