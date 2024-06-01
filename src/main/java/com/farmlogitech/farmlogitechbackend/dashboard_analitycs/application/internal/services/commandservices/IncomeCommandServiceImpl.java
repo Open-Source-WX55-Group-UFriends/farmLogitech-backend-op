@@ -16,7 +16,7 @@ public class IncomeCommandServiceImpl implements IncomeCommandService {
         this.incomeRepository = incomeRepository;
     }
 
-
+/*
     @Override
     public Optional<Income> handle(CreateIncomeCommand command) {
         var Income= new Income(command);
@@ -24,7 +24,7 @@ public class IncomeCommandServiceImpl implements IncomeCommandService {
         return Optional.of(createdIncome);
 
     }
-
+*/
 
 
 }
