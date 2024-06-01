@@ -1,17 +1,21 @@
-package com.farmlogitech.farmlogitechbackend.subscription.domain.model.valueobjects;
+package com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.valueobjects;
 
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-
 public record ProfileId(Long profileId) {
     public ProfileId {
         if (profileId < 0) {
             throw new IllegalArgumentException("Profile profileId cannot be negative");
         }
+
     }
     public ProfileId() {
         this(0L);
+    }
+
+    public Long getProfileIdc() {
+        return profileId;
     }
 
 }

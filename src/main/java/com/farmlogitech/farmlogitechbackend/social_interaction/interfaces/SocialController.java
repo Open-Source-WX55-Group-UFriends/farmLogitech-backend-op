@@ -2,14 +2,13 @@ package com.farmlogitech.farmlogitechbackend.social_interaction.interfaces;
 
 import com.farmlogitech.farmlogitechbackend.social_interaction.domain.model.aggregates.Social;
 import com.farmlogitech.farmlogitechbackend.social_interaction.domain.model.queries.GetAllSocialQuery;
-import com.farmlogitech.farmlogitechbackend.social_interaction.domain.model.queries.GetSocialByIdQuery;
+import com.farmlogitech.farmlogitechbackend.social_interaction.domain.model.queries.GetAllSocialsByFarmIdQuery;
 import com.farmlogitech.farmlogitechbackend.social_interaction.domain.services.SocialCommandService;
 import com.farmlogitech.farmlogitechbackend.social_interaction.domain.services.SocialQueryService;
 import com.farmlogitech.farmlogitechbackend.social_interaction.interfaces.interfaces.resources.CreateSocialResource;
 import com.farmlogitech.farmlogitechbackend.social_interaction.interfaces.interfaces.resources.SocialResource;
 import com.farmlogitech.farmlogitechbackend.social_interaction.interfaces.interfaces.transform.CreateSocialCommandFromResourceAssembler;
 import com.farmlogitech.farmlogitechbackend.social_interaction.interfaces.interfaces.transform.SocialResourceFromEntityAssembler;
-import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.transform.SubscriptionResourceFromEntityAssembler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,11 +52,11 @@ public class SocialController {
         return ResponseEntity.ok(socialResource);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<SocialResource>getSocialById(@PathVariable int id)
+    @GetMapping("/all/farm/{id}")
+    public ResponseEntity<Long>getCountAllSocialByFarmId(@PathVariable long id)
     {
-        Optional<Social> social = socialQueryService.handle(new GetSocialByIdQuery(id));
-        return social.map(resp->ResponseEntity.ok(SocialResourceFromEntityAssembler.toResourceFromEntity(resp)))
-                .orElseGet(()->ResponseEntity.notFound().build());
+        List<Social> socialQuery = socialQueryService.handle(new GetAllSocialsByFarmIdQuery(id));
+        long count = socialQuery.size();
+        return ResponseEntity.ok(count);
     }
 }

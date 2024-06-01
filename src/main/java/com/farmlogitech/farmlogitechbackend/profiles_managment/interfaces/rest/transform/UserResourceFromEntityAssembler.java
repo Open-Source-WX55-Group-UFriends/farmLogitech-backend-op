@@ -5,6 +5,11 @@ import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.r
 
 public class UserResourceFromEntityAssembler {
     public static UserResource toResourceFromEntity(User entity) {
-        return new UserResource(entity.getId(), entity.getEmail(), entity.getPassword(), entity.getProfile());
+         return new UserResource(
+                entity.getEmail(),
+                entity.getPassword(),
+                entity.getProfileId(),
+                 entity.getSubscriptionId()
+             );
     }
 }

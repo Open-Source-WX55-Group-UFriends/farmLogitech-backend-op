@@ -5,6 +5,8 @@ import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.rest.r
 
 public class CreateUserCommandFromResourceAssembler {
     public static CreateUserCommand toCommandFromResource(CreateUserResource resource) {
-        return new CreateUserCommand(resource.id(), resource.email(), resource.password(), resource.profile());
+        return new CreateUserCommand(resource.firstName(),
+                resource.lastName(), resource.direction(), resource.phone(), resource.gender(), resource.birthDate(), resource.documentNumber(), resource.documentType(), resource.role(),
+                resource.email(), resource.password(),resource.price(),resource.description(), resource.paid());
     }
 }

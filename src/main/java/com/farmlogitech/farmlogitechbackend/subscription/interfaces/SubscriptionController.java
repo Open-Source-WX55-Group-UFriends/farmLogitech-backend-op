@@ -1,18 +1,16 @@
 package com.farmlogitech.farmlogitechbackend.subscription.interfaces;
 
 
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.aggregates.Farm;
-import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.resources.FarmResource;
-import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.transform.FarmResourceFromEntityAssembler;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.aggregates.Subscription;
+import com.farmlogitech.farmlogitechbackend.subscription.domain.model.commands.UpdateSubscriptionCommand;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.queries.GetAllSubscriptionQuery;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.queries.GetSubscriptionByIdQuery;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.services.SubscriptionCommandService;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.services.SubscriptionQueryService;
-import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.resources.CreateSubscriptionResource;
-import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.resources.SubscriptionResource;
-import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.transform.CreateSubscriptionCommandFromResourceAssembler;
-import com.farmlogitech.farmlogitechbackend.subscription.interfaces.interfaces.transform.SubscriptionResourceFromEntityAssembler;
+import com.farmlogitech.farmlogitechbackend.subscription.interfaces.rest.resources.CreateSubscriptionResource;
+import com.farmlogitech.farmlogitechbackend.subscription.interfaces.rest.resources.SubscriptionResource;
+import com.farmlogitech.farmlogitechbackend.subscription.interfaces.rest.transform.CreateSubscriptionCommandFromResourceAssembler;
+import com.farmlogitech.farmlogitechbackend.subscription.interfaces.rest.transform.SubscriptionResourceFromEntityAssembler;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,9 +53,23 @@ public class SubscriptionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubscriptionResource>getSubscriptionById(@PathVariable int id){
-        Optional<Subscription> subscription = subscriptionQueryService.handle(new GetSubscriptionByIdQuery(id));
-        return subscription.map(resp->ResponseEntity.ok(SubscriptionResourceFromEntityAssembler.toResourceFromEntity(resp)))
-                .orElseGet(()->ResponseEntity.notFound().build());
+    public ResponseEntity<SubscriptionResource> getSubscriptionById(@PathVariable int id) {
+        var getSubscriptionByIdQuery = new GetSubscriptionByIdQuery(id);
+        var subscription = subscriptionQueryService.handle(getSubscriptionByIdQuery);
+        if(subscription.isEmpty()) return ResponseEntity.notFound().build();
+        var subscriptionResource = SubscriptionResourceFromEntityAssembler.toResourceFromEntity(subscription.get());
+        return ResponseEntity.ok(subscriptionResource);
     }
+
+    @PutMapping("/pay/subscription/{profileId}")
+    public ResponseEntity<SubscriptionResource>paySubscription(@PathVariable Long profileId){
+        Optional<Subscription> subscription= subscriptionCommandService.handle(new UpdateSubscriptionCommand(profileId));
+        var  subscriptionResource = SubscriptionResourceFromEntityAssembler.toResourceFromEntity(subscription.get());
+        return ResponseEntity.ok(subscriptionResource);
+
+    }
+
+
+
+
 }

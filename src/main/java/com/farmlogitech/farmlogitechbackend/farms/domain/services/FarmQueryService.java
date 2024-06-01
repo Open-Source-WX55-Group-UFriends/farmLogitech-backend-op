@@ -1,10 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.farms.domain.services;
 
 import com.farmlogitech.farmlogitechbackend.farms.domain.model.aggregates.Farm;
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.GetAllFarmByLocationQuery;
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.GetAllFarmsQuery;
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.GetFarmByIdQuery;
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.PutFarmById;
+import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +13,7 @@ public interface FarmQueryService {
     List<Farm> handle(GetAllFarmByLocationQuery query);
     List<Farm> handle(GetAllFarmsQuery query);
     Optional<Farm> handle(PutFarmById query);
+    List<Farm>handle(GetAllFarmByProfileId query);
 
 
 }

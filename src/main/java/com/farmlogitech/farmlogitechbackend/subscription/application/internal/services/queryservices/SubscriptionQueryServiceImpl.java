@@ -22,7 +22,7 @@ public class SubscriptionQueryServiceImpl implements SubscriptionQueryService {
 
     @Override
     public List<Subscription> handle(GetAllSubscriptionQuery query){
-        return subscriptionRepository.findAllSubscription();
+        return subscriptionRepository.findAll();
     }
 
     @Override

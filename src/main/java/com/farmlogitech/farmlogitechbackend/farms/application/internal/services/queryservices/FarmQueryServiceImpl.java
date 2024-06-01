@@ -1,10 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.farms.application.internal.services.queryservices;
 
 import com.farmlogitech.farmlogitechbackend.farms.domain.model.aggregates.Farm;
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.GetAllFarmByLocationQuery;
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.GetAllFarmsQuery;
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.GetFarmByIdQuery;
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.PutFarmById;
+import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.*;
 import com.farmlogitech.farmlogitechbackend.farms.domain.services.FarmQueryService;
 import com.farmlogitech.farmlogitechbackend.farms.infrastructure.persistence.jpa.FarmRepository;
 import org.springframework.stereotype.Service;
@@ -40,5 +37,10 @@ public class FarmQueryServiceImpl implements FarmQueryService {
     @Override
     public Optional<Farm> handle(PutFarmById query) {
         return farmRepository.updateById(query.id());
+    }
+
+    @Override
+    public List<Farm> handle(GetAllFarmByProfileId query) {
+        return farmRepository.findAllFarmsByProfileId(query.profileId());
     }
 }

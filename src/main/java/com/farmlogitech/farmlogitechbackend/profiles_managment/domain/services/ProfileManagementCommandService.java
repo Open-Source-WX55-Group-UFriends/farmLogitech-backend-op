@@ -12,7 +12,6 @@ import java.util.Optional;
 public interface ProfileManagementCommandService {
     Optional<Profile> handle(CreateProfileCommnad command);
     Optional<Profile> handle(UpdateProfileCommand command);
-
     Optional<User> handle(CreateUserCommand command);
 
 }

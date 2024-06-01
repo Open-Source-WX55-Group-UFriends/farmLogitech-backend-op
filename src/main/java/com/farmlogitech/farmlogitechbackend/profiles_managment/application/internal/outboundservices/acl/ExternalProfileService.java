@@ -1,7 +1,7 @@
-package com.farmlogitech.farmlogitechbackend.subscription.application.internal.outboundservices.acl;
+package com.farmlogitech.farmlogitechbackend.profiles_managment.application.internal.outboundservices.acl;
 
 import com.farmlogitech.farmlogitechbackend.profiles_managment.interfaces.acl.ProfilesContextFacade;
-import com.farmlogitech.farmlogitechbackend.subscription.domain.model.valueobjects.ProfileId;
+import com.farmlogitech.farmlogitechbackend.profiles_managment.domain.model.valueobjects.ProfileId;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
