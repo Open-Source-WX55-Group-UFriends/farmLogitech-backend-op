@@ -22,7 +22,6 @@ public class IncomeCommandServiceImpl implements IncomeCommandService {
         var Income= new Income(command);
         var createdIncome= incomeRepository.save(Income);
         return Optional.of(createdIncome);
-
     }
 
 

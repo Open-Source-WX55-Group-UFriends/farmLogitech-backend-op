@@ -1,7 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.aggregates;
 
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.commands.CreateExpenseCommand;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.commands.CreateIncomeCommand;
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.commands.CreateFarmCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -10,7 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Income extends AbstractAggregateRoot<Income> {
+public class Expense extends AbstractAggregateRoot<Expense> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -29,8 +29,7 @@ public class Income extends AbstractAggregateRoot<Income> {
     @Column(nullable = false)
 
     private String period;
-
-    public Income(CreateIncomeCommand command) {
+    public Expense(CreateExpenseCommand command) {
         this.category = command.category();
         this.description = command.description();
         this.amount = command.amount();
@@ -40,29 +39,7 @@ public class Income extends AbstractAggregateRoot<Income> {
 
     }
 
-    public Income() {
+    public Expense() {
 
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public String getPeriod() {
-        return period;
     }
 }
-
-
