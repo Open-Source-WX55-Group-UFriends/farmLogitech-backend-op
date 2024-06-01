@@ -10,7 +10,7 @@ public interface TaskQueryService {
     Optional<Task> handle(GetTaskByIdQuery query);
 //    Lists because don't return an object
     List<Task> handle(GetAllTasksQuery query);
-    List<Task> handle(GetTasksByStatusQuery query);
-    List<Task> handle(GetTasksByCollaboratorIdQuery query);
-    List<Task> handle(GetTaksByFarmOwnerIdQuery query);
+    List<Task> handle(GetAllTasksByCollaboratorIdAndFarmerIdQuery query);
+    List<Task> handle(GetAllTasksByCollaboratorIdQuery query);
+    List<Task> handle(GetAllTaksByFarmerIdQuery query);
 }
