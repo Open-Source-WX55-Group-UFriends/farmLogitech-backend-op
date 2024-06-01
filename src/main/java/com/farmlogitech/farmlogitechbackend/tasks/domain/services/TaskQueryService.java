@@ -1,10 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.tasks.domain.services;
 
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.aggregates.Task;
-import com.farmlogitech.farmlogitechbackend.tasks.domain.model.queries.GetAllTasksQuery;
-import com.farmlogitech.farmlogitechbackend.tasks.domain.model.queries.GetTaskByIdQuery;
-import com.farmlogitech.farmlogitechbackend.tasks.domain.model.queries.GetTasksByCollaboratorIdQuery;
-import com.farmlogitech.farmlogitechbackend.tasks.domain.model.queries.GetTasksByStatusQuery;
+import com.farmlogitech.farmlogitechbackend.tasks.domain.model.queries.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,4 +12,5 @@ public interface TaskQueryService {
     List<Task> handle(GetAllTasksQuery query);
     List<Task> handle(GetTasksByStatusQuery query);
     List<Task> handle(GetTasksByCollaboratorIdQuery query);
+    List<Task> handle(GetTaksByFarmOwnerIdQuery query);
 }

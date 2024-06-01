@@ -4,6 +4,6 @@ import com.farmlogitech.farmlogitechbackend.tasks.domain.model.valueobjects.valu
 
 import java.time.LocalDate;
 
-public record CreateTaskCommand(String description, String status, int time, LocalDate endDate, Long idCollaborator) {  //Be careful with the int and LocalDate
+public record CreateTaskCommand(String description, String status, int time, LocalDate endDate, Long idCollaborator, Long idFarmOwner) {  //Be careful with the int and LocalDate
 
 }

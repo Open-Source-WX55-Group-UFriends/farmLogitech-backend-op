@@ -2,10 +2,7 @@ package com.farmlogitech.farmlogitechbackend.tasks.domain.model.aggregates;
 
 import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.commands.commands.CreateTaskCommand;
-import com.farmlogitech.farmlogitechbackend.tasks.domain.model.valueobjects.valueobjects.Collaborator;
-import com.farmlogitech.farmlogitechbackend.tasks.domain.model.valueobjects.valueobjects.Description;
-import com.farmlogitech.farmlogitechbackend.tasks.domain.model.valueobjects.valueobjects.Status;
-import com.farmlogitech.farmlogitechbackend.tasks.domain.model.valueobjects.valueobjects.TimeTask;
+import com.farmlogitech.farmlogitechbackend.tasks.domain.model.valueobjects.valueobjects.*;
 import jakarta.persistence.*;
 
 import java.sql.Time;
@@ -32,11 +29,18 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
     })
     private Collaborator collaborator;
 
-    public Task(String description, String status, int time, LocalDate endDate, Long idCollaborator){//Be careful with the int and the local date
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "idFarmOwner", column = @Column(name = "id_farm_owner"))
+    })
+    private FarmOwner farmOwner;
+
+    public Task(String description, String status, int time, LocalDate endDate, Long idCollaborator, Long idFarmOwner){//Be careful with the int and the local date
         this.description = new Description(description);
         this.status = new Status(status);
         this.timeTask = new TimeTask(time, endDate);
         this.collaborator = new Collaborator(idCollaborator);
+        this.farmOwner = new FarmOwner(idFarmOwner);
     }
 
     public Task(CreateTaskCommand command){
@@ -44,6 +48,7 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
         this.status = new Status(command.status());
         this.timeTask = new TimeTask(command.time(), command.endDate());
         this.collaborator = new Collaborator(command.idCollaborator());
+        this.farmOwner = new FarmOwner(command.idFarmOwner());
     }
 
     public Task(){
