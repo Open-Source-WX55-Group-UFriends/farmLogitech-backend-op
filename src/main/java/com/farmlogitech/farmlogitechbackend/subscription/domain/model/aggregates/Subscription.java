@@ -1,6 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.subscription.domain.model.aggregates;
 
 import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
+import com.farmlogitech.farmlogitechbackend.subscription.domain.model.commands.UpdateSubscriptionCommand;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 
@@ -27,10 +28,12 @@ public class Subscription extends AuditableAbstractAggregateRoot<Subscription> {
     public Subscription(Integer price, String description, Boolean paid,Long profileId) {
         this.price = price;
         this.description = description;
-        this.paid = paid;
+        this.paid = false; //change
         this.profileId=profileId;
     }
-
+    public void updateToPaid() {
+        this.paid = true;
+    }
 
     public Integer getPrice() {
         return price;

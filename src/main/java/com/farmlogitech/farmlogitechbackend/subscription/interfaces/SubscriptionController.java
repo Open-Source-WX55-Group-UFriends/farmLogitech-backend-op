@@ -2,6 +2,7 @@ package com.farmlogitech.farmlogitechbackend.subscription.interfaces;
 
 
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.aggregates.Subscription;
+import com.farmlogitech.farmlogitechbackend.subscription.domain.model.commands.UpdateSubscriptionCommand;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.queries.GetAllSubscriptionQuery;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.queries.GetSubscriptionByIdQuery;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.services.SubscriptionCommandService;
@@ -52,9 +53,23 @@ public class SubscriptionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubscriptionResource>getSubscriptionById(@PathVariable int id){
-        Optional<Subscription> subscription = subscriptionQueryService.handle(new GetSubscriptionByIdQuery(id));
-        return subscription.map(resp->ResponseEntity.ok(SubscriptionResourceFromEntityAssembler.toResourceFromEntity(resp)))
-                .orElseGet(()->ResponseEntity.notFound().build());
+    public ResponseEntity<SubscriptionResource> getSubscriptionById(@PathVariable int id) {
+        var getSubscriptionByIdQuery = new GetSubscriptionByIdQuery(id);
+        var subscription = subscriptionQueryService.handle(getSubscriptionByIdQuery);
+        if(subscription.isEmpty()) return ResponseEntity.notFound().build();
+        var subscriptionResource = SubscriptionResourceFromEntityAssembler.toResourceFromEntity(subscription.get());
+        return ResponseEntity.ok(subscriptionResource);
     }
+
+    @PutMapping("/pay/subscription/{profileId}")
+    public ResponseEntity<SubscriptionResource>paySubscription(@PathVariable Long profileId){
+        Optional<Subscription> subscription= subscriptionCommandService.handle(new UpdateSubscriptionCommand(profileId));
+        var  subscriptionResource = SubscriptionResourceFromEntityAssembler.toResourceFromEntity(subscription.get());
+        return ResponseEntity.ok(subscriptionResource);
+
+    }
+
+
+
+
 }

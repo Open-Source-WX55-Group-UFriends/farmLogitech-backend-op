@@ -20,8 +20,6 @@ public class SocialCommandServiceImpl implements SocialCommandService {
 
     @Override
     public Optional<Social> handle(CreateSocialCommand command){
-        if(socialRepository.existsById(command.id()))
-            throw new IllegalArgumentException("Social alredy exists");
         var newSocial = new Social(command);
         var createdSocial = socialRepository.save(newSocial);
         return Optional.of(createdSocial);

@@ -6,6 +6,6 @@ import com.farmlogitech.farmlogitechbackend.social_interaction.interfaces.interf
 public class CreateSocialCommandFromResourceAssembler {
     public static CreateSocialCommand toCommandFromResource (CreateSocialResource resource)
     {
-        return new CreateSocialCommand(resource.id(), resource.rating());
+        return new CreateSocialCommand( resource.rating(), resource.profileId(), resource.farmId());
     }
 }
