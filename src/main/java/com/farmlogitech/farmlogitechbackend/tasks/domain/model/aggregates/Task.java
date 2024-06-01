@@ -2,72 +2,88 @@ package com.farmlogitech.farmlogitechbackend.tasks.domain.model.aggregates;
 
 import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.commands.commands.CreateTaskCommand;
-import com.farmlogitech.farmlogitechbackend.tasks.domain.model.valueobjects.valueobjects.*;
 import jakarta.persistence.*;
-
-import java.sql.Time;
-import java.time.LocalDate;
 
 @Entity
 public class Task extends AuditableAbstractAggregateRoot<Task> {
-    @Embedded
-    private Description description;
 
-    @Embedded
-    private Status status;
+    @Column(nullable = false)
+    private String description;
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "time", column = @Column(name = "time_hours")),
-            @AttributeOverride(name = "endDate", column = @Column(name = "time_end_date"))
-    })
-    private TimeTask timeTask;
+    @Column(nullable = false)
+    private String status;
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "idCollaborator", column = @Column(name = "id_collaborator"))
-    })
-    private Collaborator collaborator;
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "idFarmOwner", column = @Column(name = "id_farm_owner"))
-    })
-    private FarmOwner farmOwner;
+    @Column(nullable = false)
+    private int timeTask;
 
-    public Task(String description, String status, int time, LocalDate endDate, Long idCollaborator, Long idFarmOwner){//Be careful with the int and the local date
-        this.description = new Description(description);
-        this.status = new Status(status);
-        this.timeTask = new TimeTask(time, endDate);
-        this.collaborator = new Collaborator(idCollaborator);
-        this.farmOwner = new FarmOwner(idFarmOwner);
+    @Column(nullable = false)
+
+    private Long collaboratorId;
+    @Column(nullable = false)
+    private Long farmerId;
+    @Column(nullable = false)
+    private String endDate;
+
+
+    public Task(String description, String status, int time, String endDate, Long collaboratorId, Long farmerId){
+        this.description =description;
+        this.status = status;
+        this.timeTask =time;
+        this.collaboratorId = collaboratorId;
+        this.farmerId = farmerId;
+        this.endDate=endDate;
     }
 
     public Task(CreateTaskCommand command){
-        this.description= new Description(command.description());
-        this.status = new Status(command.status());
-        this.timeTask = new TimeTask(command.time(), command.endDate());
-        this.collaborator = new Collaborator(command.idCollaborator());
-        this.farmOwner = new FarmOwner(command.idFarmOwner());
+        this.description =  command.description();
+        this.status = command.status();
+        this.timeTask = command.time();
+        this.collaboratorId = command.collaboratorId();
+        this.farmerId = command.farmerId();
     }
-
     public Task(){
 
     }
 //    UPDATE THE AGGREGATE
     public void  updateDescription(String description){
-        this.description = new Description(description);
-
+        this.description = description;
     }
     public void updateStatus(String status){
-        this.status = new Status(status);
+        this.status = status;
     }
-    public void updateTimeTask(int time, LocalDate endDate ){
-        this.timeTask = new TimeTask(time, endDate);
+    public void updateTimeTask(int time ){
+        this.timeTask = time;
     }
-    public void updateCollaborator(Long idCollaborator){this.collaborator = new Collaborator(idCollaborator);}
+    public void updateCollaborator(Long idCollaborator){this.collaboratorId = idCollaborator;}
 
-    public String getFullTimeTask(){
-        return timeTask.getFullTime();
+
+
+
+
+
+
+    public Long getCollaboratorId() {
+        return collaboratorId;
+    }
+
+    public Long getFarmerId() {
+        return farmerId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public int getTimeTask() {
+        return timeTask;
+    }
+
+    public String getEndDate() {
+        return endDate;
     }
 }
