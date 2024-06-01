@@ -5,10 +5,12 @@ import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetA
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetShedByIdQuery;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.services.ShedQueryService;
 import com.farmlogitech.farmlogitechbackend.monitoring.infrastructure.persistence.jpa.ShedRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ShedQueryServiceImpl implements ShedQueryService {
 
     private final ShedRepository shedRepository;

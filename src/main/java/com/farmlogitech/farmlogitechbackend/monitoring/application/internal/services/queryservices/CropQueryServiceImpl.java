@@ -5,10 +5,12 @@ import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetA
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetCropByIdQuery;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.services.CropQueryService;
 import com.farmlogitech.farmlogitechbackend.monitoring.infrastructure.persistence.jpa.CropRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class CropQueryServiceImpl implements CropQueryService {
 
     private final CropRepository cropRepository;

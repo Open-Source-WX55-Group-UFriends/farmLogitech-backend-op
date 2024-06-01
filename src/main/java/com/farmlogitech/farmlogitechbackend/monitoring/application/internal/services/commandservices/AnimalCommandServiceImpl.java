@@ -3,7 +3,6 @@ package com.farmlogitech.farmlogitechbackend.monitoring.application.internal.ser
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.aggregates.Animal;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.commands.CreateAnimalCommand;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.services.AnimalCommandService;
-import com.farmlogitech.farmlogitechbackend.monitoring.domain.services.AnimalQueryService;
 import com.farmlogitech.farmlogitechbackend.monitoring.infrastructure.persistence.jpa.AnimalRepository;
 import org.springframework.stereotype.Service;
 
