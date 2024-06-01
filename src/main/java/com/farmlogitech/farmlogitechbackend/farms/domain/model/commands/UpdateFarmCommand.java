@@ -6,7 +6,7 @@ public record UpdateFarmCommand (int id, String farmName,
                                  String infrastructure,
                                  String services,
                                  String status,
-                                 String certificates, String image) {
+                                 String certificates, String image,long profileId){
     public UpdateFarmCommand {
         if (farmName == null || farmName.isBlank()) {
             throw new IllegalArgumentException("Farm name cannot be null or empty");
