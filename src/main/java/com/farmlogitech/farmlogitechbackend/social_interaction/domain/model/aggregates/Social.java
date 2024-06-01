@@ -10,30 +10,53 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Social extends AbstractAggregateRoot <Social> {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
+
+
 
     @Column(nullable = false)
     private Integer rating;
+    @Column(nullable = false)
+    private Integer profileId;
+    @Column(nullable = false)
+    private Integer farmId;
+
 
     public Social (CreateSocialCommand command)
     {
+
         this.rating = command.rating();
+        this.profileId = command.profileId();
+        this.farmId= command.farmId();
+
     }
 
     public Social() {
 
     }
 
-    public void setId(int id)
-    {
-        this.id = id;
-    }
+
+
+
+
+
 
     public void setRating(Integer rating)
     {
         this.rating = rating;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public Integer getProfileId() {
+        return profileId;
+    }
+
+    public Integer getFarmId() {
+        return farmId;
     }
 }

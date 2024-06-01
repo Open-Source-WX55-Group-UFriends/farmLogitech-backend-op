@@ -6,6 +6,6 @@ import com.farmlogitech.farmlogitechbackend.social_interaction.interfaces.interf
 public class SocialResourceFromEntityAssembler {
     public static SocialResource toResourceFromEntity(Social entity)
     {
-        return new SocialResource(entity.getId(), entity.getRating());
+        return new SocialResource(entity.getId(), entity.getRating(), entity.getProfileId(), entity.getFarmId());
     }
 }

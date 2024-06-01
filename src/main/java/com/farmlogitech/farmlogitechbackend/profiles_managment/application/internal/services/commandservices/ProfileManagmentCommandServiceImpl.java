@@ -62,7 +62,6 @@ public class ProfileManagmentCommandServiceImpl implements ProfileManagementComm
         }
 
         var profileId = externalProfileService.createProfile(command.firstName(),command.lastName(),command.direction(),command.phone(),command.gender(),command.birthDate(),command.documentNumber(),command.documentType(),command.role());
-        // Obtener el profileId usando getProfileIdc()
         Long id = profileId.get().getProfileIdc();
         var subscriptionId = externalSubscriptionService.createSubscription(command.price(),command.description(),command.paid(), id);
         var createdUser = new User(profileId.get(), subscriptionId.get(), command.email(), command.password());
