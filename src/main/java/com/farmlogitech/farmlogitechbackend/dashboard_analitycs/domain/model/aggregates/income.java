@@ -5,5 +5,5 @@ public class income {
     String description;
     double amount;
     String date;
-    String Periodo;
+    String Period;
 }
