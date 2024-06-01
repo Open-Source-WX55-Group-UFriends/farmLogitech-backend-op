@@ -62,6 +62,9 @@ public class TaskController {
         var taskResources=tasks.stream().map(TaskResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(taskResources);
     }
+
+    /*
+    // IMPLEMENT IN THE FUTURE @Rod
     @GetMapping("/all/search/collaborator/{collaboratorId}")
     public ResponseEntity<List<TaskResource>> getAllTaskByCollaboratorAndFarmer(@PathVariable Long farmerId,Long collaboratorId){
         var tasks=taskQueryService.handle(new GetAllTasksByCollaboratorIdAndFarmerIdQuery(farmerId,collaboratorId));
@@ -71,6 +74,12 @@ public class TaskController {
         var taskResources=tasks.stream().map(TaskResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(taskResources);
     }
+
+*/
+
+
+
+
 
 
 
