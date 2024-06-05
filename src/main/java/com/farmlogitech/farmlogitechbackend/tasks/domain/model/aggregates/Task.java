@@ -41,6 +41,7 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
         this.timeTask = command.time();
         this.collaboratorId = command.collaboratorId();
         this.farmerId = command.farmerId();
+        this.endDate=command.endDate();
     }
     public Task(){
 
