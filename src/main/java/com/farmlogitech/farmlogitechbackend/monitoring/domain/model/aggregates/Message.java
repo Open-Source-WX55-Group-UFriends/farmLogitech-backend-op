@@ -1,5 +1,6 @@
 package com.farmlogitech.farmlogitechbackend.monitoring.domain.model.aggregates;
 
+import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.commands.CreateMessageCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -8,7 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class message extends AbstractAggregateRoot<message> {
+public class Message extends AbstractAggregateRoot<Message> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,10 +23,16 @@ public class message extends AbstractAggregateRoot<message> {
     @Column(nullable = false)
     private Long farmerId;
 
-    protected message() {
+    protected Message() {
     }
 
-    public message(String description, Long collaboratorId, Long farmerId) {
+    public Message(CreateMessageCommand command) {
+        this.description = command.description();
+        this.collaboratorId = command.collaboratorId();
+        this.farmerId = command.farmerId();
+    }
+
+    public Message(String description, Long collaboratorId, Long farmerId) {
         if (description == null || description.isEmpty()) {
             throw new IllegalArgumentException("Description cannot be null or empty");
         }
@@ -39,5 +46,21 @@ public class message extends AbstractAggregateRoot<message> {
         this.description = description;
         this.collaboratorId = collaboratorId;
         this.farmerId = farmerId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Long getCollaboratorId() {
+        return collaboratorId;
+    }
+
+    public Long getFarmerId() {
+        return farmerId;
     }
 }

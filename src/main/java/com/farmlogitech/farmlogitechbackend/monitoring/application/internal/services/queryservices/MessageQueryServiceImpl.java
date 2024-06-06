@@ -1,6 +1,6 @@
 package com.farmlogitech.farmlogitechbackend.monitoring.application.internal.services.queryservices;
 
-import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.aggregates.message;
+import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.aggregates.Message;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetAllMessagesByCollaboratorIdAndFarmerIdQuery;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetAllMessagesByCollaboratorIdQuery;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.services.MessageQueryService;
@@ -18,12 +18,12 @@ public class MessageQueryServiceImpl implements MessageQueryService {
     }
 
     @Override
-    public List<message> handle(GetAllMessagesByCollaboratorIdQuery query) {
+    public List<Message> handle(GetAllMessagesByCollaboratorIdQuery query) {
         return messageRepository.findAllByCollaboratorId(query.collaboratorId());
     }
 
     @Override
-    public List<message> handle(GetAllMessagesByCollaboratorIdAndFarmerIdQuery query) {
+    public List<Message> handle(GetAllMessagesByCollaboratorIdAndFarmerIdQuery query) {
         return messageRepository.findAllByCollaboratorIdAndFarmerId(query.collaboratorId(), query.farmerId());
     }
 }
