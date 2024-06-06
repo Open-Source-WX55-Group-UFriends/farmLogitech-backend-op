@@ -1,6 +1,6 @@
-package com.farmlogitech.farmlogitechbackend.iam.domain.aggregates;
+package com.farmlogitech.farmlogitechbackend.iam.domain.model.aggregates;
 
-import com.farmlogitech.farmlogitechbackend.iam.domain.entities.Role;
+import com.farmlogitech.farmlogitechbackend.iam.domain.model.entities.Role;
 import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

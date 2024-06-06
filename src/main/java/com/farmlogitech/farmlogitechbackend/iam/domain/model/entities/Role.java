@@ -1,4 +1,4 @@
-package com.farmlogitech.farmlogitechbackend.iam.domain.entities;
+package com.farmlogitech.farmlogitechbackend.iam.domain.model.entities;
 
 import com.farmlogitech.farmlogitechbackend.iam.domain.model.valueobjects.Roles;
 import jakarta.persistence.*;
