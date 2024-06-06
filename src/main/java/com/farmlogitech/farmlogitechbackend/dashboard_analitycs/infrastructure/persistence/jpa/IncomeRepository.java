@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface IncomeRepository extends JpaRepository<Income, Integer> {
-List<Income> findAllIcomeByCategoryAndPeriod(String category, String Period);
+List<Income> findAllIncomeByCategoryAndDate(String category, String date);
 
 
 }

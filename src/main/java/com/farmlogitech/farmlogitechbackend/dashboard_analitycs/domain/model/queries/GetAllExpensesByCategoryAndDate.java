@@ -1,4 +1,4 @@
 package com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.queries;
 
-public record GetAllExpensesByCategoryAndPeriod(String category, String period) {
+public record GetAllExpensesByCategoryAndDate(String category, String date) {
 }
