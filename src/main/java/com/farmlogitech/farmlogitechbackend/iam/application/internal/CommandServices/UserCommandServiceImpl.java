@@ -26,11 +26,14 @@ public class UserCommandServiceImpl implements UserCommandService{
     }
 
     @Override
+
     public Optional<User> handle(SignUpCommand command) {
-        if(userRepository.existByUsername(command.username())){
+      /*  if(userRepository.existByUsername(command.username())){
             throw new RuntimeException("username already exist");
 
         }
+        */
+
         var roles= command.roles().stream()
                 .map(role -> roleRepository.findByName(role.getName())
                         .orElseThrow(()->new RuntimeException("Role not found"))).toList();
