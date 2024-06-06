@@ -1,4 +1,4 @@
-package com.farmlogitech.farmlogitechbackend.iam.queryservices;
+package com.farmlogitech.farmlogitechbackend.iam.application.internal.queryservices;
 
 
 import com.farmlogitech.farmlogitechbackend.iam.domain.model.aggregates.User;
