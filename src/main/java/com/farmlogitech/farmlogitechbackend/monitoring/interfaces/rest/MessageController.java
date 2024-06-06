@@ -1,5 +1,9 @@
 package com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest;
 
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.queries.GetAllIncomesByCategoryAndDate;
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces.rest.resource.IncomeResource;
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces.rest.transform.IncomeResourceFromEntityAssembler;
+import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetAllMessagesByCollaboratorIdAndFarmerIdQuery;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetAllMessagesByCollaboratorIdQuery;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.services.MessageCommandService;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.services.MessageQueryService;
@@ -37,14 +41,6 @@ public class MessageController {
 
     }
 
-
-
-
-
-
-
-
-
     @GetMapping("/collaborator/{collaboratorId}")
     public ResponseEntity<List<MessageResource>> getAllMessagesByCollaboratorId(@PathVariable Long collaboratorId) {
         var query = new GetAllMessagesByCollaboratorIdQuery(collaboratorId);
@@ -54,4 +50,18 @@ public class MessageController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(messageResources);
     }
+
+    @GetMapping
+    public ResponseEntity<List<MessageResource>> getAllMessagesByCollaboradorIdAndFarmerId(@RequestParam  Long collaboradorId, @RequestParam  Long farmerId){
+        var getAllMessagesByCollaboratorIdAndFarmerIdQuery  = new GetAllMessagesByCollaboratorIdAndFarmerIdQuery(collaboradorId, farmerId);
+        var messages= messageQueryService.handle(getAllMessagesByCollaboratorIdAndFarmerIdQuery);
+        var messagesResources= messages.stream().map(MessageResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(messagesResources);
+    }
+
+
+
+
+
+
 }
