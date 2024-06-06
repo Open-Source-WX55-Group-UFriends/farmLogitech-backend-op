@@ -16,47 +16,43 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     @NotBlank
     @Getter
     @Size(max = 50)
-    @Column(unique=true)
+    @Column(unique = true)
     private String username;
+
+    @Getter
     @NotBlank
     @Size(max = 120)
     private String password;
 
     @Getter
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-
-    public User(){
-        this.roles=new HashSet<>();
+    public User() {
+        this.roles = new HashSet<>();
     }
-
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.roles=new HashSet<>();
+        this.roles = new HashSet<>();
     }
+
     public User(String username, String password, List<Role> roles) {
         this.username = username;
         this.password = password;
         addRoles(roles);
     }
-    public User addRole(Role role){
+
+    public User addRole(Role role) {
         this.roles.add(role);
         return this;
     }
-    public User addRoles(List<Role> roles){
-        var validatedRoles=Role.validateRoleSet(roles);
+
+    public User addRoles(List<Role> roles) {
+        var validatedRoles = Role.validateRoleSet(roles);
         this.roles.addAll(validatedRoles);
         return this;
     }
-
-
-
-
-
-
 }

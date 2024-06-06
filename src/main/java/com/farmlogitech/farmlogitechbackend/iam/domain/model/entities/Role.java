@@ -2,15 +2,18 @@ package com.farmlogitech.farmlogitechbackend.iam.domain.model.entities;
 
 import com.farmlogitech.farmlogitechbackend.iam.domain.model.valueobjects.Roles;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.util.List;
 
 @Entity
 public class Role {
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Getter
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false, unique = true)
     private Roles name;
