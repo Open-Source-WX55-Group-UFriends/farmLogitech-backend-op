@@ -10,9 +10,5 @@ import java.util.Optional;
 public interface SubscriptionRepository extends JpaRepository<Subscription, Integer> {
     Optional<Subscription> findByProfileId(Long Id);
 
-    /*
 
-    @Query("SELECT s FROM Subscription s")
-    List<Subscription> findAllSubscription();
-    */
 }

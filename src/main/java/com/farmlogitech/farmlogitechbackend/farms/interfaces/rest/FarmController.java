@@ -2,10 +2,7 @@ package com.farmlogitech.farmlogitechbackend.farms.interfaces.rest;
 
 import com.farmlogitech.farmlogitechbackend.farms.domain.model.aggregates.Farm;
 import com.farmlogitech.farmlogitechbackend.farms.domain.model.commands.UpdateFarmCommand;
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.GetAllFarmByLocationQuery;
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.GetAllFarmsQuery;
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.GetFarmByIdQuery;
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.PutFarmById;
+import com.farmlogitech.farmlogitechbackend.farms.domain.model.queries.*;
 import com.farmlogitech.farmlogitechbackend.farms.domain.services.FarmCommandService;
 import com.farmlogitech.farmlogitechbackend.farms.domain.services.FarmQueryService;
 import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.resources.CreateFarmResource;
@@ -81,4 +78,15 @@ public class FarmController {
                 .map(updatedFarm -> ResponseEntity.ok(FarmResourceFromEntityAssembler.toResourceFromEntity(updatedFarm)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+    @GetMapping("/all/farms/profile/{profileId}")
+    public ResponseEntity<List<FarmResource>>getAllFarmsByProfileId(@PathVariable long profileId) {
+        var farms = farmQueryService.handle(new GetAllFarmByProfileId(profileId));
+        if(farms.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        var farmResources = farms.stream().map(FarmResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(farmResources);
+    }
+
+
 }

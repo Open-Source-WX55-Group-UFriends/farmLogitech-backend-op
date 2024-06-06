@@ -1,12 +1,12 @@
 package com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.resources;
 
-public record CreateFarmResource(int id, String farmName,
+public record CreateFarmResource( String farmName,
                                  String location,
                                  String type,
                                  String infrastructure,
                                  String services,
                                  String status,
-                                 String certificates, String image) {
+                                 String certificates, String image, Long profileId){
     public CreateFarmResource {
 
         if (farmName == null || farmName.isBlank()) {
