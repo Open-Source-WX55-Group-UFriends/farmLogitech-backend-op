@@ -8,10 +8,10 @@ import jakarta.validation.constraints.Positive;
 import java.time.LocalDate;
 
 public record CreateExpenseCommand(
-        @NotBlank String category,
-        @NotBlank String description,
-        @Positive double amount,
-        @NotNull LocalDate date,
-        @NotBlank String period
+         String category,
+         String description,
+         double amount,
+         LocalDate date,
+         String period
 ) {
 }

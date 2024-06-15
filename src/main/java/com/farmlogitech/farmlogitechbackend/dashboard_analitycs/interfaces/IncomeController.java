@@ -2,6 +2,7 @@ package com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces;
 
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.aggregates.Income;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.queries.GetAllIncomesByCategoryAndDate;
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.valueobjects.EIncomeCategory;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.services.IncomeCommandService;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.services.IncomeQueryService;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces.rest.resource.CreateIncomeResource;
@@ -41,7 +42,7 @@ public class IncomeController {
 
     @GetMapping
     public ResponseEntity<List<IncomeResource>> getAllIncomesByCategoryAndDate(
-            @RequestParam Income.IncomeCategory category,
+            @RequestParam EIncomeCategory category,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         var query = new GetAllIncomesByCategoryAndDate(category, date);
         var incomes = incomeQueryService.handle(query);

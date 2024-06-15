@@ -1,6 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.aggregates;
 
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.commands.CreateIncomeCommand;
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.valueobjects.EIncomeCategory;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -19,7 +20,7 @@ public class Income extends AbstractAggregateRoot<Income> {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private IncomeCategory category;
+    private EIncomeCategory category;
 
     @Column(nullable = false)
     private String description;
@@ -34,17 +35,17 @@ public class Income extends AbstractAggregateRoot<Income> {
     private String period;
 
     public Income(CreateIncomeCommand command) {
-        this.category = IncomeCategory.valueOf(command.category());
+        if (command.category() != EIncomeCategory.SALES && command.category() != EIncomeCategory.SUBSIDES && command.category() != EIncomeCategory.OTHER) {
+            throw new IllegalArgumentException("Invalid category. Category must be SALES, SUBSIDES, or OTHER.");
+        }
+        this.category = command.category();
         this.description = command.description();
         this.amount = command.amount();
         this.date = command.date();
         this.period = command.period();
     }
-
     public Income() {
     }
 
-    public enum IncomeCategory {
-        VENTAS, INVERSIONES, OTROS
-    }
+
 }
