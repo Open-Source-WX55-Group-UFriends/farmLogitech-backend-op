@@ -1,5 +1,6 @@
 package com.farmlogitech.farmlogitechbackend.iam.domain.model.commands;
 
+
 import com.farmlogitech.farmlogitechbackend.iam.domain.model.entities.Role;
 
 import java.util.List;

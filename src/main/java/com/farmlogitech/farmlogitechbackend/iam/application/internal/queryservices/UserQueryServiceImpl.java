@@ -6,7 +6,7 @@ import com.farmlogitech.farmlogitechbackend.iam.domain.model.queries.GetAllUsers
 import com.farmlogitech.farmlogitechbackend.iam.domain.model.queries.GetUserByIdQuery;
 import com.farmlogitech.farmlogitechbackend.iam.domain.model.queries.GetUserByUsernameQuery;
 import com.farmlogitech.farmlogitechbackend.iam.domain.services.UserQueryService;
-import com.farmlogitech.farmlogitechbackend.iam.infrastructure.jpa.repositories.UserRepository;
+import com.farmlogitech.farmlogitechbackend.iam.infrastructure.persistence.jpa.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,23 +25,13 @@ public class UserQueryServiceImpl implements UserQueryService {
         return userRepository.findAll();
     }
 
-
     @Override
     public Optional<User> handle(GetUserByIdQuery query) {
         return userRepository.findById(query.userId());
     }
 
-
     @Override
     public Optional<User> handle(GetUserByUsernameQuery query) {
         return userRepository.findByUsername(query.username());
     }
-
-
-
-
-
-
-
 }
-
