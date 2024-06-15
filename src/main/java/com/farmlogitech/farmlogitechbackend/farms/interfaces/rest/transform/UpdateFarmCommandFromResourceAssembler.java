@@ -13,7 +13,7 @@ public class UpdateFarmCommandFromResourceAssembler {
                 resource.infrastructure(),
                 resource.services(),
                 resource.status(),
-                resource.certificates(), resource.image(),resource.ProfileId());
+                resource.certificates(), resource.image(),resource.ProfileId(), resource.price(), resource.Surface(), resource.product(), resource.highlights());
 
 
     }

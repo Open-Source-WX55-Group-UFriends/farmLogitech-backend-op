@@ -21,10 +21,10 @@ public class ExpenseCommandServiceImpl implements ExpenseCommandService {
     @Override
     public Optional<Expense> handle(CreateExpenseCommand command) {
         if (command.amount() <= 0) {
-            throw new IllegalArgumentException("El monto del gasto debe ser mayor a cero");
+            throw new IllegalArgumentException("The income amount must be greater than zero");
         }
         if (command.category() != EIExpenseCategory.SERVICES && command.category() != EIExpenseCategory.SUPPLIES && command.category() != EIExpenseCategory.OTHER && command.category() != EIExpenseCategory.LABOR && command.category() != EIExpenseCategory.MAINTENANCE) {
-            throw new IllegalArgumentException("Categoría inválida. La categoría debe ser RENTA, SALARIO u OTRO.");
+            throw new IllegalArgumentException("Invalid category. Category must be SERVICES, SUPPLIES, LABOR, MAINTENANCE, or OTHER.");
         }
         var expense = new Expense(command);
         var createdExpense = expenseRepository.save(expense);

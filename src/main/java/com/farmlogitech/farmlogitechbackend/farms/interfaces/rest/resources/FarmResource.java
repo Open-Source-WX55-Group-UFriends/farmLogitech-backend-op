@@ -6,6 +6,6 @@ public record FarmResource(int id, String farmName,
                            String infrastructure,
                            String services,
                            String status,
-                           String certificates, String image, Long profileId){
+                           String certificates, String image, Long profileId, double price, String Surface, String product, String highlights){
 
 }

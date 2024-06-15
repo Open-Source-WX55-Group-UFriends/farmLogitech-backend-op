@@ -6,7 +6,8 @@ public record UpdateFarmCommand (int id, String farmName,
                                  String infrastructure,
                                  String services,
                                  String status,
-                                 String certificates, String image,long profileId){
+                                 String certificates, String image,long profileId ,
+                                 double price, String Surface, String product, String highlights){
     public UpdateFarmCommand {
         if (farmName == null || farmName.isBlank()) {
             throw new IllegalArgumentException("Farm name cannot be null or empty");
@@ -31,6 +32,25 @@ public record UpdateFarmCommand (int id, String farmName,
         if (certificates == null || certificates.isBlank()) {
             throw new IllegalArgumentException("certificates cannot be null or empty");
         }
+        if (image == null || image.isBlank()) {
+            throw new IllegalArgumentException("images cannot be null or empty");
+        }
+        if (profileId == 0) {
+            throw new IllegalArgumentException("profileId cannot be null or empty");
+        }
+        if (price == 0) {
+            throw new IllegalArgumentException("price cannot be null or empty");
+        }
+        if (Surface == null || Surface.isBlank()) {
+            throw new IllegalArgumentException("Surface cannot be null or empty");
+        }
+        if (product == null || product.isBlank()) {
+            throw new IllegalArgumentException("product cannot be null or empty");
+        }
+        if (highlights == null || highlights.isBlank()) {
+            throw new IllegalArgumentException("highlights cannot be null or empty");
+        }
+
 
     }
 }

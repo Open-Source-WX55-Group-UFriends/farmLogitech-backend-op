@@ -28,7 +28,7 @@ public class Expense extends AbstractAggregateRoot<Expense> {
     @Column(nullable = false)
     private double amount;
 
-    @NotNull(message = "La fecha es obligatoria")
+    @NotNull(message = "The date is mandatory")
     private LocalDate date;
 
     @Column(nullable = false)
