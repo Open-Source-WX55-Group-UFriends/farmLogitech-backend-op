@@ -28,16 +28,14 @@ public class Income extends AbstractAggregateRoot<Income> {
     @Column(nullable = false)
     private double amount;
 
-    @NotNull(message = "La fecha es obligatoria")
+    @NotNull(message = "The date is mandatory")
     private LocalDate date;
 
     @Column(nullable = false)
     private String period;
 
     public Income(CreateIncomeCommand command) {
-        if (command.category() != EIncomeCategory.SALES && command.category() != EIncomeCategory.SUBSIDES && command.category() != EIncomeCategory.OTHER) {
-            throw new IllegalArgumentException("Invalid category. Category must be SALES, SUBSIDES, or OTHER.");
-        }
+
         this.category = command.category();
         this.description = command.description();
         this.amount = command.amount();

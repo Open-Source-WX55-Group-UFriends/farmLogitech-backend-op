@@ -40,7 +40,8 @@ public class IncomeController {
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    @GetMapping
+    @GetMapping("/filter/Category-Date")
+
     public ResponseEntity<List<IncomeResource>> getAllIncomesByCategoryAndDate(
             @RequestParam EIncomeCategory category,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
