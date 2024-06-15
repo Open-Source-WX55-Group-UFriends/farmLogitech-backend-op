@@ -7,11 +7,10 @@ import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.infrastructure.p
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-@Service
 
+@Service
 public class ExpenseQueryServiceImpl implements ExpenseQueryService {
     private final ExpenseRepository expenseRepository;
-
 
     public ExpenseQueryServiceImpl(ExpenseRepository expenseRepository) {
         this.expenseRepository = expenseRepository;
@@ -19,7 +18,6 @@ public class ExpenseQueryServiceImpl implements ExpenseQueryService {
 
     @Override
     public List<Expense> handle(GetAllExpensesByCategoryAndDate query) {
-    return expenseRepository.findAllExpenseByCategoryAndDate(query.category(), query.date());
-
+        return expenseRepository.findAllByCategoryAndDate(query.category(), query.date());
     }
 }

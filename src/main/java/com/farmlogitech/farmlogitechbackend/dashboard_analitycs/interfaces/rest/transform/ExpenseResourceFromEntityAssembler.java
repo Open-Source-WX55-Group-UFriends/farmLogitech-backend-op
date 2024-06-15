@@ -5,6 +5,12 @@ import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces.rest.
 
 public class ExpenseResourceFromEntityAssembler {
     public static ExpenseResource toResourceFromEntity(Expense expense) {
-        return new ExpenseResource(expense.getCategory(), expense.getDescription(), expense.getAmount(), expense.getDate(), expense.getPeriod());
+        return new ExpenseResource(
+                expense.getCategory(),
+                expense.getDescription(),
+                expense.getAmount(),
+                expense.getDate(),
+                expense.getPeriod()
+        );
     }
 }

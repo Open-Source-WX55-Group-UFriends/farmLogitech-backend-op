@@ -4,11 +4,10 @@ import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.agg
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public interface IncomeRepository extends JpaRepository<Income, Integer> {
-List<Income> findAllIncomeByCategoryAndDate(String category, String date);
-
-
+    List<Income> findAllByCategoryAndDate(Income.IncomeCategory category, LocalDate date);
 }

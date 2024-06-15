@@ -19,8 +19,11 @@ public class ExpenseCommandServiceImpl implements ExpenseCommandService {
 
     @Override
     public Optional<Expense> handle(CreateExpenseCommand command) {
-        var Expense = new Expense(command);
-        var createdExpense = expenseRepository.save(Expense);
+        if (command.amount() <= 0) {
+            throw new IllegalArgumentException("El monto del gasto debe ser mayor a cero");
+        }
+        var expense = new Expense(command);
+        var createdExpense = expenseRepository.save(expense);
         return Optional.of(createdExpense);
     }
 }

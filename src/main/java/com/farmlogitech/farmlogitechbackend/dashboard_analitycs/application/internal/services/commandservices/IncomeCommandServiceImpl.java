@@ -19,11 +19,11 @@ public class IncomeCommandServiceImpl implements IncomeCommandService {
 
     @Override
     public Optional<Income> handle(CreateIncomeCommand command) {
-        var Income= new Income(command);
-        var createdIncome= incomeRepository.save(Income);
+        if (command.amount() <= 0) {
+            throw new IllegalArgumentException("El monto del ingreso debe ser mayor a cero");
+        }
+        var income = new Income(command);
+        var createdIncome = incomeRepository.save(income);
         return Optional.of(createdIncome);
     }
-
-
-
 }
