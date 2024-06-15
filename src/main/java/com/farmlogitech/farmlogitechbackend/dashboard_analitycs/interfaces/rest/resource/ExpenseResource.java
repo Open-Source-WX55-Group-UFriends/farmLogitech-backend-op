@@ -10,6 +10,7 @@ public record ExpenseResource(
         String description,
         double amount,
         LocalDate date,
-        String period
+        String period,
+        long farmId
 ) {
 }

@@ -33,6 +33,8 @@ public class Income extends AbstractAggregateRoot<Income> {
 
     @Column(nullable = false)
     private String period;
+    @Column(nullable = false)
+    private long farmId;
 
     public Income(CreateIncomeCommand command) {
 
@@ -41,6 +43,8 @@ public class Income extends AbstractAggregateRoot<Income> {
         this.amount = command.amount();
         this.date = command.date();
         this.period = command.period();
+        this.farmId= command.farmId();
+
     }
     public Income() {
     }

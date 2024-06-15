@@ -10,7 +10,8 @@ public class IncomeResourceFromEntityAssembler {
                 income.getDescription(),
                 income.getAmount(),
                 income.getDate(),
-                income.getPeriod()
+                income.getPeriod(),
+                income.getFarmId()
         );
     }
 }

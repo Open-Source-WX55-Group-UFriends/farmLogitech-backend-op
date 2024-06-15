@@ -11,7 +11,8 @@ public class CreateExpenseCommandFromResourceAssembler {
                 resource.description(),
                 resource.amount(),
                 resource.date(),
-                resource.period()
+                resource.period(),
+                resource.farmId()
         );
     }
 }

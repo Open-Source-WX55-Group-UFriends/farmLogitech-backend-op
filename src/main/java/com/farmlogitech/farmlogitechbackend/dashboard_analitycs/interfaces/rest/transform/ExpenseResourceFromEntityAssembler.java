@@ -10,7 +10,8 @@ public class ExpenseResourceFromEntityAssembler {
                 expense.getDescription(),
                 expense.getAmount(),
                 expense.getDate(),
-                expense.getPeriod()
+                expense.getPeriod(),
+                expense.getFarmId()
         );
     }
 }
