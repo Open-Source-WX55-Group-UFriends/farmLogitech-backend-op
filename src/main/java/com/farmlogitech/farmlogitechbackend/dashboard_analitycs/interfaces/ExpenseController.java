@@ -2,6 +2,7 @@ package com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces;
 
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.aggregates.Expense;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.queries.GetAllExpensesByCategoryAndDate;
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.valueobjects.EIExpenseCategory;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.services.ExpenseCommandService;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.services.ExpenseQueryService;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces.rest.resource.CreateExpenseResource;
@@ -39,9 +40,9 @@ public class ExpenseController {
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    @GetMapping
+    @GetMapping("/filter/Category-Date")
     public ResponseEntity<List<ExpenseResource>> getAllExpensesByCategoryAndDate(
-            @RequestParam Expense.ExpenseCategory category,
+            @RequestParam EIExpenseCategory category,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         var query = new GetAllExpensesByCategoryAndDate(category, date);
         var expenses = expenseQueryService.handle(query);

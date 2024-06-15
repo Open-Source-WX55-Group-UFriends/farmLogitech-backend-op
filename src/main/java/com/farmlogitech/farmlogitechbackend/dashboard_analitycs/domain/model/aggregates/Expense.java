@@ -1,6 +1,8 @@
 package com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.aggregates;
 
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.commands.CreateExpenseCommand;
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.valueobjects.EIExpenseCategory;
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.valueobjects.EIncomeCategory;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -19,8 +21,7 @@ public class Expense extends AbstractAggregateRoot<Expense> {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ExpenseCategory category;
-
+    private EIExpenseCategory category;
     @Column(nullable = false)
     private String description;
 
@@ -34,7 +35,7 @@ public class Expense extends AbstractAggregateRoot<Expense> {
     private String period;
 
     public Expense(CreateExpenseCommand command) {
-        this.category = ExpenseCategory.valueOf(command.category());
+        this.category = command.category();
         this.description = command.description();
         this.amount = command.amount();
         this.date = command.date();
@@ -44,7 +45,5 @@ public class Expense extends AbstractAggregateRoot<Expense> {
     public Expense() {
     }
 
-    public enum ExpenseCategory {
-        SALARIOS, INSUMOS, SERVICIOS, OTROS
-    }
+
 }
