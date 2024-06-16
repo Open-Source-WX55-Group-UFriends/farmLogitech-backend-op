@@ -1,6 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.tasks.interfaces;
 
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.aggregates.Task;
+import com.farmlogitech.farmlogitechbackend.tasks.domain.model.commands.DeleteTaskCommand;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.queries.GetAllTaksByFarmerIdQuery;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.queries.GetAllTasksByCollaboratorIdAndFarmerIdQuery;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.queries.GetAllTasksByCollaboratorIdQuery;
@@ -57,6 +58,13 @@ public class TaskController {
         var taskResources=tasks.stream().map(TaskResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(taskResources);
     }
+
+@DeleteMapping("/delete/{taskId}")
+    public ResponseEntity<?> deleteTask(@PathVariable Long taskId){
+    var deleteTaskCommand = new DeleteTaskCommand(taskId);
+    taskCommandService.handle(deleteTaskCommand);
+    return ResponseEntity.ok("Task given id successfully deleted");
+}
 
     /*
     // IMPLEMENT IN THE FUTURE @Rod

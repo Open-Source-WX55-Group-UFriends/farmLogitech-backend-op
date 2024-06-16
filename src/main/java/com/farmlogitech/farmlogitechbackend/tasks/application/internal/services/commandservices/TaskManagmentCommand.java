@@ -1,6 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.tasks.application.internal.services.commandservices;
 
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.aggregates.Task;
+import com.farmlogitech.farmlogitechbackend.tasks.domain.model.commands.DeleteTaskCommand;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.commands.commands.CreateTaskCommand;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.services.TaskCommandService;
 import com.farmlogitech.farmlogitechbackend.tasks.infrastructure.persistance.jpa.repositories.TaskRepository;
@@ -21,6 +22,19 @@ public class TaskManagmentCommand implements TaskCommandService {
         var task= new Task(command);
         taskRepository.save(task);
         return Optional.of(task);
+
+    }
+
+    @Override
+    public void handle(DeleteTaskCommand command) {
+        if(!taskRepository.existsById(command.taskId())){
+            throw new IllegalArgumentException("Task doesn't exist");
+        }
+        try{
+            taskRepository.deleteById(command.taskId());
+        } catch(Exception e){
+            throw new IllegalArgumentException("Error occured while deleting task" + e.getMessage());
+        }
 
     }
 }
