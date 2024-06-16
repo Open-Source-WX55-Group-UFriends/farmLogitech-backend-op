@@ -34,7 +34,7 @@ public class MessageCommandServiceImpl implements MessageCommandService {
         boolean isWorker = authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_FARMWORKER"));
 
         if (isFarmer) {
-            var newMessage = new Message(command.description(), command.collaboratorId(), userDetails.getId(), command.transmitterId() );
+            var newMessage = new Message(command.description(), command.collaboratorId(), userDetails.getId(), userDetails.getId() );
             var createNewMessage = messageRepository.save(newMessage);
             createNewMessage.setTransmitterId(userDetails.getId());
             return Optional.of(createNewMessage);
