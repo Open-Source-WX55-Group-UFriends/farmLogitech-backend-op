@@ -43,7 +43,7 @@ public class MessageController {
     }
     @GetMapping("/collaborator/{collaboratorId}")
     public ResponseEntity<List<MessageResource>> getAllMessagesByCollaboratorId(@PathVariable Long collaboratorId) {
-        var query = new GetAllMessagesByCollaboratorIdQuery(collaboratorId);
+        var query = new GetAllMessagesByCollaboratorIdAndFarmerIdQuery(collaboratorId,collaboratorId);
         var messages = messageQueryService.handle(query);
         var messageResources = messages.stream()
                 .map(MessageResourceFromEntityAssembler::toResourceFromEntity)

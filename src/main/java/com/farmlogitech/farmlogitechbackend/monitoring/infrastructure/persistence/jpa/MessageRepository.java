@@ -10,4 +10,6 @@ import java.util.List;
 public interface MessageRepository extends JpaRepository<Message, Long> {
     List<Message> findAllByCollaboratorId(Long collaboratorId);
     List<Message> findAllByCollaboratorIdAndFarmerId(Long collaboratorId, Long farmerId);
+    List<Message> findAllByCollaboratorIdAndTransmitterIdNot(Long collaboratorId, Long transmitterId);
+
 }

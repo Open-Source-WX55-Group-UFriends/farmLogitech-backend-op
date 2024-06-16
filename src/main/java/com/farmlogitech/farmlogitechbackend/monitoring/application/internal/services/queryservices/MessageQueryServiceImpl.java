@@ -1,10 +1,13 @@
 package com.farmlogitech.farmlogitechbackend.monitoring.application.internal.services.queryservices;
 
+import com.farmlogitech.farmlogitechbackend.iam.infrastructure.authorization.sfs.model.UserDetailsImpl;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.aggregates.Message;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetAllMessagesByCollaboratorIdAndFarmerIdQuery;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetAllMessagesByCollaboratorIdQuery;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.services.MessageQueryService;
 import com.farmlogitech.farmlogitechbackend.monitoring.infrastructure.persistence.jpa.MessageRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +27,10 @@ public class MessageQueryServiceImpl implements MessageQueryService {
 
     @Override
     public List<Message> handle(GetAllMessagesByCollaboratorIdAndFarmerIdQuery query) {
-        return messageRepository.findAllByCollaboratorIdAndFarmerId(query.collaboratorId(), query.farmerId());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Long authenticatedUserId = userDetails.getId();
+
+        return messageRepository.findAllByCollaboratorIdAndTransmitterIdNot(authenticatedUserId, authenticatedUserId);
     }
 }
