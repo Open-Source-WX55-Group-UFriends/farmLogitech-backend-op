@@ -42,6 +42,32 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
     }
 
     public Task(CreateTaskCommand command){
+        //Validating description length
+        if(command.description().length() >30)
+            throw new IllegalArgumentException("Description is too long");
+
+        //Validating not nulls
+        if (command.description() == null || command.description().trim().isEmpty() || command.description().length() > 30) {
+            throw new IllegalArgumentException("Description cannot be null, empty or more than 30 characters");
+        }
+        if (command.status() == null || command.status().trim().isEmpty()) {
+            throw new IllegalArgumentException("Status cannot be null or empty");
+        }
+        if (command.time() == 0) {
+            throw new IllegalArgumentException("Time cannot be 0");
+        }
+        if (command.collaboratorId() == null) {
+            throw new IllegalArgumentException("Collaborator ID cannot be null");
+        }
+        if (command.farmerId() == null) {
+            throw new IllegalArgumentException("Farmer ID cannot be null");
+        }
+        if (command.endDate() == null || command.endDate().trim().isEmpty()) {
+            throw new IllegalArgumentException("End date cannot be null or empty");
+        }
+
+
+        //building
         this.description =  command.description();
         this.status = command.status();
         this.timeTask = command.time();
@@ -68,7 +94,7 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
 
 
 
-
+//Try if the endpoint work without this:
 
     public Long getCollaboratorId() {
         return collaboratorId;
