@@ -30,7 +30,6 @@ public class SubscriptionCommandServiceImpl implements SubscriptionCommandServic
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
-        // Verificar si el usuario tiene el rol ROLE_FARMER o ROLE_OWNER
         boolean hasRequiredRole = authorities.stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_FARMER"));
 
@@ -40,7 +39,7 @@ public class SubscriptionCommandServiceImpl implements SubscriptionCommandServic
             subscriptionRepository.save(subscription);
             return Optional.of(subscription);
         } else {
-            throw new SecurityException("No estás autorizado para crear una suscripción");
+            throw new SecurityException(" Only farmers can create a subscription");
         }
     }
 
