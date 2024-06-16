@@ -1,7 +1,8 @@
 package com.farmlogitech.farmlogitechbackend.iam.domain.model.valueobjects;
 
 public enum Roles {
-    ROLE_USER,
+    ROLE_FARMER,
     ROLE_ADMIN,
-    ROLE_INSTRUCTOR
+    ROLE_FARMWORKER,
+    ROLE_OWNER
 }

@@ -43,4 +43,8 @@ public class UserDetailsImpl implements UserDetails {
                 .collect(Collectors.toList());
         return new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(), authorities); // Modify this line
     }
+
+    public boolean isFarmer() {
+        return authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_FARMER"));
+    }
 }
