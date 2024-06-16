@@ -9,7 +9,8 @@ public class MessageResourceFromEntityAssembler {
                 message.getId(),
                 message.getDescription(),
                 message.getCollaboratorId(),
-                message.getFarmerId()
+                message.getFarmerId(),
+                message.getTransmitterId()
         );
     }
 }

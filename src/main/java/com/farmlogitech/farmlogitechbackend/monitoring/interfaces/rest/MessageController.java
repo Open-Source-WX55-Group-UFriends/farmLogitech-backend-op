@@ -30,17 +30,17 @@ public class MessageController {
     }
 
     @PostMapping
-    public ResponseEntity<MessageResource> createStudent(@RequestBody CreateMessageResource resource) {
-        var createMessageCommand = CreateMessageCommandFromResourceAssembler.toCommandFromResource(resource);
-        var createMessage = messageCommandService.handle(createMessageCommand);
-        if (createMessage.isEmpty()) {
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<MessageResource> createMessage(@RequestBody CreateMessageResource resource) {
+        var command = CreateMessageCommandFromResourceAssembler.toCommandFromResource(resource);
+        var messageOptional = messageCommandService.handle(command);
+
+        if (messageOptional.isPresent()) {
+            var messageResource = MessageResourceFromEntityAssembler.toResourceFromEntity(messageOptional.get());
+            return ResponseEntity.status(HttpStatus.CREATED).body(messageResource);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        var messageResource = MessageResourceFromEntityAssembler.toResourceFromEntity(createMessage.get());
-        return new ResponseEntity<>(messageResource, HttpStatus.CREATED);
-
     }
-
     @GetMapping("/collaborator/{collaboratorId}")
     public ResponseEntity<List<MessageResource>> getAllMessagesByCollaboratorId(@PathVariable Long collaboratorId) {
         var query = new GetAllMessagesByCollaboratorIdQuery(collaboratorId);
