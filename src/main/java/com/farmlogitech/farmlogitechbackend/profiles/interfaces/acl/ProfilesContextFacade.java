@@ -15,7 +15,7 @@ public class ProfilesContextFacade {
         this.profileCommandService = profileCommandService;
         this.profileQueryService = profileQueryService;
     }
-
+/*
 
     public Long createProfile(String firstName, String lastName, String email, String direction, String documentNumber, String documentType) {
         var createProfileCommand = new CreateProfileCommand(firstName, lastName, email, direction, documentNumber, documentType);
@@ -24,6 +24,7 @@ public class ProfilesContextFacade {
         return profile.get().getId();
     }
 
+*/
 
 
 }
