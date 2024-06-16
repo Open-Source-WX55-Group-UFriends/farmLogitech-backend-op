@@ -6,6 +6,7 @@ import com.farmlogitech.farmlogitechbackend.tasks.interfaces.rest.resources.Task
 public class TaskResourceFromEntityAssembler {
     public static  TaskResource toResourceFromEntity(Task entity) {
         return new TaskResource(
+                entity.getId(),
                 entity.getDescription(),
                 entity.getStatus(),
                 entity.getTimeTask(),
