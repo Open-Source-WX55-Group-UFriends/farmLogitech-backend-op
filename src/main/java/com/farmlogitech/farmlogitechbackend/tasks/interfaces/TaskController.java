@@ -1,10 +1,5 @@
 package com.farmlogitech.farmlogitechbackend.tasks.interfaces;
 
-import com.farmlogitech.farmlogitechbackend.subscription.domain.model.aggregates.Subscription;
-import com.farmlogitech.farmlogitechbackend.subscription.interfaces.rest.resources.CreateSubscriptionResource;
-import com.farmlogitech.farmlogitechbackend.subscription.interfaces.rest.resources.SubscriptionResource;
-import com.farmlogitech.farmlogitechbackend.subscription.interfaces.rest.transform.CreateSubscriptionCommandFromResourceAssembler;
-import com.farmlogitech.farmlogitechbackend.subscription.interfaces.rest.transform.SubscriptionResourceFromEntityAssembler;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.aggregates.Task;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.queries.GetAllTaksByFarmerIdQuery;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.queries.GetAllTasksByCollaboratorIdAndFarmerIdQuery;

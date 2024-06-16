@@ -6,7 +6,7 @@ public record UpdateFarmResource (int id, String farmName,
                                   String infrastructure,
                                   String services,
                                   String status,
-                                  String certificates, String image, long ProfileId){
+                                  String certificates, String image, long ProfileId, double price, String Surface, String product, String highlights){
     public UpdateFarmResource {
 
         if (farmName == null || farmName.isBlank()) {

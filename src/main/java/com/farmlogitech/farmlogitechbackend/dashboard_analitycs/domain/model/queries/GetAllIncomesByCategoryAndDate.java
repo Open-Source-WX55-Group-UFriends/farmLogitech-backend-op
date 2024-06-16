@@ -1,5 +1,9 @@
 package com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.queries;
 
-public record GetAllIncomesByCategoryAndDate(String category, String date){
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.aggregates.Income;
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.valueobjects.EIncomeCategory;
 
+import java.time.LocalDate;
+
+public record GetAllIncomesByCategoryAndDate(EIncomeCategory category, LocalDate date) {
 }

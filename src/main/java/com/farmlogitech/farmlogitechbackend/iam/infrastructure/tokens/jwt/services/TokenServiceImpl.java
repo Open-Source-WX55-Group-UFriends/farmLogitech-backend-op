@@ -1,6 +1,6 @@
 package com.farmlogitech.farmlogitechbackend.iam.infrastructure.tokens.jwt.services;
 
-
+import com.farmlogitech.farmlogitechbackend.iam.infrastructure.authorization.sfs.model.UserDetailsImpl;
 import com.farmlogitech.farmlogitechbackend.iam.infrastructure.tokens.jwt.BearerTokenService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -21,6 +22,7 @@ import java.util.function.Function;
 
 @Service
 public class TokenServiceImpl implements BearerTokenService {
+
     private final Logger LOGGER = LoggerFactory.getLogger(TokenServiceImpl.class);
     private static final String AUTHORIZATION_PARAMETER_NAME = "Authorization";
     private static final String BEARER_TOKEN_PREFIX = "Bearer ";
@@ -42,15 +44,15 @@ public class TokenServiceImpl implements BearerTokenService {
 
     @Override
     public String generateToken(Authentication authentication) {
-        return buildTokenWithDefaultParameters(authentication.getName());
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        Long userId = ((UserDetailsImpl) userDetails).getId(); // Get the user's ID from UserDetailsImpl
+        return buildTokenWithDefaultParameters(userDetails.getUsername(), userId);
     }
-
-
-
 
     @Override
     public String generateToken(String username) {
-        return buildTokenWithDefaultParameters(username);
+        // This method might need to be updated to include the user's ID
+        return buildTokenWithDefaultParameters(username, null);
     }
 
     @Override
@@ -85,12 +87,13 @@ public class TokenServiceImpl implements BearerTokenService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    private String buildTokenWithDefaultParameters(String username) {
+    private String buildTokenWithDefaultParameters(String username, Long userId) {
         var issuedAt = new Date();
         var expiration = DateUtils.addDays(issuedAt, expirationDays);
         var key = getSigningKey();
         return Jwts.builder()
                 .subject(username)
+                .claim("userId", userId) // Include the user's ID in the token
                 .issuedAt(issuedAt)
                 .expiration(expiration)
                 .signWith(key)
@@ -121,5 +124,4 @@ public class TokenServiceImpl implements BearerTokenService {
     private String getAuthorizationParameterFrom(HttpServletRequest request) {
         return request.getHeader(AUTHORIZATION_PARAMETER_NAME);
     }
-
 }

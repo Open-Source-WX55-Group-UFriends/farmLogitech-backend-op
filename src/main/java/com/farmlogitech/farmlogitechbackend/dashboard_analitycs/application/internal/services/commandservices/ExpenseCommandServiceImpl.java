@@ -2,6 +2,7 @@ package com.farmlogitech.farmlogitechbackend.dashboard_analitycs.application.int
 
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.aggregates.Expense;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.commands.CreateExpenseCommand;
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.valueobjects.EIExpenseCategory;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.services.ExpenseCommandService;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.infrastructure.persistence.jpa.ExpenseRepository;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,14 @@ public class ExpenseCommandServiceImpl implements ExpenseCommandService {
 
     @Override
     public Optional<Expense> handle(CreateExpenseCommand command) {
-        var Expense = new Expense(command);
-        var createdExpense = expenseRepository.save(Expense);
+        if (command.amount() <= 0) {
+            throw new IllegalArgumentException("The income amount must be greater than zero");
+        }
+        if (command.category() != EIExpenseCategory.SERVICES && command.category() != EIExpenseCategory.SUPPLIES && command.category() != EIExpenseCategory.OTHER && command.category() != EIExpenseCategory.LABOR && command.category() != EIExpenseCategory.MAINTENANCE) {
+            throw new IllegalArgumentException("Invalid category. Category must be SERVICES, SUPPLIES, LABOR, MAINTENANCE, or OTHER.");
+        }
+        var expense = new Expense(command);
+        var createdExpense = expenseRepository.save(expense);
         return Optional.of(createdExpense);
     }
 }

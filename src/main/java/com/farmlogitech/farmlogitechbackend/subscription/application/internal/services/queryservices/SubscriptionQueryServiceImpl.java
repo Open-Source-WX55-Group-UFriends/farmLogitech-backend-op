@@ -1,6 +1,6 @@
 package com.farmlogitech.farmlogitechbackend.subscription.application.internal.services.queryservices;
 
-import com.farmlogitech.farmlogitechbackend.farms.domain.model.aggregates.Farm;
+
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.aggregates.Subscription;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.queries.GetAllSubscriptionQuery;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.queries.GetSubscriptionByIdQuery;

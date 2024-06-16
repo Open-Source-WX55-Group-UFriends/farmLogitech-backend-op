@@ -1,7 +1,6 @@
 package com.farmlogitech.farmlogitechbackend.subscription.domain.model.aggregates;
 
 import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
-import com.farmlogitech.farmlogitechbackend.subscription.domain.model.commands.UpdateSubscriptionCommand;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 

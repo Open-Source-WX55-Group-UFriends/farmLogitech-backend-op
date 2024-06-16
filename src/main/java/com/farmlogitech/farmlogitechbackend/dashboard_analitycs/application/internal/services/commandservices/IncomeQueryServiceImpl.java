@@ -17,10 +17,8 @@ public class IncomeQueryServiceImpl implements IncomeQueryService {
         this.incomeRepository = incomeRepository;
     }
 
- @Override
+    @Override
     public List<Income> handle(GetAllIncomesByCategoryAndDate query) {
-       return incomeRepository.findAllIncomeByCategoryAndDate(query.category(),query.date());
+        return incomeRepository.findAllByCategoryAndDate(query.category(), query.date());
     }
-
-
 }

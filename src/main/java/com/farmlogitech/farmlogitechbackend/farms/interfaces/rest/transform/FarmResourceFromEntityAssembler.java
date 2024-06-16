@@ -12,7 +12,7 @@ public class FarmResourceFromEntityAssembler {
                 entity.getInfrastructure(),
                 entity.getServices(),
                 entity.getStatus(),
-                entity.getCertificates(), entity.getImage(), entity.getProfileId());
+                entity.getCertificates(), entity.getImage(), entity.getProfileId(), entity.getPrice(), entity.getSurface(), entity.getProduct(), entity.getHighlights());
 
     }
 

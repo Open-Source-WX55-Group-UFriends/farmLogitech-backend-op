@@ -4,7 +4,14 @@ import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.agg
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces.rest.resource.IncomeResource;
 
 public class IncomeResourceFromEntityAssembler {
-    public static IncomeResource toResourceFromEntity(Income entity){
-        return new IncomeResource(entity.getCategory(), entity.getDescription(), entity.getAmount(), entity.getDate(), entity.getPeriod());
+    public static IncomeResource toResourceFromEntity(Income income) {
+        return new IncomeResource(
+                income.getCategory(),
+                income.getDescription(),
+                income.getAmount(),
+                income.getDate(),
+                income.getPeriod(),
+                income.getFarmId()
+        );
     }
 }

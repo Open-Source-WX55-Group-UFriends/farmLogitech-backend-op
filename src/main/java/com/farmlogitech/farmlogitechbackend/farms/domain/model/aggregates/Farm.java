@@ -4,6 +4,7 @@ import com.farmlogitech.farmlogitechbackend.farms.domain.model.commands.CreateFa
 import com.farmlogitech.farmlogitechbackend.farms.domain.model.commands.UpdateFarmCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -11,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 
+@Setter
 @Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -36,6 +38,14 @@ public class Farm extends AbstractAggregateRoot<Farm> {
     private String image;
     @Column(nullable = false)
     private long profileId;
+    @Column(nullable = false)
+   private double price;
+    @Column(nullable = false)
+    private String Surface;
+    @Column(nullable = false)
+    private String product;
+    @Column(nullable = false)
+    private String highlights;
 
     protected Farm() {
 
@@ -50,6 +60,10 @@ public Farm(CreateFarmCommand command) {
     this.certificates=command.certificates();
     this.image=command.image();
     this.profileId=command.profileId();
+    this.price=command.price();
+    this.Surface=command.Surface();
+    this.product=command.product();
+    this.highlights=command.highlights();
 
 
 }
@@ -63,44 +77,17 @@ public Farm(CreateFarmCommand command) {
         this.certificates=command.certificates();
         this.image=command.image();
         this.profileId=command.profileId();
+        this.price=command.price();
+        this.Surface=command.Surface();
+        this.product=command.product();
+        this.highlights=command.highlights();
 
 
         return null;
     }
 
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setFarmName(String farmName) {
-        this.farmName = farmName;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setInfrastructure(String infrastructure) {
-        this.infrastructure = infrastructure;
-    }
-
-    public void setServices(String services) {
-        this.services = services;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setCertificates(String certificates) {
-        this.certificates = certificates;
-    }
-    public void setImage(String image) {
-        this.image = image;
+    public void setProfileId(long profileId) {
+        this.profileId = profileId;
     }
 }

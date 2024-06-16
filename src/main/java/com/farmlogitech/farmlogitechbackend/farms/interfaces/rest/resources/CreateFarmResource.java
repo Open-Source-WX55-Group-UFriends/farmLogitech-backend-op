@@ -6,7 +6,7 @@ public record CreateFarmResource( String farmName,
                                  String infrastructure,
                                  String services,
                                  String status,
-                                 String certificates, String image, Long profileId){
+                                 String certificates, String image, Long profileId , double price, String Surface, String product, String highlights){
     public CreateFarmResource {
 
         if (farmName == null || farmName.isBlank()) {
@@ -35,6 +35,24 @@ public record CreateFarmResource( String farmName,
         if (image == null || image.isBlank()) {
             throw new IllegalArgumentException("image cannot be null or empty");
         }
+
+        if (profileId == null) {
+            throw new IllegalArgumentException("profileId cannot be null or empty");
+        }
+        if (price == 0) {
+            throw new IllegalArgumentException("price cannot be null or empty");
+        }
+        if (Surface == null || Surface.isBlank()) {
+            throw new IllegalArgumentException("Surface cannot be null or empty");
+        }
+        if (product == null || product.isBlank()) {
+            throw new IllegalArgumentException("product cannot be null or empty");
+        }
+        if (highlights == null || highlights.isBlank()) {
+            throw new IllegalArgumentException("highlights cannot be null or empty");
+        }
+
+
     }
 
 

@@ -80,6 +80,7 @@ public class WebSecurityConfiguration {
                                 "/api/v1/authentication/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html",
+                                "/swagger-ui/index.html",
                                 "/swagger-ui/**",
                                 "/swagger-resources/**",
                                 "/webjars/**"

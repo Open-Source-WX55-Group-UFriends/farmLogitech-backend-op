@@ -1,4 +1,9 @@
 package com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.queries;
 
-public record GetAllExpensesByCategoryAndDate(String category, String date) {
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.aggregates.Expense;
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.valueobjects.EIExpenseCategory;
+
+import java.time.LocalDate;
+
+public record GetAllExpensesByCategoryAndDate(EIExpenseCategory category, LocalDate date) {
 }

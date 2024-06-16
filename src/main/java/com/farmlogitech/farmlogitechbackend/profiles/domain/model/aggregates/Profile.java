@@ -4,7 +4,9 @@ import com.farmlogitech.farmlogitechbackend.profiles.domain.model.commands.Creat
 import com.farmlogitech.farmlogitechbackend.profiles.domain.model.valueobjects.PersonName;
 import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
+import lombok.Getter;
 
+@Getter
 @Entity
 public class Profile extends AuditableAbstractAggregateRoot<Profile> {
     @Embedded
@@ -17,6 +19,7 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
     private String documentNumber;
     @Column(nullable = false)
     private String documentType;
+    private Long userId;
 
 
 
@@ -26,16 +29,15 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
         this.direction=direction;
         this.documentNumber=documentNumber;
         this.documentType=documentType;
-
     }
 
-    public Profile(CreateProfileCommand command) {
+    public Profile(CreateProfileCommand command, Long userId) {
         this.name = new PersonName(command.firstName(), command.lastName());
         this.email = command.email();
-        this.direction=command.direction();
-        this.documentNumber=command.documentNumber();
-        this.documentType=command.documentType();
-
+        this.direction = command.direction();
+        this.documentNumber = command.documentNumber();
+        this.documentType = command.documentType();
+        this.userId = userId;
     }
     public Profile() {
 
@@ -49,23 +51,7 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
     public String getFullName() { return name.getFullName(); }
 
 
-    public PersonName getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getDirection() {
-        return direction;
-    }
-
-    public String getDocumentNumber() {
-        return documentNumber;
-    }
-
-    public String getDocumentType() {
-        return documentType;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
