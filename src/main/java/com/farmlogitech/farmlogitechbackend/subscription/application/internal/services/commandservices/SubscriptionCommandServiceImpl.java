@@ -1,7 +1,4 @@
 package com.farmlogitech.farmlogitechbackend.subscription.application.internal.services.commandservices;
-
-
-import com.farmlogitech.farmlogitechbackend.profiles_managment.application.internal.outboundservices.acl.ExternalProfileService;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.aggregates.Subscription;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.commands.CreateSubscriptionCommand;
 import com.farmlogitech.farmlogitechbackend.subscription.domain.model.commands.UpdateSubscriptionCommand;
@@ -15,12 +12,10 @@ import java.util.Optional;
 public class SubscriptionCommandServiceImpl implements SubscriptionCommandService {
 
     private final SubscriptionRepository subscriptionRepository;
-    private final ExternalProfileService externalProfileService;
 
-    public SubscriptionCommandServiceImpl(SubscriptionRepository subscriptionRepository, ExternalProfileService externalProfileService)
+    public SubscriptionCommandServiceImpl(SubscriptionRepository subscriptionRepository)
     {
         this.subscriptionRepository = subscriptionRepository;
-        this.externalProfileService = externalProfileService;
     }
 
 
