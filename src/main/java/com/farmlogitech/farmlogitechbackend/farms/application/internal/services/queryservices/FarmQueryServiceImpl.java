@@ -43,4 +43,9 @@ public class FarmQueryServiceImpl implements FarmQueryService {
     public List<Farm> handle(GetAllFarmByProfileId query) {
         return farmRepository.findAllFarmsByProfileId(query.profileId());
     }
+
+    @Override
+    public Optional<Farm> handle(GetFarmIdByProfileId query) {
+        return farmRepository.findByProfileId(query.userId());
+    }
 }

@@ -21,15 +21,19 @@ public class Employee {
     @Column(nullable = false)
 
     private String position;
+    @Column(nullable = false)
+
+    private long farmId;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    public Employee(String name, String phone, String username, String password, String position) {
+    public Employee(String name, String phone, String username, String password, String position, long farmId) {
         this.name = name;
         this.phone = phone;
         this.username = username;
         this.password = password;
         this.position = position;
+        this.farmId = farmId;
     }
 
     public Employee() {
@@ -63,4 +67,13 @@ public class Employee {
     public String getPosition() {
         return position;
     }
+
+    public long getFarmId() {
+        return farmId;
+    }
+
+    public void setFarmId(long farmId) {
+        this.farmId = farmId;
+    }
+
 }

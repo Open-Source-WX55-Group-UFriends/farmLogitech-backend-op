@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface FarmRepository extends JpaRepository<Farm, Integer>{
     List<Farm> findAllByLocation(String location);
     Optional<Farm> findById(Integer id);
+    Optional<Farm> findByProfileId(long profileId);
     List<Farm>findByFarmName(String name);
     List<Farm>findAllFarmsByProfileId(Long Id);
     @Modifying

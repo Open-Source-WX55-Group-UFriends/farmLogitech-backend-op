@@ -90,4 +90,14 @@ public Farm(CreateFarmCommand command) {
     public void setProfileId(long profileId) {
         this.profileId = profileId;
     }
+
+    public long getUserId() {
+        return profileId;
+    }
+
+
+
+    public int getId() {
+        return id;
+    }
 }
