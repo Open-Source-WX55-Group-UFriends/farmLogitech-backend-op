@@ -21,6 +21,8 @@ public class TaskManagmentCommand implements TaskCommandService {
 
         var task= new Task(command);
         taskRepository.save(task);
+        //validation from the aggregate
+        task.validateEndDate();
         return Optional.of(task);
 
     }

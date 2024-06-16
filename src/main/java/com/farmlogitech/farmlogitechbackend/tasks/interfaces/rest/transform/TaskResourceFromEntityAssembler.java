@@ -10,7 +10,7 @@ public class TaskResourceFromEntityAssembler {
                 entity.getDescription(),
                 entity.getStatus(),
                 entity.getTimeTask(),
-                entity.getDescription(),
+                entity.getEndDate(),
                 entity.getCollaboratorId(),
                 entity.getFarmerId());
     }
