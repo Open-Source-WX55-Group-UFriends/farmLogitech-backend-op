@@ -59,4 +59,8 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isFarmWorker() {
         return authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_FARMWORKER"));
     }
+
+    public Long getUserDetailsId(){
+        return this.id;
+    }
 }

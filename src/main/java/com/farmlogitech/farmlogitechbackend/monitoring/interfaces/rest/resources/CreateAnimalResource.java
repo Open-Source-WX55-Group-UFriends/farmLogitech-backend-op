@@ -3,7 +3,7 @@ package com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.resource
 public record CreateAnimalResource(String shed,
                                    Integer age,
                                    String location,
-                                   String healthCondition) {
+                                   String healthCondition, Long farmId) {
     public CreateAnimalResource {
         if (shed == null || shed.isBlank()) {
             throw new IllegalArgumentException("Shed cannot be null or empty");

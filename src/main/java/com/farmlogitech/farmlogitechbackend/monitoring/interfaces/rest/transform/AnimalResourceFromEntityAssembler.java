@@ -9,7 +9,9 @@ public class AnimalResourceFromEntityAssembler {
                 entity.getShed(),
                 entity.getAge(),
                 entity.getLocation(),
-                entity.getHealthCondition());
+                entity.getHealthCondition(),
+                entity.getUserId(),
+                entity.getFarmId());
     }
 }
 

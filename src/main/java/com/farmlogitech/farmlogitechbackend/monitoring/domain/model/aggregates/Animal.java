@@ -24,6 +24,10 @@ public class Animal extends AbstractAggregateRoot<Animal> {
     private String location;
     @Column(nullable = false)
     private String healthCondition;
+    @Column(nullable = false)
+    private Long userId;
+    @Column(nullable = false)
+    private Long farmId;
 
     protected Animal(){}
 
@@ -32,6 +36,17 @@ public class Animal extends AbstractAggregateRoot<Animal> {
         this.age = command.age();
         this.location = command.location();
         this.healthCondition = command.healthCondition();
+        this.userId = command.userId();
+        this.farmId = command.farmId();
+    }
+
+    public Animal(String shed, Integer age, String location, String healthCondition, Long userId, long farmId) {
+        this.shed = shed;
+        this.age = age;
+        this.location = location;
+        this.healthCondition = healthCondition;
+        this.userId = userId;
+        this.farmId = farmId;
     }
 
     public void setId(long id) {
@@ -52,5 +67,13 @@ public class Animal extends AbstractAggregateRoot<Animal> {
 
     public void setHealthCondition(String healthCondition) {
         this.healthCondition = healthCondition;
+    }
+
+    public long getFarmId() {
+        return farmId;
+    }
+
+    public void setFarmId(long farmId) {
+        this.farmId = farmId;
     }
 }

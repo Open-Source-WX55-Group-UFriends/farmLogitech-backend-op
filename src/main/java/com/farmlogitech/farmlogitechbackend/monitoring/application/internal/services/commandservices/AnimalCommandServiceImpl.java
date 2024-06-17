@@ -1,5 +1,6 @@
 package com.farmlogitech.farmlogitechbackend.monitoring.application.internal.services.commandservices;
 
+import com.farmlogitech.farmlogitechbackend.iam.application.internal.outboundservices.acl.ExternalFarmService;
 import com.farmlogitech.farmlogitechbackend.iam.infrastructure.authorization.sfs.model.UserDetailsImpl;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.aggregates.Animal;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.commands.CreateAnimalCommand;
@@ -14,11 +15,14 @@ import java.util.Optional;
 
 @Service
 public class AnimalCommandServiceImpl implements AnimalCommandService {
-    private AnimalRepository animalRepository;
+    private final AnimalRepository animalRepository;
+    private final ExternalFarmService externalFarmService;
 
-    public AnimalCommandServiceImpl(AnimalRepository animalRepository)
+    public AnimalCommandServiceImpl(AnimalRepository animalRepository, ExternalFarmService externalFarmService)
     {
+
         this.animalRepository = animalRepository;
+        this.externalFarmService = externalFarmService;
     }
 
     @Override
@@ -30,11 +34,9 @@ public class AnimalCommandServiceImpl implements AnimalCommandService {
         if (!userDetails.isFarmer()) {
             throw new IllegalStateException("Only farmers and workers can create an animal save");
         }
-        if (!userDetails.isFarmWorker()) {
-            throw new IllegalStateException("Only farmers and workers can create an animal save");
-        }
 
-        var newAnimal = new Animal(command);
+        long farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
+        var newAnimal = new Animal(command.shed(), command.age(), command.location(), command.healthCondition(), command.userId(), farmId);
         var createdAnimal = animalRepository.save(newAnimal);
         return Optional.of(createdAnimal);
     }
