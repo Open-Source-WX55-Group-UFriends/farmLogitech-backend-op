@@ -8,7 +8,9 @@ public class CropResourceFromEntityAssembler {
         return new CropResource(entity.getId(),
                 entity.getShed(),
                 entity.getTypeCrop(),
-                entity.getSeedtime());
+                entity.getSeedtime(),
+                entity.getUserId(),
+                entity.getFarmId());
     }
 }
 

@@ -20,7 +20,6 @@ public class AnimalCommandServiceImpl implements AnimalCommandService {
 
     public AnimalCommandServiceImpl(AnimalRepository animalRepository, ExternalFarmService externalFarmService)
     {
-
         this.animalRepository = animalRepository;
         this.externalFarmService = externalFarmService;
     }

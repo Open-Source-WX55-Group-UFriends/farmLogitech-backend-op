@@ -3,6 +3,6 @@ package com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.resource
 public record CropResource(long id,
                            String shed,
                            String typeCrop,
-                           String seedtime) {
+                           String seedtime, Long userId, Long farmId) {
 }
 

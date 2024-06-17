@@ -21,6 +21,10 @@ public class Crop extends AbstractAggregateRoot<Crop> {
     private String typeCrop;
     @Column(nullable = false)
     private String seedtime;
+    @Column(nullable = false)
+    private Long userId;
+    @Column(nullable = false)
+    private Long farmId;
 
     protected Crop(){}
 
@@ -28,6 +32,14 @@ public class Crop extends AbstractAggregateRoot<Crop> {
         this.shed = command.shed();
         this.typeCrop = command.typeCrop();
         this.seedtime = command.seedtime();
+    }
+
+    public Crop(String shed, String typeCrop, String seedtime, Long userId, Long farmId) {
+        this.shed = shed;
+        this.typeCrop = typeCrop;
+        this.seedtime = seedtime;
+        this.userId = userId;
+        this.farmId = farmId;
     }
 
     public void setId(long id) {
@@ -44,6 +56,14 @@ public class Crop extends AbstractAggregateRoot<Crop> {
 
     public void setSeedtime(String seedtime) {
         this.seedtime = seedtime;
+    }
+
+    public long getFarmId() {
+        return farmId;
+    }
+
+    public void setFarmId(long farmId) {
+        this.farmId = farmId;
     }
 
 }
