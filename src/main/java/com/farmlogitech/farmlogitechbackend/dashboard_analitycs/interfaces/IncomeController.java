@@ -2,6 +2,7 @@ package com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces;
 
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.aggregates.Income;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.queries.GetAllIncomesByCategoryAndDate;
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.queries.GetAllIncomesByFarmId;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.valueobjects.EIncomeCategory;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.services.IncomeCommandService;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.services.IncomeQueryService;
@@ -65,4 +66,26 @@ public class IncomeController {
                 .toList();
         return ResponseEntity.ok(incomeResources);
     }
+
+
+
+    @PreAuthorize("hasAuthority('ROLE_FARMER')")
+    @GetMapping("/filter/all")
+    public ResponseEntity<List<IncomeResource>> getAllIncomesByFarmId(){
+        // Get the authenticated user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        long farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
+
+        var query = new GetAllIncomesByFarmId(farmId);
+        var incomes = incomeQueryService.handle(query);
+        var incomeResources = incomes.stream()
+                .filter(income -> income.getFarmId() == farmId) // Filter the incomes by the authenticated user's farmId
+                .map(IncomeResourceFromEntityAssembler::toResourceFromEntity)
+                .toList();
+        return ResponseEntity.ok(incomeResources);
+    }
+
+
+
 }

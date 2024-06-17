@@ -1,6 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces;
 
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.aggregates.Expense;
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.queries.GetAllExpenseByFarmId;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.queries.GetAllExpensesByCategoryAndDate;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.valueobjects.EIExpenseCategory;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.services.ExpenseCommandService;
@@ -66,4 +67,22 @@ public class ExpenseController {
                 .toList();
         return ResponseEntity.ok(expenseResources);
     }
+
+    @PreAuthorize("hasAuthority('ROLE_FARMER')")
+    @GetMapping("/filter/all")
+    public ResponseEntity<List<ExpenseResource>> getAllExpensesByFarmId() {
+        // Get the authenticated user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        long farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
+
+        var query = new GetAllExpenseByFarmId(farmId);
+        var expenses = expenseQueryService.handle(query);
+        var expenseResources = expenses.stream()
+                .filter(expense -> expense.getFarmId() == farmId) // Filter the expenses by the authenticated user's farmId
+                .map(ExpenseResourceFromEntityAssembler::toResourceFromEntity)
+                .toList();
+        return ResponseEntity.ok(expenseResources);
+    }
+
 }
