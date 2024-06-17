@@ -9,10 +9,15 @@ import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces.rest.
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces.rest.resource.IncomeResource;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces.rest.transform.CreateIncomeCommandFromResourceAssembler;
 import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces.rest.transform.IncomeResourceFromEntityAssembler;
+import com.farmlogitech.farmlogitechbackend.iam.application.internal.outboundservices.acl.ExternalFarmService;
+import com.farmlogitech.farmlogitechbackend.iam.infrastructure.authorization.sfs.model.UserDetailsImpl;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -26,10 +31,12 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class IncomeController {
     private final IncomeCommandService incomeCommandService;
     private final IncomeQueryService incomeQueryService;
+    private final ExternalFarmService externalFarmService;
 
-    public IncomeController(IncomeCommandService incomeCommandService, IncomeQueryService incomeQueryService) {
+    public IncomeController(IncomeCommandService incomeCommandService, IncomeQueryService incomeQueryService, ExternalFarmService externalFarmService) {
         this.incomeCommandService = incomeCommandService;
         this.incomeQueryService = incomeQueryService;
+        this.externalFarmService = externalFarmService;
     }
 
     @PostMapping
@@ -40,14 +47,20 @@ public class IncomeController {
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
+    @PreAuthorize("hasAuthority('ROLE_FARMER')")
     @GetMapping("/filter/Category-Date")
-
     public ResponseEntity<List<IncomeResource>> getAllIncomesByCategoryAndDate(
             @RequestParam EIncomeCategory category,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        // Get the authenticated user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        long farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
+
         var query = new GetAllIncomesByCategoryAndDate(category, date);
         var incomes = incomeQueryService.handle(query);
         var incomeResources = incomes.stream()
+                .filter(income -> income.getFarmId() == farmId) // Filter the incomes by the authenticated user's farmId
                 .map(IncomeResourceFromEntityAssembler::toResourceFromEntity)
                 .toList();
         return ResponseEntity.ok(incomeResources);
