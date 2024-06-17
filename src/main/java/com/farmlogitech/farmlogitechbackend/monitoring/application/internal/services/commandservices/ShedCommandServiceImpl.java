@@ -1,5 +1,6 @@
 package com.farmlogitech.farmlogitechbackend.monitoring.application.internal.services.commandservices;
 
+import com.farmlogitech.farmlogitechbackend.iam.application.internal.outboundservices.acl.ExternalFarmService;
 import com.farmlogitech.farmlogitechbackend.iam.infrastructure.authorization.sfs.model.UserDetailsImpl;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.aggregates.Shed;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.commands.CreateShedCommand;
@@ -13,11 +14,13 @@ import java.util.Optional;
 
 @Service
 public class ShedCommandServiceImpl implements ShedCommandService {
-    private ShedRepository shedRepository;
+    private final ShedRepository shedRepository;
+    private final ExternalFarmService externalFarmService;
 
-    public ShedCommandServiceImpl(ShedRepository shedRepository)
+    public ShedCommandServiceImpl(ShedRepository shedRepository, ExternalFarmService externalFarmService)
     {
         this.shedRepository = shedRepository;
+        this.externalFarmService = externalFarmService;
     }
 
     @Override
@@ -29,12 +32,9 @@ public class ShedCommandServiceImpl implements ShedCommandService {
         if (!userDetails.isFarmer()) {
             throw new IllegalStateException("Only farmers and workers can create a shed save");
         }
-        if (!userDetails.isFarmWorker()) {
-            throw new IllegalStateException("Only farmers and workers can create a shed save");
-        }
 
-
-        var newShed = new Shed(command);
+        long farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
+        var newShed = new Shed(command.shedName(), command.typeShed(), command.specie(), command.userId(), farmId);
         var createdShed = shedRepository.save(newShed);
         return Optional.of(createdShed);
     }

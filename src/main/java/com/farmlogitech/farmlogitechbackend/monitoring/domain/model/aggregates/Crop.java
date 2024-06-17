@@ -34,7 +34,7 @@ public class Crop extends AbstractAggregateRoot<Crop> {
         this.seedtime = command.seedtime();
     }
 
-    public Crop(String shed, String typeCrop, String seedtime, Long userId, Long farmId) {
+    public Crop(String shed, String typeCrop, String seedtime, Long userId, long farmId) {
         this.shed = shed;
         this.typeCrop = typeCrop;
         this.seedtime = seedtime;
