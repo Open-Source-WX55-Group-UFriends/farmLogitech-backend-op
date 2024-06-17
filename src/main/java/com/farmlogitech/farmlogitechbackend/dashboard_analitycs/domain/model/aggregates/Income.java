@@ -50,4 +50,59 @@ public class Income extends AbstractAggregateRoot<Income> {
     }
 
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public EIncomeCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(EIncomeCategory category) {
+        this.category = category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public @NotNull(message = "The date is mandatory") LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(@NotNull(message = "The date is mandatory") LocalDate date) {
+        this.date = date;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(String period) {
+        this.period = period;
+    }
+
+    public long getFarmId() {
+        return farmId;
+    }
+
+    public void setFarmId(long farmId) {
+        this.farmId = farmId;
+    }
 }
