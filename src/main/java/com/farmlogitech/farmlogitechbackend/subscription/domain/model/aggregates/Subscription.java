@@ -49,4 +49,8 @@ public class Subscription extends AuditableAbstractAggregateRoot<Subscription> {
     public Long getProfileId() {
         return profileId;
     }
+
+    public void setPaid(boolean b) {
+        this.paid=b;
+    }
 }

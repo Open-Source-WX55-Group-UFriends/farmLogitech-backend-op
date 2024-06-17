@@ -3,6 +3,6 @@ package com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.resource
 public record ShedResource(long id,
                            String shedName,
                            String typeShed,
-                           String specie) {
+                           String specie, Long userId, Long farmId) {
 }
 

@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @Getter
 @EqualsAndHashCode
 public class UserDetailsImpl implements UserDetails {
+    private final Long id; // Add this line
 
     private final String username;
     @JsonIgnore
@@ -24,8 +25,9 @@ public class UserDetailsImpl implements UserDetails {
     private final boolean enabled;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(String username, String password,
+    public UserDetailsImpl(Long id, String username, String password,
                            Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.authorities = authorities;
@@ -39,6 +41,26 @@ public class UserDetailsImpl implements UserDetails {
         var authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getStringName()))
                 .collect(Collectors.toList());
-        return new UserDetailsImpl(user.getUsername(), user.getPassword(), authorities);
+        return new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(), authorities); // Modify this line
+    }
+
+    public boolean isFarmer() {
+        return authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_FARMER"));
+    }
+
+    public boolean isAdmin() {
+        return authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+    }
+
+    public boolean isOwner() {
+        return authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_OWNER"));
+    }
+
+    public boolean isFarmWorker() {
+        return authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_FARMWORKER"));
+    }
+
+    public Long getUserDetailsId(){
+        return this.id;
     }
 }

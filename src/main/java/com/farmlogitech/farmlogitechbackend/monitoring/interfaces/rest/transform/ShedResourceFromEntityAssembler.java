@@ -8,7 +8,9 @@ public class ShedResourceFromEntityAssembler {
         return new ShedResource(entity.getId(),
                 entity.getShedName(),
                 entity.getTypeShed(),
-                entity.getSpecie());
+                entity.getSpecie(),
+                entity.getUserId(),
+                entity.getFarmId());
     }
 }
 

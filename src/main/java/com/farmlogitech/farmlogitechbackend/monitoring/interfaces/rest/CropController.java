@@ -1,6 +1,8 @@
 package com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest;
 
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.aggregates.Crop;
+import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.commands.DeleteAnimalCommand;
+import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.commands.DeleteCropCommand;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetAllCropQuery;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetCropByIdQuery;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.services.CropCommandService;
@@ -51,6 +53,16 @@ public class CropController {
         }
         var cropResources = crops.stream().map(CropResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(cropResources);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCrop(@PathVariable long id) {
+        boolean isDeleted = cropCommandService.handle(new DeleteCropCommand(id)).isPresent();
+        if (isDeleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
 

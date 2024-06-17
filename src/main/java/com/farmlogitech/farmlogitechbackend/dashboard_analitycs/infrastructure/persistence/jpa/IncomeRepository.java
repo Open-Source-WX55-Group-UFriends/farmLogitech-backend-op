@@ -11,4 +11,6 @@ import java.util.List;
 @Repository
 public interface IncomeRepository extends JpaRepository<Income, Integer> {
     List<Income> findAllByCategoryAndDate(EIncomeCategory category, LocalDate date);
+    List<Income> findAllByFarmId(long farmId);
+
 }

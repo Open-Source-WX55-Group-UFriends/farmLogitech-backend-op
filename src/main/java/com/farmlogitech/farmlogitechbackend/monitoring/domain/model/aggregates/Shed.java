@@ -22,6 +22,10 @@ public class Shed extends AbstractAggregateRoot<Shed> {
     private String typeShed;
     @Column(nullable = false)
     private String specie;
+    @Column(nullable = false)
+    private Long userId;
+    @Column(nullable = false)
+    private Long farmId;
 
     protected Shed() {}
 
@@ -29,6 +33,14 @@ public class Shed extends AbstractAggregateRoot<Shed> {
         this.shedName = command.shedName();
         this.typeShed = command.typeShed();
         this.specie = command.specie();
+    }
+
+    public Shed(String shedName, String typeShed, String specie, Long userId, long farmId) {
+        this.shedName = shedName;
+        this.typeShed = typeShed;
+        this.specie = specie;
+        this.userId = userId;
+        this.farmId = farmId;
     }
 
     public void setId(long id)

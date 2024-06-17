@@ -31,7 +31,7 @@ public class Role {
     }
 
     public static Role getDefaultRole() {
-        return new Role(Roles.ROLE_USER);
+        return new Role(Roles.ROLE_OWNER);
     }
 
     public static Role toRoleFromName(String name) {

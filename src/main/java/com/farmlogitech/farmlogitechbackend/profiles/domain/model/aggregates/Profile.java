@@ -19,6 +19,7 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
     private String documentNumber;
     @Column(nullable = false)
     private String documentType;
+    private Long userId;
 
 
 
@@ -28,16 +29,15 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
         this.direction=direction;
         this.documentNumber=documentNumber;
         this.documentType=documentType;
-
     }
 
-    public Profile(CreateProfileCommand command) {
+    public Profile(CreateProfileCommand command, Long userId) {
         this.name = new PersonName(command.firstName(), command.lastName());
         this.email = command.email();
-        this.direction=command.direction();
-        this.documentNumber=command.documentNumber();
-        this.documentType=command.documentType();
-
+        this.direction = command.direction();
+        this.documentNumber = command.documentNumber();
+        this.documentType = command.documentType();
+        this.userId = userId;
     }
     public Profile() {
 
@@ -51,4 +51,7 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
     public String getFullName() { return name.getFullName(); }
 
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }

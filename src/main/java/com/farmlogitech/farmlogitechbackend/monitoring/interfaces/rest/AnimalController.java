@@ -1,6 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest;
 
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.aggregates.Animal;
+import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.commands.DeleteAnimalCommand;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetAllAnimalQuery;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetAnimalByIdQuery;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.services.AnimalCommandService;
@@ -52,6 +53,16 @@ public class AnimalController {
         }
         var animalResources = animals.stream().map(AnimalResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(animalResources);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAnimal(@PathVariable long id) {
+        boolean isDeleted = animalCommandService.handle(new DeleteAnimalCommand(id)).isPresent();
+        if (isDeleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
 
