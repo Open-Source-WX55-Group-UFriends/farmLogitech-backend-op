@@ -1,7 +1,9 @@
 package com.farmlogitech.farmlogitechbackend.tasks.interfaces.rest.resources;
 
+import java.util.Date;
+
 public record TaskResource(
-        String description, String status, int time, String endDate, Long collaboratorId, Long farmerId
+        Long taskId, String description, String status, int time, Date endDate, Long collaboratorId, Long farmerId
 ) {
 
 }

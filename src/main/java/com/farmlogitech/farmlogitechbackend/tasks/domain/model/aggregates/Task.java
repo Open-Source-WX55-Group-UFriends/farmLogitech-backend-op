@@ -3,9 +3,20 @@ package com.farmlogitech.farmlogitechbackend.tasks.domain.model.aggregates;
 import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.commands.commands.CreateTaskCommand;
 import jakarta.persistence.*;
+import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.Date;
+
+@Getter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Task extends AuditableAbstractAggregateRoot<Task> {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String description;
@@ -23,10 +34,13 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
     @Column(nullable = false)
     private Long farmerId;
     @Column(nullable = false)
-    private String endDate;
+    private Date endDate;
 
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private Date createdAt;
 
-    public Task(String description, String status, int time, String endDate, Long collaboratorId, Long farmerId){
+    public Task(String description, String status, int time, Date endDate, Long collaboratorId, Long farmerId){
         this.description =description;
         this.status = status;
         this.timeTask =time;
@@ -36,6 +50,32 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
     }
 
     public Task(CreateTaskCommand command){
+        //Validating description length
+        if(command.description().length() >30)
+            throw new IllegalArgumentException("Description is too long");
+
+        //Validating not nulls and showing  error in console
+        if (command.description() == null || command.description().trim().isEmpty() || command.description().length() > 30) {
+            throw new IllegalArgumentException("Description cannot be null, empty or more than 30 characters");
+        }
+        if (command.status() == null || command.status().trim().isEmpty()) {
+            throw new IllegalArgumentException("Status cannot be null or empty");
+        }
+        if (command.time() == 0) {
+            throw new IllegalArgumentException("Time cannot be 0");
+        }
+        if (command.collaboratorId() == null) {
+            throw new IllegalArgumentException("Collaborator ID cannot be null");
+        }
+        if (command.farmerId() == null) {
+            throw new IllegalArgumentException("Farmer ID cannot be null");
+        }
+        if (command.endDate() == null)  {
+            throw new IllegalArgumentException("End date cannot be null or ");
+        }
+
+
+        //building
         this.description =  command.description();
         this.status = command.status();
         this.timeTask = command.time();
@@ -43,15 +83,26 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
         this.farmerId = command.farmerId();
         this.endDate=command.endDate();
     }
+
+//Validating date
+    public void validateEndDate() {
+        if(this.endDate.before(this.createdAt)) {
+            throw new IllegalArgumentException("End date cannot be before the creation date");
+        }
+    }
+
     public Task(){
 
     }
+
+
 //    UPDATE THE AGGREGATE
     public void  updateDescription(String description){
         this.description = description;
     }
-    public void updateStatus(String status){
+    public Task updateStatus(String status){
         this.status = status;
+        return this;
     }
     public void updateTimeTask(int time ){
         this.timeTask = time;
@@ -62,7 +113,7 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
 
 
 
-
+//Try if the endpoint work without this:
 
     public Long getCollaboratorId() {
         return collaboratorId;
@@ -84,7 +135,7 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
         return timeTask;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 }

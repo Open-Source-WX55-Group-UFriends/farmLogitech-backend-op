@@ -1,6 +1,8 @@
 package com.farmlogitech.farmlogitechbackend.tasks.interfaces;
 
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.aggregates.Task;
+import com.farmlogitech.farmlogitechbackend.tasks.domain.model.commands.DeleteTaskCommand;
+import com.farmlogitech.farmlogitechbackend.tasks.domain.model.commands.UpdateTaskStatusCommand;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.queries.GetAllTaksByFarmerIdQuery;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.queries.GetAllTasksByCollaboratorIdAndFarmerIdQuery;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.queries.GetAllTasksByCollaboratorIdQuery;
@@ -8,8 +10,10 @@ import com.farmlogitech.farmlogitechbackend.tasks.domain.services.TaskCommandSer
 import com.farmlogitech.farmlogitechbackend.tasks.domain.services.TaskQueryService;
 import com.farmlogitech.farmlogitechbackend.tasks.interfaces.rest.resources.CreateTaskResource;
 import com.farmlogitech.farmlogitechbackend.tasks.interfaces.rest.resources.TaskResource;
+import com.farmlogitech.farmlogitechbackend.tasks.interfaces.rest.resources.UpdateTaskResource;
 import com.farmlogitech.farmlogitechbackend.tasks.interfaces.rest.transform.CreateTaskCommandFromResourceAssembler;
 import com.farmlogitech.farmlogitechbackend.tasks.interfaces.rest.transform.TaskResourceFromEntityAssembler;
+import com.farmlogitech.farmlogitechbackend.tasks.interfaces.rest.transform.UpdateTaskCommandFromResourceAssembler;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +62,23 @@ public class TaskController {
         return ResponseEntity.ok(taskResources);
     }
 
+@DeleteMapping("/delete/{taskId}")
+    public ResponseEntity<?> deleteTask(@PathVariable Long taskId){
+    var deleteTaskCommand = new DeleteTaskCommand(taskId);
+    taskCommandService.handle(deleteTaskCommand);
+    return ResponseEntity.ok("Task given id successfully deleted");
+}
+
+@PutMapping("/update/{taskId}")
+    public ResponseEntity<TaskResource> updateTaskStatus(@PathVariable Long taskId, @RequestBody UpdateTaskResource updateTaskResource) {
+        var updateTaskStatusCommand = UpdateTaskCommandFromResourceAssembler.toCommandFromResource(taskId, updateTaskResource);
+        var updatedTask = taskCommandService.handle(updateTaskStatusCommand);
+        if(updatedTask.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+        var taskResource =TaskResourceFromEntityAssembler.toResourceFromEntity(updatedTask.get());
+        return ResponseEntity.ok(taskResource);
+    }
     /*
     // IMPLEMENT IN THE FUTURE @Rod
     @GetMapping("/all/search/collaborator/{collaboratorId}")
