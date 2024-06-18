@@ -28,7 +28,6 @@ public class Social extends AbstractAggregateRoot <Social> {
     {
 
         this.rating = command.rating();
-        this.profileId = command.profileId();
         this.farmId= command.farmId();
 
     }
@@ -58,5 +57,9 @@ public class Social extends AbstractAggregateRoot <Social> {
 
     public Integer getFarmId() {
         return farmId;
+    }
+
+    public void setProfileId(Long id) {
+        this.profileId=id.intValue();
     }
 }
