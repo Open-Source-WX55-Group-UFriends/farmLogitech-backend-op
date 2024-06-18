@@ -40,9 +40,9 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
     @Column(nullable = false, updatable = false)
     private Date createdAt;
 
-    public Task(String description, String status, int time, Date endDate, Long collaboratorId, Long farmerId){
+    public Task(String description, int time, Date endDate, Long collaboratorId, Long farmerId){
         this.description =description;
-        this.status = status;
+        this.status = "To do";
         this.timeTask =time;
         this.collaboratorId = collaboratorId;
         this.farmerId = farmerId;
@@ -58,9 +58,6 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
         if (command.description() == null || command.description().trim().isEmpty() || command.description().length() > 30) {
             throw new IllegalArgumentException("Description cannot be null, empty or more than 30 characters");
         }
-        if (command.status() == null || command.status().trim().isEmpty()) {
-            throw new IllegalArgumentException("Status cannot be null or empty");
-        }
         if (command.time() == 0) {
             throw new IllegalArgumentException("Time cannot be 0");
         }
@@ -75,7 +72,7 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
 
         //building
         this.description =  command.description();
-        this.status = command.status();
+        this.status ="To do";
         this.timeTask = command.time();
         this.collaboratorId = command.collaboratorId();
         this.endDate=command.endDate();
