@@ -1,12 +1,12 @@
 package com.farmlogitech.farmlogitechbackend.farms.domain.model.commands;
 
-public record UpdateFarmCommand (int id, String farmName,
+public record UpdateFarmCommand (String farmName,
                                  String location,
                                  String type,
                                  String infrastructure,
                                  String services,
                                  String status,
-                                 String certificates, String image,long profileId ,
+                                 String certificates, String image,
                                  double price, String Surface, String product, String highlights){
     public UpdateFarmCommand {
         if (farmName == null || farmName.isBlank()) {
@@ -34,9 +34,6 @@ public record UpdateFarmCommand (int id, String farmName,
         }
         if (image == null || image.isBlank()) {
             throw new IllegalArgumentException("images cannot be null or empty");
-        }
-        if (profileId == 0) {
-            throw new IllegalArgumentException("profileId cannot be null or empty");
         }
         if (price == 0) {
             throw new IllegalArgumentException("price cannot be null or empty");

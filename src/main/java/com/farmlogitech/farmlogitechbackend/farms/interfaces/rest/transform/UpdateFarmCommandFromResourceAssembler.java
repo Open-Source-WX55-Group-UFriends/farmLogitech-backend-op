@@ -7,13 +7,13 @@ import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.resources.Upda
 
 public class UpdateFarmCommandFromResourceAssembler {
     public static UpdateFarmCommand toCommandFromResource(UpdateFarmResource resource) {
-        return new UpdateFarmCommand(resource.id(), resource.farmName(),
+        return new UpdateFarmCommand( resource.farmName(),
                 resource.location(),
                 resource.type(),
                 resource.infrastructure(),
                 resource.services(),
                 resource.status(),
-                resource.certificates(), resource.image(),resource.ProfileId(), resource.price(), resource.Surface(), resource.product(), resource.highlights());
+                resource.certificates(), resource.image(), resource.price(), resource.Surface(), resource.product(), resource.highlights());
 
 
     }

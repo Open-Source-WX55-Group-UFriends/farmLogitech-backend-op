@@ -1,12 +1,12 @@
 package com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.resources;
 
-public record UpdateFarmResource (int id, String farmName,
+public record UpdateFarmResource (String farmName,
                                   String location,
                                   String type,
                                   String infrastructure,
                                   String services,
                                   String status,
-                                  String certificates, String image, long ProfileId, double price, String Surface, String product, String highlights){
+                                  String certificates, String image, double price, String Surface, String product, String highlights){
     public UpdateFarmResource {
 
         if (farmName == null || farmName.isBlank()) {

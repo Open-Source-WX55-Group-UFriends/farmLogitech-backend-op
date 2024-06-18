@@ -11,7 +11,7 @@ public class CreateFarmCommandFromResourceAssembler {
                 resource.infrastructure(),
                 resource.services(),
                 resource.status(),
-                resource.certificates(), resource.image(), resource.profileId(), resource.price(), resource.Surface(), resource.product(), resource.highlights());
+                resource.certificates(), resource.image(), resource.price(), resource.Surface(), resource.product(), resource.highlights());
 
 
     }

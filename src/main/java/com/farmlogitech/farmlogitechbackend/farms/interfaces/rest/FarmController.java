@@ -11,7 +11,11 @@ import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.resources.Upda
 import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.transform.CreateFarmCommandFromResourceAssembler;
 import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.transform.FarmResourceFromEntityAssembler;
 import com.farmlogitech.farmlogitechbackend.farms.interfaces.rest.transform.UpdateFarmCommandFromResourceAssembler;
+import com.farmlogitech.farmlogitechbackend.iam.infrastructure.authorization.sfs.model.UserDetailsImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +35,7 @@ public class FarmController {
         this.farmCommandService = farmCommandService;
         this.farmQueryService = farmQueryService;
     }
+    @PreAuthorize("hasAuthority('ROLE_FARMER')")
     @PostMapping
     public ResponseEntity<FarmResource> createFarm(@RequestBody CreateFarmResource resource) {
         Optional<Farm> farm = farmCommandService.handle(CreateFarmCommandFromResourceAssembler.toCommandFromResource(resource));
@@ -65,19 +70,23 @@ public class FarmController {
         var farmResources = farms.stream().map(FarmResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(farmResources);
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<FarmResource> updateFarm(@PathVariable int id, @RequestBody UpdateFarmResource resource) {
-        if (id != resource.id()) {
-            throw new IllegalArgumentException("ID in path and ID in request body must be the same");
-        }
+    @PreAuthorize("hasAuthority('ROLE_FARMER')")
+    @PutMapping()
+    public ResponseEntity<FarmResource> updateFarm( @RequestBody UpdateFarmResource resource) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        long userId = userDetails.getId();
+
 
         UpdateFarmCommand command = UpdateFarmCommandFromResourceAssembler.toCommandFromResource(resource);
         Optional<Farm> updatedFarmOptional = farmCommandService.handle(command);
 
         return updatedFarmOptional
+                .filter(updatedFarm -> updatedFarm.getProfileId() == userId)
                 .map(updatedFarm -> ResponseEntity.ok(FarmResourceFromEntityAssembler.toResourceFromEntity(updatedFarm)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
     @GetMapping("/all/farms/profile/{profileId}")
     public ResponseEntity<List<FarmResource>>getAllFarmsByProfileId(@PathVariable long profileId) {
         var farms = farmQueryService.handle(new GetAllFarmByProfileId(profileId));

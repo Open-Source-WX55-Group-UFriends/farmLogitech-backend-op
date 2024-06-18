@@ -59,7 +59,6 @@ public Farm(CreateFarmCommand command) {
     this.status= command.status();
     this.certificates=command.certificates();
     this.image=command.image();
-    this.profileId=command.profileId();
     this.price=command.price();
     this.Surface=command.Surface();
     this.product=command.product();
@@ -76,7 +75,7 @@ public Farm(CreateFarmCommand command) {
         this.status= command.status();
         this.certificates=command.certificates();
         this.image=command.image();
-        this.profileId=command.profileId();
+
         this.price=command.price();
         this.Surface=command.Surface();
         this.product=command.product();

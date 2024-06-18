@@ -32,7 +32,8 @@ public class FarmCommandServiceImpl implements FarmCommandService {
         }
 
         var farmExists= farmRepository.findByFarmName(command.farmName());
-        if(!farmExists.isEmpty()){
+        var farmExistsByProfileId= farmRepository.findByProfileId(userDetails.getId());
+        if(!farmExists.isEmpty() || !farmExistsByProfileId.isEmpty()){
             throw new IllegalArgumentException("Farm with name " + command.farmName() + " already exists");
         }
         var newFarm= new Farm(command);
@@ -42,14 +43,23 @@ public class FarmCommandServiceImpl implements FarmCommandService {
     }
     @Transactional
     public Optional<Farm> handle(UpdateFarmCommand command) {
-        if (!farmRepository.existsById(command.id())) {
-            throw new IllegalArgumentException("Farm with id " + command.id() + " does not exist");
+        // Get the authenticated user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        long userId = userDetails.getId();
+
+        var farm = farmRepository.findByProfileId(userId).get();
+
+        if (farm.getProfileId() != userId) {
+            throw new IllegalStateException("The profileId of Farm is not equal to the id of the authenticated user");
         }
 
-        var farm=farmRepository.findById(command.id()).get();
         farm.updateInformation(command);
+        farm.setProfileId(userId);
         var updatedFarm = farmRepository.save(farm);
         return Optional.of(updatedFarm);
-
     }
+
+
+
 }
