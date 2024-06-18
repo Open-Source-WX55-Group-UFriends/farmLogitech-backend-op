@@ -100,8 +100,9 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
     public void  updateDescription(String description){
         this.description = description;
     }
-    public void updateStatus(String status){
+    public Task updateStatus(String status){
         this.status = status;
+        return this;
     }
     public void updateTimeTask(int time ){
         this.timeTask = time;
