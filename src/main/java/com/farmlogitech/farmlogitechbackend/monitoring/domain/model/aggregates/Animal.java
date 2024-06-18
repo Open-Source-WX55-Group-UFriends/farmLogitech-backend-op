@@ -37,7 +37,6 @@ public class Animal extends AbstractAggregateRoot<Animal> {
         this.location = command.location();
         this.healthCondition = command.healthCondition();
         this.userId = command.userId();
-        this.farmId = command.farmId();
     }
 
     public Animal(String shed, Integer age, String location, String healthCondition, Long userId, long farmId) {
