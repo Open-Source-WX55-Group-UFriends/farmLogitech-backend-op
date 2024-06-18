@@ -2,7 +2,7 @@ package com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.resource
 
 public record CreateCropResource(String shed,
                                  String typeCrop,
-                                 String seedtime, Long farmId) {
+                                 String seedtime) {
     public CreateCropResource {
         if (shed == null || shed.isBlank()) {
             throw new IllegalArgumentException("Shed cannot be null or empty");

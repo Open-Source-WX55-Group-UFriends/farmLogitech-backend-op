@@ -2,7 +2,7 @@ package com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.resource
 
 public record CreateShedResource(String shedName,
                                  String typeShed,
-                                 String specie, Long farmId) {
+                                 String specie) {
     public CreateShedResource {
         if (shedName == null || shedName.isBlank()) {
             throw new IllegalArgumentException("Shed name cannot be null or empty");
