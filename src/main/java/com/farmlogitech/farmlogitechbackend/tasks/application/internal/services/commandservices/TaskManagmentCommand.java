@@ -1,11 +1,14 @@
 package com.farmlogitech.farmlogitechbackend.tasks.application.internal.services.commandservices;
 
+import com.farmlogitech.farmlogitechbackend.iam.infrastructure.authorization.sfs.model.UserDetailsImpl;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.aggregates.Task;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.commands.DeleteTaskCommand;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.commands.UpdateTaskStatusCommand;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.commands.commands.CreateTaskCommand;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.services.TaskCommandService;
 import com.farmlogitech.farmlogitechbackend.tasks.infrastructure.persistance.jpa.repositories.TaskRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,8 +22,12 @@ public class TaskManagmentCommand implements TaskCommandService {
 
     @Override
     public Optional<Task> handle(CreateTaskCommand command) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
 
         var task= new Task(command);
+        task.setFarmerId(userDetails.getId());
         taskRepository.save(task);
         //validation from the aggregate
         task.validateEndDate();

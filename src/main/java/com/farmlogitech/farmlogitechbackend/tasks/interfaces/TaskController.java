@@ -16,6 +16,7 @@ import com.farmlogitech.farmlogitechbackend.tasks.interfaces.rest.transform.Task
 import com.farmlogitech.farmlogitechbackend.tasks.interfaces.rest.transform.UpdateTaskCommandFromResourceAssembler;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,8 @@ public class TaskController {
         this.taskCommandService = taskCommandService;
         this.taskQueryService = taskQueryService;
     }
+
+    @PreAuthorize("hasAuthority('ROLE_FARMER')")
     @PostMapping
     public ResponseEntity<TaskResource> createTask(@RequestBody CreateTaskResource resource){
         Optional<Task>task=taskCommandService.handle(CreateTaskCommandFromResourceAssembler.toCommandFromResource(resource));

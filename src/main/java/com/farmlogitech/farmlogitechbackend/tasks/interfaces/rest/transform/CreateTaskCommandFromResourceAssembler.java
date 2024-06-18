@@ -10,8 +10,7 @@ public class CreateTaskCommandFromResourceAssembler {
                 resource.status(),
                 resource.time(),
                 resource.endDate(),
-                resource.collaboratorId(),
-                resource.farmerId());
+                resource.collaboratorId());
     }
 
 

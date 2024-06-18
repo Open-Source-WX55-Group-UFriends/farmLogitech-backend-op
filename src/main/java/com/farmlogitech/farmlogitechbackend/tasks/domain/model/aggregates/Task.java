@@ -67,9 +67,7 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
         if (command.collaboratorId() == null) {
             throw new IllegalArgumentException("Collaborator ID cannot be null");
         }
-        if (command.farmerId() == null) {
-            throw new IllegalArgumentException("Farmer ID cannot be null");
-        }
+
         if (command.endDate() == null)  {
             throw new IllegalArgumentException("End date cannot be null or ");
         }
@@ -80,7 +78,6 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
         this.status = command.status();
         this.timeTask = command.time();
         this.collaboratorId = command.collaboratorId();
-        this.farmerId = command.farmerId();
         this.endDate=command.endDate();
     }
 
@@ -137,5 +134,9 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
 
     public Date getEndDate() {
         return endDate;
+    }
+
+    public void setFarmerId(Long id) {
+        this.farmerId = id;
     }
 }
