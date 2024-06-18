@@ -5,6 +5,6 @@ import com.farmlogitech.farmlogitechbackend.tasks.interfaces.rest.resources.Upda
 
 public class UpdateTaskCommandFromResourceAssembler {
     public static UpdateTaskStatusCommand toCommandFromResource(Long taskId, UpdateTaskResource resource) {
-        return new UpdateTaskStatusCommand(resource.status(), taskId);
+        return new UpdateTaskStatusCommand(taskId);
     }
 }
