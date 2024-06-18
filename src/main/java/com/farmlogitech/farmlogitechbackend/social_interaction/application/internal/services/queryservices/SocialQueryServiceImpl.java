@@ -8,6 +8,8 @@ import com.farmlogitech.farmlogitechbackend.social_interaction.infrastructure.pe
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class SocialQueryServiceImpl implements SocialQueryService {
@@ -24,9 +26,16 @@ public class SocialQueryServiceImpl implements SocialQueryService {
         return List.of();
     }
 
-    @Override
-    public List<Social> handle(GetAllSocialsByFarmIdQuery query) {
-    return socialRepository.findAllByFarmId(query.farmId().longValue());
-    }
 
+    @Override
+    public Map<Integer, Long> handle(GetAllSocialsByFarmIdQuery query) {
+        // Obtén todas las interacciones sociales para la granja dada
+        List<Social> allSocials = socialRepository.findAllByFarmId(query.farmId().longValue());
+
+        // Agrupa las interacciones sociales por valoración y cuenta cuántas hay de cada una
+        Map<Integer, Long> ratingsCount = allSocials.stream()
+                .collect(Collectors.groupingBy(Social::getRating, Collectors.counting()));
+
+        return ratingsCount;
+    }
 }

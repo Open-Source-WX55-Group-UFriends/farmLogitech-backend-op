@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -36,11 +37,11 @@ public class SocialController {
     {
         Optional<Social> social = socialCommandService.handle(CreateSocialCommandFromResourceAssembler.toCommandFromResource(resource));
         return social.map(resp ->
-                new ResponseEntity<>(SocialResourceFromEntityAssembler
-                        .toResourceFromEntity(resp), CREATED))
+                        new ResponseEntity<>(SocialResourceFromEntityAssembler
+                                .toResourceFromEntity(resp), CREATED))
                 .orElseGet(()-> ResponseEntity.badRequest().build());
     }
-
+/*
     @GetMapping("/all")
     public ResponseEntity<List<SocialResource>> getAllSocial() {
         var socials = socialQueryService.handle(new GetAllSocialQuery());
@@ -50,13 +51,12 @@ public class SocialController {
         }
         var socialResource = socials.stream().map(SocialResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(socialResource);
-    }
+    }*/
 
     @GetMapping("/all/farm/{id}")
-    public ResponseEntity<Long>getCountAllSocialByFarmId(@PathVariable long id)
+    public ResponseEntity<Map<Integer, Long>> getCountAllSocialByFarmId(@PathVariable long id)
     {
-        List<Social> socialQuery = socialQueryService.handle(new GetAllSocialsByFarmIdQuery(id));
-        long count = socialQuery.size();
-        return ResponseEntity.ok(count);
+        Map<Integer, Long> ratingsCount = socialQueryService.handle(new GetAllSocialsByFarmIdQuery(id));
+        return ResponseEntity.ok(ratingsCount);
     }
 }

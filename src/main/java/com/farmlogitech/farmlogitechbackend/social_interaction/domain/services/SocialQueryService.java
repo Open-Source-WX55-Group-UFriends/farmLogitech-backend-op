@@ -5,8 +5,10 @@ import com.farmlogitech.farmlogitechbackend.social_interaction.domain.model.quer
 import com.farmlogitech.farmlogitechbackend.social_interaction.domain.model.queries.GetAllSocialsByFarmIdQuery;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SocialQueryService {
     List<Social> handle(GetAllSocialQuery query);
-    List<Social> handle(GetAllSocialsByFarmIdQuery query);
+    Map<Integer, Long> handle(GetAllSocialsByFarmIdQuery query);
+
 }
