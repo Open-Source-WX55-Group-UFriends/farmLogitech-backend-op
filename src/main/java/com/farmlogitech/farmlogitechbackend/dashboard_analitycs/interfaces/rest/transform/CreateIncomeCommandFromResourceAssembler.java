@@ -11,8 +11,6 @@ public class CreateIncomeCommandFromResourceAssembler {
                 resource.description(),
                 resource.amount(),
                 resource.date(),
-                resource.period(),
-                resource.farmId()
-        );
+                resource.period()        );
     }
 }

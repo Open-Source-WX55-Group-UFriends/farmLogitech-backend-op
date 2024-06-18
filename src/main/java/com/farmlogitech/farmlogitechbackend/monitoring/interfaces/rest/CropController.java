@@ -55,7 +55,7 @@ public class CropController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/all")
+    /*@GetMapping("/all")
     public ResponseEntity<List<CropResource>> getAllCrops() {
         var crops = cropQueryService.handle(new GetAllCropQuery());
         if (crops.isEmpty()) {
@@ -63,7 +63,7 @@ public class CropController {
         }
         var cropResources = crops.stream().map(CropResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(cropResources);
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCrop(@PathVariable long id) {

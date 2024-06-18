@@ -54,7 +54,7 @@ public class AnimalController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/all")
+    /*@GetMapping("/all")
     public ResponseEntity<List<AnimalResource>> getAllAnimal() {
         var animals = animalQueryService.handle(new GetAllAnimalQuery());
         if(animals.isEmpty())
@@ -63,7 +63,7 @@ public class AnimalController {
         }
         var animalResources = animals.stream().map(AnimalResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(animalResources);
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAnimal(@PathVariable long id) {

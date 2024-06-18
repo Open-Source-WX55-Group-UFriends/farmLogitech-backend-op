@@ -11,9 +11,6 @@ public class CreateEmployeeCommandFromResourceAssembler {
                     resource.phone(),
                     resource.username(),
                     resource.password(),
-                    resource.position(),
-                    resource.farmId()
-
-        );
+                    resource.position());
     }
 }

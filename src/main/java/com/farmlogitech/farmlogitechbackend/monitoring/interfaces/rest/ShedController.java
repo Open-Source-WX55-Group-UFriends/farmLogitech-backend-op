@@ -53,7 +53,7 @@ public class ShedController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/all")
+    /*@GetMapping("/all")
     public ResponseEntity<List<ShedResource>> getAllSheds() {
         var sheds = shedQueryService.handle(new GetAllShedQuery());
         if (sheds.isEmpty()) {
@@ -61,7 +61,7 @@ public class ShedController {
         }
         var shedResources = sheds.stream().map(ShedResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(shedResources);
-    }
+    }*/
 
     @GetMapping("/filter/all")
     public ResponseEntity<List<ShedResource>> getAllShedsByFarmId(){

@@ -30,7 +30,7 @@ public class AnimalCommandServiceImpl implements AnimalCommandService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        if (!userDetails.isFarmer()) {
+        if (!userDetails.isFarmer() && !userDetails.isFarmWorker()) {
             throw new IllegalStateException("Only farmers and workers can create an animal save");
         }
 
