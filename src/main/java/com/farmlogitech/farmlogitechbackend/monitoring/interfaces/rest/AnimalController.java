@@ -1,8 +1,14 @@
 package com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest;
 
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.domain.model.queries.GetAllIncomesByFarmId;
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces.rest.resource.IncomeResource;
+import com.farmlogitech.farmlogitechbackend.dashboard_analitycs.interfaces.rest.transform.IncomeResourceFromEntityAssembler;
+import com.farmlogitech.farmlogitechbackend.iam.application.internal.outboundservices.acl.ExternalFarmService;
+import com.farmlogitech.farmlogitechbackend.iam.infrastructure.authorization.sfs.model.UserDetailsImpl;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.aggregates.Animal;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.commands.DeleteAnimalCommand;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetAllAnimalQuery;
+import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetAllAnimalsByFarmId;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.model.queries.GetAnimalByIdQuery;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.services.AnimalCommandService;
 import com.farmlogitech.farmlogitechbackend.monitoring.domain.services.AnimalQueryService;
@@ -12,6 +18,8 @@ import com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.transform
 import com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.transform.CreateAnimalCommandFromResourceAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,10 +30,12 @@ import java.util.Optional;
 public class AnimalController {
     private final AnimalCommandService animalCommandService;
     private final AnimalQueryService animalQueryService;
+    private final ExternalFarmService externalFarmService;
 
-    public AnimalController(AnimalCommandService animalCommandService, AnimalQueryService animalQueryService) {
+    public AnimalController(AnimalCommandService animalCommandService, AnimalQueryService animalQueryService, ExternalFarmService externalFarmService) {
         this.animalCommandService = animalCommandService;
         this.animalQueryService = animalQueryService;
+        this.externalFarmService = externalFarmService;
     }
 
     @PostMapping
@@ -63,6 +73,22 @@ public class AnimalController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/filter/all")
+    public ResponseEntity<List<AnimalResource>> getAllAnimalsByFarmId(){
+        // Get the authenticated user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        long farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
+
+        var query = new GetAllAnimalsByFarmId(farmId);
+        var animals = animalQueryService.handle(query);
+        var incomeResources = animals.stream()
+                .filter(income -> income.getFarmId() == farmId) // Filter the incomes by the authenticated user's farmId
+                .map(AnimalResourceFromEntityAssembler::toResourceFromEntity)
+                .toList();
+        return ResponseEntity.ok(incomeResources);
     }
 }
 
