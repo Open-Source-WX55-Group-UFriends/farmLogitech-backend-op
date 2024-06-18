@@ -85,7 +85,7 @@ public class AnimalController {
         var query = new GetAllAnimalsByFarmId(farmId);
         var animals = animalQueryService.handle(query);
         var incomeResources = animals.stream()
-                .filter(income -> income.getFarmId() == farmId) // Filter the incomes by the authenticated user's farmId
+                .filter(income -> income.getFarmId() == farmId)
                 .map(AnimalResourceFromEntityAssembler::toResourceFromEntity)
                 .toList();
         return ResponseEntity.ok(incomeResources);
