@@ -43,8 +43,8 @@ public class Message extends AbstractAggregateRoot<Message> {
         }
 
         this.description = description;
-        this.collaboratorId = collaboratorId;
         this.farmerId = farmerId;
+        this.collaboratorId = collaboratorId;
         this.transmitterId=transmitterId;
     }
 
@@ -68,4 +68,7 @@ public class Message extends AbstractAggregateRoot<Message> {
         return transmitterId;
     }
 
+    public void setEmployeeId(Long id) {
+        this.collaboratorId= id;
+    }
 }
