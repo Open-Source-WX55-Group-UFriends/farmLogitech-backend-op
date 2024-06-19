@@ -7,6 +7,6 @@ import com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.resources
 
 public class CreateMessageCommandFromResourceAssembler {
     public static CreateMessageCommand toCommandFromResource(CreateMessageResource resource) {
-        return new CreateMessageCommand(resource.description(), resource.collaboratorId(), resource.farmerId(), resource.transmitterId());
+        return new CreateMessageCommand(resource.description(), resource.collaboratorId(), resource.farmerId());
     }
 }
