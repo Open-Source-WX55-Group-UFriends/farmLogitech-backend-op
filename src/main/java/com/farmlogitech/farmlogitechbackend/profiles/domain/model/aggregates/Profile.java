@@ -1,6 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.profiles.domain.model.aggregates;
 
 import com.farmlogitech.farmlogitechbackend.profiles.domain.model.commands.CreateProfileCommand;
+import com.farmlogitech.farmlogitechbackend.profiles.domain.model.commands.UpdateProfileCommand;
 import com.farmlogitech.farmlogitechbackend.profiles.domain.model.valueobjects.PersonName;
 import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
@@ -61,6 +62,17 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
     public  String getLastName() {
         return name.getLastName();
     }
+
+    public Profile( UpdateProfileCommand command)
+    {
+        this.name = new PersonName(command.firstName(), command.lastName());
+        this.email = command.email();
+        this.direction = command.direction();
+        this.documentNumber = command.documentNumber();
+        this.documentType = command.documentType();
+    }
+
+
 
 
 }

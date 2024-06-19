@@ -27,9 +27,4 @@ public record CreateProfileCommand(String firstName, String lastName, String ema
 
 
 
-
-
-
-
-
 }
