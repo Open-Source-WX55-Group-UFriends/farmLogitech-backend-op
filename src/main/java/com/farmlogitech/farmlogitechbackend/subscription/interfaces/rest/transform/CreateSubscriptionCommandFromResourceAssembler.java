@@ -9,8 +9,7 @@ public class CreateSubscriptionCommandFromResourceAssembler {
         return new CreateSubscriptionCommand (
               resource.price(),
                 resource.description(),
-                resource.paid(),
-                resource.profileId());
+                resource.paid());
     }
 
 }

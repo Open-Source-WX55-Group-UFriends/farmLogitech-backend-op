@@ -42,6 +42,7 @@ public class SubscriptionController {
                 .orElseGet(()-> ResponseEntity.badRequest().build());
     }
 
+    /*
     @GetMapping("/all")
     public ResponseEntity<List<SubscriptionResource>> getAllSubscription() {
         var subscriptions = subscriptionQueryService.handle(new GetAllSubscriptionQuery());
@@ -51,6 +52,8 @@ public class SubscriptionController {
         var subscriptionResources = subscriptions.stream().map(SubscriptionResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(subscriptionResources);
     }
+    */
+
 
     @GetMapping("/{id}")
     public ResponseEntity<SubscriptionResource> getSubscriptionById(@PathVariable int id) {
@@ -60,6 +63,7 @@ public class SubscriptionController {
         var subscriptionResource = SubscriptionResourceFromEntityAssembler.toResourceFromEntity(subscription.get());
         return ResponseEntity.ok(subscriptionResource);
     }
+
 
     @PutMapping("/pay/subscription/{profileId}")
     public ResponseEntity<SubscriptionResource>paySubscription(@PathVariable Long profileId){
