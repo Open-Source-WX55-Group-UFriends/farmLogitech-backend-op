@@ -54,4 +54,13 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+    public String getFirstName() {
+        return name.getFirstName();
+    }
+    public  String getLastName() {
+        return name.getLastName();
+    }
+
+
 }

@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,6 +24,23 @@ public class ProfileCommandServiceImpl implements ProfileCommandService {
     public Optional<Profile> handle(CreateProfileCommand command) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        // Check if a profile already exists for the user
+        List<Profile> existingProfile = profileRepository.findByUserId(userDetails.getId());
+        if (!existingProfile.isEmpty()) {
+            throw new IllegalArgumentException("A profile already exists for this user");
+        }
+
+        List<Profile> profilesByEmail = profileRepository.findByEmail(command.email());
+        List<Profile> profilesByDocumentNumber = profileRepository.findByDocumentNumber(command.documentNumber());
+
+        if (!profilesByEmail.isEmpty()) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+
+        if (!profilesByDocumentNumber.isEmpty()) {
+            throw new IllegalArgumentException("Document number already exists");
+        }
 
         var profile = new Profile(command, userDetails.getId());
 

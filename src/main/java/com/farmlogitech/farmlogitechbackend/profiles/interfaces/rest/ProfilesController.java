@@ -1,6 +1,7 @@
 package com.farmlogitech.farmlogitechbackend.profiles.interfaces.rest;
 
 
+import com.farmlogitech.farmlogitechbackend.iam.infrastructure.authorization.sfs.model.UserDetailsImpl;
 import com.farmlogitech.farmlogitechbackend.profiles.domain.model.commands.CreateProfileCommand;
 import com.farmlogitech.farmlogitechbackend.profiles.domain.model.queries.GetProfileByIdQuery;
 import com.farmlogitech.farmlogitechbackend.profiles.domain.services.ProfileCommandService;
@@ -13,6 +14,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,14 +39,18 @@ public class ProfilesController {
         return new ResponseEntity<>(profileResource, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{profileId}")
-    public ResponseEntity<ProfileResource> getProfileById(@PathVariable Long profileId) {
-        var getProfileByIdQuery = new GetProfileByIdQuery(profileId);
+    @GetMapping("/me")
+    public ResponseEntity<ProfileResource> getMyProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        var getProfileByIdQuery = new GetProfileByIdQuery(userDetails.getId());
         var profile = profileQueryService.handle(getProfileByIdQuery);
         if (profile.isEmpty()) return ResponseEntity.notFound().build();
         var profileResource = ProfileResourceFromEntityAssembler.toResourceFromEntity(profile.get());
         return ResponseEntity.ok(profileResource);
     }
+
     /*
 
     @GetMapping
