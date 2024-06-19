@@ -18,4 +18,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("SELECT e.id FROM Employee e WHERE e.username = :username")
 
     Optional<Long> findCollaboratorIdByUsername(@Param("username") String username);
+
+    @Query("SELECT e.farmId FROM Employee e WHERE e.username = :username")
+    Optional<Long> findFarmIdByUsername(@Param("username") String username);
+
 }

@@ -15,6 +15,7 @@ import com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.resources
 import com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.transform.CreateShedCommandFromResourceAssembler;
 import com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.transform.CropResourceFromEntityAssembler;
 import com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.transform.ShedResourceFromEntityAssembler;
+import com.farmlogitech.farmlogitechbackend.profiles.infrastructure.persistence.jpa.repositories.EmployeeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -30,11 +31,13 @@ public class ShedController {
     private final ShedCommandService shedCommandService;
     private final ShedQueryService shedQueryService;
     private final ExternalFarmService externalFarmService;
+    private final EmployeeRepository employeeRepository;
 
-    public ShedController(ShedCommandService shedCommandService, ShedQueryService shedQueryService, ExternalFarmService externalFarmService) {
+    public ShedController(ShedCommandService shedCommandService, ShedQueryService shedQueryService, ExternalFarmService externalFarmService, EmployeeRepository employeeRepository) {
         this.shedCommandService = shedCommandService;
         this.shedQueryService = shedQueryService;
         this.externalFarmService = externalFarmService;
+        this.employeeRepository = employeeRepository;
     }
 
     @PostMapping
@@ -48,11 +51,25 @@ public class ShedController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ShedResource> getShedById(@PathVariable long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        long farmId;
+
+        if (userDetails.isFarmWorker()) {
+            farmId = employeeRepository.findFarmIdByUsername(userDetails.getUsername())
+                    .orElseThrow(() -> new IllegalStateException("No farm found for the given username"));
+        } else if (userDetails.isFarmer()) {
+            farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
+        } else {
+            throw new IllegalStateException("Only farmers and workers can access a shed");
+        }
+
         Optional<Shed> shed = shedQueryService.handle(new GetShedByIdQuery(id));
-        return shed.map(resp -> ResponseEntity.ok(ShedResourceFromEntityAssembler.toResourceFromEntity(resp)))
+        return shed
+                .filter(s -> s.getFarmId() == farmId)
+                .map(resp -> ResponseEntity.ok(ShedResourceFromEntityAssembler.toResourceFromEntity(resp)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     /*@GetMapping("/all")
     public ResponseEntity<List<ShedResource>> getAllSheds() {
         var sheds = shedQueryService.handle(new GetAllShedQuery());
@@ -67,15 +84,25 @@ public class ShedController {
     public ResponseEntity<List<ShedResource>> getAllShedsByFarmId(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        long farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
+        long farmId;
 
-        var query = new GetAllShedsByFarmId(farmId);
+        if (userDetails.isFarmWorker()) {
+            farmId = employeeRepository.findFarmIdByUsername(userDetails.getUsername())
+                    .orElseThrow(() -> new IllegalStateException("No farm found for the given username"));
+        } else if (userDetails.isFarmer()) {
+            farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
+        } else {
+            throw new IllegalStateException("Only farmers and workers can access a shed");
+        }
+
+        var query = new GetAllShedQuery();
         var sheds = shedQueryService.handle(query);
         var shedResources = sheds.stream()
-                .filter(crop -> crop.getFarmId() == farmId)
+                .filter(shed -> shed.getFarmId() == farmId)
                 .map(ShedResourceFromEntityAssembler::toResourceFromEntity)
                 .toList();
         return ResponseEntity.ok(shedResources);
     }
+
 }
 
