@@ -6,7 +6,7 @@ import com.farmlogitech.farmlogitechbackend.profiles.interfaces.rest.resources.P
 
 public class ProfileResourceFromEntityAssembler {
     public static ProfileResource toResourceFromEntity(Profile entity) {
-        return new ProfileResource(entity.getId(), entity.getFullName(), entity.getEmail(), entity.getDirection(), entity.getDocumentNumber(), entity.getDocumentType(), entity.getUserId());
+        return new ProfileResource(entity.getId(), entity.getFirstName(), entity.getLastName(), entity.getEmail(), entity.getDirection(), entity.getDocumentNumber(), entity.getDocumentType(), entity.getUserId());
 
     }
 

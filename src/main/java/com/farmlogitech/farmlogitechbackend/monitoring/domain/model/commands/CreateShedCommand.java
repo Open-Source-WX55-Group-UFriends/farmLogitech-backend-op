@@ -3,8 +3,7 @@ package com.farmlogitech.farmlogitechbackend.monitoring.domain.model.commands;
 public record CreateShedCommand(String shedName,
                                 String typeShed,
                                 String specie,
-                                Long userId,
-                                Long farmId) {
+                                Long userId) {
     public CreateShedCommand {
         if (shedName == null || shedName.isBlank()) {
             throw new IllegalArgumentException("Shed name cannot be null or empty");
@@ -17,9 +16,6 @@ public record CreateShedCommand(String shedName,
         }
         if (userId == null || userId <= 0) {
             throw new IllegalArgumentException("User ID cannot be null or non-positive");
-        }
-        if (farmId == null || farmId <= 0) {
-            throw new IllegalArgumentException("Farm ID cannot be null or non-positive");
         }
     }
 }

@@ -13,7 +13,6 @@ public record CreateExpenseCommand(
          String description,
          double amount,
          LocalDate date,
-         String period,
-            long farmId
+         String period
 ) {
 }

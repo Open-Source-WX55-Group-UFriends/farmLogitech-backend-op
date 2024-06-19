@@ -23,7 +23,6 @@ public class SubscriptionCommandServiceImpl implements SubscriptionCommandServic
         this.subscriptionRepository = subscriptionRepository;
     }
 
-
     @Override
     public Optional<Subscription> handle(CreateSubscriptionCommand command) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -34,6 +33,12 @@ public class SubscriptionCommandServiceImpl implements SubscriptionCommandServic
                 .anyMatch(a -> a.getAuthority().equals("ROLE_FARMER"));
 
         if (hasRequiredRole) {
+            // Check if a subscription already exists for this user
+            Optional<Subscription> existingSubscription = subscriptionRepository.findByProfileId(userDetails.getId());
+            if (existingSubscription.isPresent()) {
+                throw new IllegalStateException("A subscription already exists for this user");
+            }
+
             var subscription = new Subscription(command.price(), command.description(), command.paid(), userDetails.getId());
             subscription.setPaid(true);
             subscriptionRepository.save(subscription);
@@ -42,7 +47,6 @@ public class SubscriptionCommandServiceImpl implements SubscriptionCommandServic
             throw new SecurityException(" Only farmers can create a subscription");
         }
     }
-
     @Override
     public Optional<Subscription> handle(UpdateSubscriptionCommand command) {
         var subscription = subscriptionRepository.findByProfileId(command.profileId());

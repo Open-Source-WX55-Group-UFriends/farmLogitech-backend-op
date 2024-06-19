@@ -4,8 +4,7 @@ public record CreateAnimalCommand(String shed,
                                   Integer age,
                                   String location,
                                   String healthCondition,
-                                  Long userId,
-                                  Long farmId) {
+                                  Long userId) {
     public CreateAnimalCommand {
         if (shed == null || shed.isBlank()) {
             throw new IllegalArgumentException("Shed cannot be null or empty");
@@ -22,9 +21,7 @@ public record CreateAnimalCommand(String shed,
         if (userId == null || userId <= 0) {
             throw new IllegalArgumentException("User ID cannot be null or non-positive");
         }
-        if (farmId == null || farmId <= 0) {
-            throw new IllegalArgumentException("Farm ID cannot be null or non-positive");
-        }
+
     }
 }
 

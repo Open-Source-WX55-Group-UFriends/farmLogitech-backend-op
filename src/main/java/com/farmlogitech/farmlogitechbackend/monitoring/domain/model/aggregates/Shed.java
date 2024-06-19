@@ -33,6 +33,7 @@ public class Shed extends AbstractAggregateRoot<Shed> {
         this.shedName = command.shedName();
         this.typeShed = command.typeShed();
         this.specie = command.specie();
+        this.userId = command.userId();
     }
 
     public Shed(String shedName, String typeShed, String specie, Long userId, long farmId) {
@@ -61,6 +62,14 @@ public class Shed extends AbstractAggregateRoot<Shed> {
     public void setSpecie(String specie)
     {
         this.specie = specie;
+    }
+
+    public long getFarmId() {
+        return farmId;
+    }
+
+    public void setFarmId(long farmId) {
+        this.farmId = farmId;
     }
 
 

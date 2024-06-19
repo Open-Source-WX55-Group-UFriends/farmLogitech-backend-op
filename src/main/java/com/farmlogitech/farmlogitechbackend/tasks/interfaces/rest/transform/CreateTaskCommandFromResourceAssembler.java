@@ -7,11 +7,9 @@ public class CreateTaskCommandFromResourceAssembler {
     public  static CreateTaskCommand toCommandFromResource(CreateTaskResource resource) {
         return new CreateTaskCommand(
                 resource.description(),
-                resource.status(),
                 resource.time(),
                 resource.endDate(),
-                resource.collaboratorId(),
-                resource.farmerId());
+                resource.collaboratorId());
     }
 
 

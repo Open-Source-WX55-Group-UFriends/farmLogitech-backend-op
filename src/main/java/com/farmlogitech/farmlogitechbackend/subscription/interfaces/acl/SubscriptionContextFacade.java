@@ -27,9 +27,9 @@ public class SubscriptionContextFacade {
 
     * */
 
-    public Long createSubscription(Integer price, String description, Boolean paid,  Long profileId) {
+    public Long createSubscription(Integer price, String description, Boolean paid) {
 
-        var createSubscriptionCommand = new CreateSubscriptionCommand(price, description, paid, profileId);
+        var createSubscriptionCommand = new CreateSubscriptionCommand(price, description, paid);
         var subscription = subscriptionCommandService.handle(createSubscriptionCommand);
         if (subscription.isEmpty()) return 0L;
         return subscription.get().getId();

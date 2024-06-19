@@ -13,8 +13,7 @@ public class CreateAnimalCommandFromResourceAssembler {
                 resource.age(),
                 resource.location(),
                 resource.healthCondition(),
-                userId,
-                resource.farmId());
+                userId);
     }
 }
 

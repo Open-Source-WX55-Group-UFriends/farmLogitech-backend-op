@@ -11,8 +11,6 @@ public class CreateProfileCommandFromResourceAssembler {
                 resource.email(),
                 resource.direction(),
                 resource.documentNumber(),
-                resource.documentType(),
-                resource.userId() // Access the userId field
-        );
+                resource.documentType());
     }
 }

@@ -12,8 +12,7 @@ public class CreateShedCommandFromResourceAssembler {
         return new CreateShedCommand(resource.shedName(),
                 resource.typeShed(),
                 resource.specie(),
-                userId,
-                resource.farmId());
+                userId);
     }
 }
 

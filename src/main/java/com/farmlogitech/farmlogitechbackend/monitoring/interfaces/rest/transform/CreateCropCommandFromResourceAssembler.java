@@ -12,8 +12,7 @@ public class CreateCropCommandFromResourceAssembler {
         return new CreateCropCommand(resource.shed(),
                 resource.typeCrop(),
                 resource.seedtime(),
-                userId,
-                resource.farmId());
+                userId);
     }
 }
 

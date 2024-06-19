@@ -43,7 +43,6 @@ public class Expense extends AbstractAggregateRoot<Expense> {
         this.amount = command.amount();
         this.date = command.date();
         this.period = command.period();
-        this.farmId= command.farmId();
     }
 
 
