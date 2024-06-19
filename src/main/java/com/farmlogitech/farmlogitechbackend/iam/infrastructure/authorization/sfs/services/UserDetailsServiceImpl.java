@@ -22,4 +22,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
         return UserDetailsImpl.build(user);
     }
+
+    public Long findUserIdByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(user -> user.getId())
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+    }
 }

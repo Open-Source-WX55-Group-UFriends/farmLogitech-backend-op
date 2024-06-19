@@ -83,7 +83,6 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
             throw new IllegalArgumentException("End date cannot be before the creation date");
         }
     }
-
     public Task(){
 
     }
@@ -134,5 +133,17 @@ public class Task extends AuditableAbstractAggregateRoot<Task> {
 
     public void setFarmerId(Long id) {
         this.farmerId = id;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setStatus(String pending) {
+        this.status = pending;
     }
 }
