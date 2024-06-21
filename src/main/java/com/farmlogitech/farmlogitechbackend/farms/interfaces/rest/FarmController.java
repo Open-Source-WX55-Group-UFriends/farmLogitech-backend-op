@@ -70,6 +70,7 @@ public class FarmController {
         var farmResources = farms.stream().map(FarmResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(farmResources);
     }
+
     @PreAuthorize("hasAuthority('ROLE_FARMER')")
     @PutMapping()
     public ResponseEntity<FarmResource> updateFarm( @RequestBody UpdateFarmResource resource) {
