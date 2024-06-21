@@ -36,7 +36,7 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         var roles = command.roles();
         if (roles.isEmpty()) {
-            var role = roleRepository.findByName(Roles.ROLE_OWNER);
+            var role = roleRepository.findByName(Roles.ROLE_FARMER);
             if (role.isPresent()) roles.add(role.get());
         } else {
             roles = roles.stream().map(role -> {
