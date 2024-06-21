@@ -27,4 +27,8 @@ public class EmployeeQueryServiceImpl implements EmployeeQueryService {
     public List<Employee> handle(GetAllEmployeesByFarmId query) {
         return employeeRepository.findAllByFarmId(query.farmId());
     }
+    @Override
+    public List<Employee> searchEmployees(String term, long farmId) {
+        return employeeRepository.findByNameContainingOrUsernameContainingAndFarmId(term, term, farmId);
+    }
 }

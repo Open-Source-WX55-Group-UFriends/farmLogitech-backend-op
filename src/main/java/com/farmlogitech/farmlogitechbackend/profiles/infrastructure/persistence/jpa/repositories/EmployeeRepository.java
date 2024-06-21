@@ -22,4 +22,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("SELECT e.farmId FROM Employee e WHERE e.username = :username")
     Optional<Long> findFarmIdByUsername(@Param("username") String username);
 
+    List<Employee> findByNameContainingOrUsernameContainingAndFarmId(String name, String username, Long farmId);
 }

@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface EmployeeQueryService {
     Optional<Employee> handle(GetEmployeeByIdQuery query);
     List<Employee> handle(GetAllEmployeesByFarmId query);
+    List<Employee> searchEmployees(String term, long farmId);
 }

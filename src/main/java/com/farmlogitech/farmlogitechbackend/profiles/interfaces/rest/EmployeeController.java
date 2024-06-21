@@ -99,5 +99,17 @@ public class EmployeeController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(employeeResources);
     }
+    @PreAuthorize("hasAuthority('ROLE_FARMER')")
+    @GetMapping("/search")
+    public ResponseEntity<List<EmployeeResource>> searchEmployees(@RequestParam String term) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        long farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
 
+        List<Employee> employees = employeeQueryService.searchEmployees(term, farmId);
+        List<EmployeeResource> employeeResources = employees.stream()
+                .map(EmployeeResourceFromEntityAssembler::toResourceFromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(employeeResources);
+    }
 }
