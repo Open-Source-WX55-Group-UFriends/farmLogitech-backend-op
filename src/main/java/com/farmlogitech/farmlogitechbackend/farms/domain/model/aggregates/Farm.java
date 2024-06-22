@@ -34,7 +34,7 @@ public class Farm extends AbstractAggregateRoot<Farm> {
     private String status;
     @Column(nullable = false)
     private String certificates;
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String image;
     @Column(nullable = false)
     private long profileId;
@@ -93,8 +93,6 @@ public Farm(CreateFarmCommand command) {
     public long getUserId() {
         return profileId;
     }
-
-
 
     public int getId() {
         return id;
