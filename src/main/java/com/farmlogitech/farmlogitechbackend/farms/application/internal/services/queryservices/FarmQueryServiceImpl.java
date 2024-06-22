@@ -25,7 +25,7 @@ public class FarmQueryServiceImpl implements FarmQueryService {
     }
 
     @Override
-    public List<Farm> handle(GetAllFarmByLocationQuery query) {
+    public List<Farm> handle(GetAllFarmsByLocationQuery query) {
         return farmRepository.findAllByLocation(query.location());
     }
 

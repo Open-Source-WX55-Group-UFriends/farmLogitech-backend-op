@@ -9,10 +9,9 @@ import java.util.Optional;
 
 public interface FarmQueryService {
     Optional<Farm> handle(GetFarmByIdQuery query);
-    List<Farm> handle(GetAllFarmByLocationQuery query);
+    List<Farm> handle(GetAllFarmsByLocationQuery query);
     List<Farm> handle(GetAllFarmsQuery query);
     Optional<Farm> handle(PutFarmById query);
-    List<Farm>handle(GetAllFarmByProfileId query);
+    List<Farm> handle(GetAllFarmByProfileId query);
     Optional<Farm> handle(GetFarmIdByProfileId query);
-
 }

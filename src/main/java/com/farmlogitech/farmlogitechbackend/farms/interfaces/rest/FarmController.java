@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -51,13 +50,15 @@ public class FarmController {
                 .orElseGet(()->ResponseEntity.notFound().build());
     }
     @GetMapping("/location/{location}")
-    private ResponseEntity<List<FarmResource>> getAllByLocation(@PathVariable String location) {
-        var getAllFarmByLocation= new GetAllFarmByLocationQuery(location);
+    public ResponseEntity<List<FarmResource>> getAllByLocation(@PathVariable String location) {
+        var getAllFarmByLocation = new GetAllFarmsByLocationQuery(location);
         var farms = farmQueryService.handle(getAllFarmByLocation);
-        if(farms.isEmpty()){
+        if (farms.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        var farmResources= farms.stream().map(FarmResourceFromEntityAssembler::toResourceFromEntity).toList();
+        var farmResources = farms.stream()
+                .map(FarmResourceFromEntityAssembler::toResourceFromEntity)
+                .toList();
         return ResponseEntity.ok(farmResources);
     }
 
@@ -88,6 +89,7 @@ public class FarmController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /*
     @GetMapping("/all/farms/profile/{profileId}")
     public ResponseEntity<List<FarmResource>>getAllFarmsByProfileId(@PathVariable long profileId) {
         var farms = farmQueryService.handle(new GetAllFarmByProfileId(profileId));
@@ -97,6 +99,7 @@ public class FarmController {
         var farmResources = farms.stream().map(FarmResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(farmResources);
     }
+    */
 
 
 }
