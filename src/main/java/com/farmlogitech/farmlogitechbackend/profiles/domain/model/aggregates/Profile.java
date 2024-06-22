@@ -24,14 +24,17 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
 
 
 
-    public Profile(String firstName, String lastName, String email, String direction, String documentNumber, String documentType) {
-        this.name = new PersonName(firstName, lastName);
-        this.email = email;
-        this.direction=direction;
-        this.documentNumber=documentNumber;
-        this.documentType=documentType;
-    }
 
+    public Profile(String name, String username, String password, long userId) {
+        this.name = new PersonName(name, name);
+        this.email=username;
+        this.documentType=password;
+        this.userId=userId;
+        this.direction=username;
+        this.documentNumber=password;
+
+
+    }
     public Profile(CreateProfileCommand command, Long userId) {
         this.name = new PersonName(command.firstName(), command.lastName());
         this.email = command.email();
@@ -73,6 +76,7 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
     }
 
 
-
-
+    public void setName(PersonName name) {
+        this.name = name;
+    }
 }

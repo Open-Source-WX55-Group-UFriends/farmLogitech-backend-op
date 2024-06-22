@@ -10,6 +10,9 @@ public class Employee {
 
     private String name;
     @Column(nullable = false)
+    private String lastname;
+    @Column(nullable = false)
+
 
     private String phone;
     @Column(nullable = false)
@@ -29,6 +32,7 @@ public class Employee {
     private Long id;
     public Employee(String name, String phone, String username, String password, String position, long farmId) {
         this.name = name;
+        this.lastname= "lastname";
         this.phone = phone;
         this.username = username;
         this.password = password;
@@ -76,4 +80,7 @@ public class Employee {
         this.farmId = farmId;
     }
 
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 }

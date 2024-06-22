@@ -15,6 +15,7 @@ import com.farmlogitech.farmlogitechbackend.profiles.domain.model.commands.Creat
 import com.farmlogitech.farmlogitechbackend.profiles.domain.services.EmployeeCommandService;
 import com.farmlogitech.farmlogitechbackend.profiles.domain.services.ProfileCommandService;
 import com.farmlogitech.farmlogitechbackend.profiles.infrastructure.persistence.jpa.repositories.EmployeeRepository;
+import com.farmlogitech.farmlogitechbackend.profiles.infrastructure.persistence.jpa.repositories.ProfileRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -29,14 +30,17 @@ public class EmployeeCommandServiceImpl  implements EmployeeCommandService {
     private final UserCommandServiceImpl userCommandService;
     private final RoleRepository roleRepository;
     private final ExternalFarmService externalFarmService;
+    private final ProfileCommandService profileCommandService;
+    private final ProfileRepository profileRepository;
 
-    public EmployeeCommandServiceImpl(EmployeeRepository employeeRepository, UserCommandServiceImpl userCommandService, RoleRepository roleRepository, ExternalFarmService externalFarmService) {
+    public EmployeeCommandServiceImpl(EmployeeRepository employeeRepository, UserCommandServiceImpl userCommandService, RoleRepository roleRepository, ExternalFarmService externalFarmService, ProfileCommandService profileCommandService, ProfileRepository profileRepository) {
         this.employeeRepository = employeeRepository;
         this.userCommandService = userCommandService;
         this.roleRepository = roleRepository;
         this.externalFarmService = externalFarmService;
+        this.profileCommandService = profileCommandService;
+        this.profileRepository = profileRepository;
     }
-    @Override
     public Optional<Employee> handle(CreateEmployeeCommand command) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -52,6 +56,12 @@ public class EmployeeCommandServiceImpl  implements EmployeeCommandService {
         long farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
         Employee employee = new Employee(command.name(), command.phone(), command.username(), command.password(), command.position(), farmId);
         var employeeNew = employeeRepository.save(employee);
+
+        // Crear el perfil para el empleado
+        Profile profile = new Profile(command.name(), command.username(), command.password(),employee.getId());
+
+        profileRepository.save(profile);
+
         return Optional.of(employeeNew);
     }
 
