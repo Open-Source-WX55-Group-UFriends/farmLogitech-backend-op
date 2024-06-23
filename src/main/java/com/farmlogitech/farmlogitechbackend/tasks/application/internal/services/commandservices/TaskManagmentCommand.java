@@ -73,7 +73,7 @@ public class TaskManagmentCommand implements TaskCommandService {
         var taskToUpdate = result.get();
         try{
             // Set the status to "DONE"
-            var updatedTask = taskRepository.save(taskToUpdate.updateStatus("DONE"));
+            var updatedTask = taskRepository.save(taskToUpdate.updateStatus("FINISHED"));
             return Optional.of(updatedTask);
         }catch(Exception e){
             throw new IllegalArgumentException("Error occured while updating task" + e.getMessage());
