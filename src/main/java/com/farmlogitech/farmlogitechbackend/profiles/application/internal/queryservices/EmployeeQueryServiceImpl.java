@@ -3,6 +3,7 @@ package com.farmlogitech.farmlogitechbackend.profiles.application.internal.query
 import com.farmlogitech.farmlogitechbackend.profiles.domain.model.aggregates.Employee;
 import com.farmlogitech.farmlogitechbackend.profiles.domain.model.queries.GetAllEmployeesByFarmId;
 import com.farmlogitech.farmlogitechbackend.profiles.domain.model.queries.GetEmployeeByIdQuery;
+import com.farmlogitech.farmlogitechbackend.profiles.domain.model.queries.GetEmployeeMeByUsername;
 import com.farmlogitech.farmlogitechbackend.profiles.domain.services.EmployeeQueryService;
 import com.farmlogitech.farmlogitechbackend.profiles.infrastructure.persistence.jpa.repositories.EmployeeRepository;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,10 @@ public class EmployeeQueryServiceImpl implements EmployeeQueryService {
     @Override
     public List<Employee> searchEmployees(String term, long farmId) {
         return employeeRepository.findByNameContainingOrUsernameContainingAndFarmId(term, term, farmId);
+    }
+
+    @Override
+    public Optional<Employee> handle(GetEmployeeMeByUsername query) {
+    return Optional.ofNullable(employeeRepository.findByUsername(query.username()));
     }
 }

@@ -14,6 +14,7 @@ import com.farmlogitech.farmlogitechbackend.profiles.domain.model.commands.Creat
 import com.farmlogitech.farmlogitechbackend.profiles.domain.model.commands.CreateProfileCommand;
 import com.farmlogitech.farmlogitechbackend.profiles.domain.model.queries.GetAllEmployeesByFarmId;
 import com.farmlogitech.farmlogitechbackend.profiles.domain.model.queries.GetEmployeeByIdQuery;
+import com.farmlogitech.farmlogitechbackend.profiles.domain.model.queries.GetEmployeeMeByUsername;
 import com.farmlogitech.farmlogitechbackend.profiles.domain.services.EmployeeCommandService;
 import com.farmlogitech.farmlogitechbackend.profiles.interfaces.rest.resources.CreateEmployeeResource;
 import com.farmlogitech.farmlogitechbackend.profiles.interfaces.rest.resources.CreateProfileResource;
@@ -85,6 +86,7 @@ public class EmployeeController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_FARMER')")
+
     @GetMapping("/all")
     public ResponseEntity<List<EmployeeResource>> getAllEmployeesByFarmId() {
         // Get the authenticated user
@@ -111,5 +113,14 @@ public class EmployeeController {
                 .map(EmployeeResourceFromEntityAssembler::toResourceFromEntity)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(employeeResources);
+    }
+     @PreAuthorize("hasAuthority('ROLE_FARMWORKER')")
+    @GetMapping("/me")
+    public ResponseEntity<EmployeeResource> getEmployeeMe() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Optional<Employee> employeeOptional = employeeQueryService.handle(new GetEmployeeMeByUsername(userDetails.getUsername()));
+        return employeeOptional.map(employee -> ResponseEntity.ok(EmployeeResourceFromEntityAssembler.toResourceFromEntity(employee)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
