@@ -16,6 +16,7 @@ import com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.resources
 import com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.resources.CreateAnimalResource;
 import com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.transform.AnimalResourceFromEntityAssembler;
 import com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.transform.CreateAnimalCommandFromResourceAssembler;
+import com.farmlogitech.farmlogitechbackend.profiles.infrastructure.persistence.jpa.repositories.EmployeeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -31,11 +32,13 @@ public class AnimalController {
     private final AnimalCommandService animalCommandService;
     private final AnimalQueryService animalQueryService;
     private final ExternalFarmService externalFarmService;
+    private final EmployeeRepository  employeeRepository;
 
-    public AnimalController(AnimalCommandService animalCommandService, AnimalQueryService animalQueryService, ExternalFarmService externalFarmService) {
+    public AnimalController(AnimalCommandService animalCommandService, AnimalQueryService animalQueryService, ExternalFarmService externalFarmService, EmployeeRepository employeeRepository) {
         this.animalCommandService = animalCommandService;
         this.animalQueryService = animalQueryService;
         this.externalFarmService = externalFarmService;
+        this.employeeRepository = employeeRepository;
     }
 
     @PostMapping
@@ -80,7 +83,15 @@ public class AnimalController {
         // Get the authenticated user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        long farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
+        long farmId;
+        if (userDetails.isFarmWorker()) {
+            farmId = employeeRepository.findFarmIdByUsername(userDetails.getUsername())
+                    .orElseThrow(() -> new IllegalStateException("No farm found for the given username"));
+        } else if (userDetails.isFarmer()) {
+             farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
+        } else {
+            throw new IllegalStateException("Only farmers and workers can access a shed");
+        }
 
         var query = new GetAllAnimalsByFarmId(farmId);
         var animals = animalQueryService.handle(query);

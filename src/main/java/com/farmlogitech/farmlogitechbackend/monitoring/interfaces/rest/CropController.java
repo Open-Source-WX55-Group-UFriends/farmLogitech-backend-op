@@ -17,6 +17,7 @@ import com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.resources
 import com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.transform.AnimalResourceFromEntityAssembler;
 import com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.transform.CreateCropCommandFromResourceAssembler;
 import com.farmlogitech.farmlogitechbackend.monitoring.interfaces.rest.transform.CropResourceFromEntityAssembler;
+import com.farmlogitech.farmlogitechbackend.profiles.infrastructure.persistence.jpa.repositories.EmployeeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -32,11 +33,13 @@ public class CropController {
     private final CropCommandService cropCommandService;
     private final CropQueryService cropQueryService;
     private final ExternalFarmService externalFarmService;
+    private final EmployeeRepository employeeRepository;
 
-    public CropController(CropCommandService cropCommandService, CropQueryService cropQueryService, ExternalFarmService externalFarmService){
+    public CropController(CropCommandService cropCommandService, CropQueryService cropQueryService, ExternalFarmService externalFarmService, EmployeeRepository employeeRepository){
         this.cropCommandService = cropCommandService;
         this.cropQueryService = cropQueryService;
         this.externalFarmService = externalFarmService;
+        this.employeeRepository = employeeRepository;
     }
 
     @PostMapping
@@ -79,8 +82,16 @@ public class CropController {
     public ResponseEntity<List<CropResource>> getAllCropsByFarmId(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        long farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
+        long farmId;
 
+        if (userDetails.isFarmWorker()) {
+            farmId = employeeRepository.findFarmIdByUsername(userDetails.getUsername())
+                    .orElseThrow(() -> new IllegalStateException("No farm found for the given username"));
+        } else if (userDetails.isFarmer()) {
+            farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
+        } else {
+            throw new IllegalStateException("Only farmers and workers can access a shed");
+        }
         var query = new GetAllCropsByFarmId(farmId);
         var crops = cropQueryService.handle(query);
         var cropResources = crops.stream()

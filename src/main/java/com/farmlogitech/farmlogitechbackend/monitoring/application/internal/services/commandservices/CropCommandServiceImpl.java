@@ -37,7 +37,7 @@ public class CropCommandServiceImpl implements CropCommandService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        if (!userDetails.isFarmer()) {
+        if (!userDetails.isFarmer() && !userDetails.isFarmWorker()) {
             throw new IllegalStateException("Only farmers and workers can create a crop save");
         }
 
