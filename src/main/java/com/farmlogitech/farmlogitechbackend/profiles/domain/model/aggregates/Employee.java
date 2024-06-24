@@ -27,6 +27,7 @@ public class Employee {
     @Column(nullable = false)
 
     private long farmId;
+    private long farmerId;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -82,5 +83,9 @@ public class Employee {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public void setFarmerId(long farmerId) {
+        this.farmerId = farmerId;
     }
 }

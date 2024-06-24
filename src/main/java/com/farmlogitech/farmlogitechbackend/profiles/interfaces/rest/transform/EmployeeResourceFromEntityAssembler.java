@@ -15,7 +15,8 @@ public class EmployeeResourceFromEntityAssembler {
                entity.getUsername(),
                entity.getPassword(),
                 entity.getPosition(),
-                entity.getFarmId()
+                entity.getFarmId(),
+                entity.getFarmerId()
 
         );
 

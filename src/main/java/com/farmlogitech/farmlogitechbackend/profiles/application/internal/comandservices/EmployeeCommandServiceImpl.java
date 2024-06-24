@@ -44,6 +44,8 @@ public class EmployeeCommandServiceImpl  implements EmployeeCommandService {
     public Optional<Employee> handle(CreateEmployeeCommand command) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+
         var role = roleRepository.findByName(Roles.ROLE_FARMWORKER); // Cambiado a ROLE_FARMWORKER
         HashSet<Role> roles = new HashSet<>();
         role.ifPresent(roles::add);
@@ -56,7 +58,7 @@ public class EmployeeCommandServiceImpl  implements EmployeeCommandService {
         long farmId = externalFarmService.fetchFarmIdByUserId(userDetails.getId());
         Employee employee = new Employee(command.name(), command.phone(), command.username(), command.password(), command.position(), farmId);
         var employeeNew = employeeRepository.save(employee);
-
+            employeeNew.setFarmerId(userDetails.getId());
         // Crear el perfil para el empleado
         Profile profile = new Profile(command.name(), command.username(), command.password(),employee.getId());
 
