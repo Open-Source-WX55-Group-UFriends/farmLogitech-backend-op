@@ -18,16 +18,15 @@ public class TaskRepositoryTests {
     @Test
     public void Task_SaveAll_ReturnSavedTask(){
         //Arrange
-        Task task = Task.builder()
-                .name("name")
-                .description("description")
-                .build();
+        Task task = Task.builder().description("asdasdasd").status("asdasd").timeTask(1).
+                collaboratorId(1L).farmerId(1L).endDate(null).build();
 
         //Act
         Task savedTask = taskRepository.save(task);
 
         //Assert
         Assertions.assertThat(savedTask).isNotNull();
+        Assertions.assertThat(savedTask.getCollaboratorId()).isNotNull();
 
     }
 }

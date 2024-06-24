@@ -3,6 +3,7 @@ package com.farmlogitech.farmlogitechbackend.tasks.domain.model.aggregates;
 import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import com.farmlogitech.farmlogitechbackend.tasks.domain.model.commands.commands.CreateTaskCommand;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -11,6 +12,7 @@ import java.util.Date;
 
 @Getter
 @Entity
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Task extends AuditableAbstractAggregateRoot<Task> {
 
