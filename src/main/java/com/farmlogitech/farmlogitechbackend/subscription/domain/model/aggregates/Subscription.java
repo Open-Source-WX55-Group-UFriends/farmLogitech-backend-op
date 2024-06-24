@@ -3,7 +3,9 @@ package com.farmlogitech.farmlogitechbackend.subscription.domain.model.aggregate
 import com.farmlogitech.farmlogitechbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
+import lombok.Builder;
 
+@Builder
 @Entity
 public class Subscription extends AuditableAbstractAggregateRoot<Subscription> {
 
